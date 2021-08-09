@@ -1,35 +1,342 @@
+#' Reprojects/resamples and aligns a raster
+#'
+#' Modified from https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R
+#'
+#' Reprojects/resamples and aligns a raster by matching a raster a raster to a specified origin, resolution, and coordinate reference system, or that of a reference raster. Useful for preparing adjacent areas before using raster::merge or raster::mosaic. Also, see documentation for mytools::combine_rasters.
+#' @param rast raster to be reprojected or resampled
+#' @param ref_rast reference raster with desired properties (Alternatively can supply desired_origin, desired_res, and desired_crs)
+#' @param desired_origin desired origin of output raster as a vector with length 2 (x,y)
+#' @param desired_res  desired resolution of output raster. Either an integer or a vector of length 2 (x,y)
+#' @param desired_crs desired coordinate reference system of output raster (CRS class)
+#' @param method resampling method. Either "bilinear" for bilinear interpolation (the default), or "ngb" for using the nearest neighbor
+#' @param outFile name of file to create
+#' @param ... passed to writeRaster
+#' @importFrom  raster crs
+#' @importFrom  raster extent
+#' @importFrom  raster origin
+#' @importFrom  raster projectExtent
+#' @importFrom raster raster
+#' @importFrom raster resample
+#' @importFrom raster projectRaster
+#' @export
 
-#' Decide whether to run a new data retrieval
+  reproject_align_raster<- function(rast
+                                    , ref_rast = NULL
+                                    , desired_origin
+                                    , desired_res
+                                    , desired_crs
+                                    , method = "bilinear"
+                                    , outFile = NULL
+                                    , ...
+                                    ){
+
+    #Set parameters based on ref rast if it was supplied
+    if (!is.null(ref_rast)) {
+
+      desired_origin <- origin(ref_rast) # Desired origin
+      desired_res <- res(ref_rast) # Desired resolution
+      desired_crs <- crs(ref_rast) # Desired crs
+      desired_extent <- raster::extent(ref_rast) # Desired extent
+
+    }
+
+    # Ensure desired resolution is length 2
+    if(length(desired_res)==1){
+
+      desired_res <- rep(desired_res,2)
+
+      }
+
+    # Test if already identical crs, origin, resolution and extent (i.e. Raster already aligned)
+    if(identical(crs(rast), desired_crs) &
+       isTRUE(all.equal(origin(rast), desired_origin)) &
+       identical(desired_res, res(rast)) &
+       isTRUE(all.equal(extent(rast),desired_extent))
+       ){
+
+      message("raster was already aligned")
+
+      return(rast)
+
+    }
+
+
+    # reproject desired extent crs
+
+    rast_orig_extent <- extent(projectExtent(object = ref_rast, crs = desired_crs))
+
+    var1 <- floor((rast_orig_extent@xmin - desired_origin[1])/desired_res[1])
+
+    new_xmin <- desired_origin[1] + desired_res[1]*var1 #Calculate new minimum x value for extent
+
+    var2 <- floor((rast_orig_extent@ymin - desired_origin[2])/desired_res[2])
+
+    new_ymin <- desired_origin[2]+ desired_res[2]*var2 #Calculate new minimum y value for extent
+
+    n_cols <- ceiling((rast_orig_extent@xmax-new_xmin)/desired_res[1]) #number of cols to be in output raster
+
+    n_rows <- ceiling((rast_orig_extent@ymax-new_ymin)/desired_res[2]) #number of rows to be in output raster
+
+    new_xmax <- new_xmin+(n_cols*desired_res[1]) #Calculate new max x value for extent
+
+    new_ymax <- new_ymin+(n_rows*desired_res[2]) #Calculate new max y value for extent
+
+    #Create a blank template raster to fill with desired properties
+    rast_new_template <- raster(xmn = new_xmin
+                               , xmx = new_xmax
+                               , ymn = new_ymin
+                               , ymx = new_ymax
+                               , res = desired_res
+                               , crs = desired_crs
+                               )
+
+    # Throw error if origin doesn't match
+    if(!isTRUE(all.equal(desired_origin,origin(rast_new_template)))) {
+
+      message("desired origin does not match output origin")
+
+      stop()
+
+      }
+
+    # Use projectRaster if crs doesn't match and resample if they do
+    if(identical(crs(rast),desired_crs)){
+
+      rast_new <- resample(x = rast
+                           , y = rast_new_template
+                           , method = method
+                           , filename = outFile
+                           , ...
+                           )
+
+    } else {
+
+      rast_new <- projectRaster(from = rast
+                                , to = rast_new_template
+                                , method = method
+                                , filename = outFile
+                                , ...
+                                )
+
+    }
+
+
+    if(!isTRUE(all.equal(desired_origin,origin(rast_new)))){
+
+      message("desired origin does not match output origin")
+
+      stop()
+
+      } #Throw error if origin doesn't match
+
+    return(rast_new)
+
+  }
+
+#' Create a data source specific site name/id
 #'
-#' Based on existence of file, time since file was created and/or override:
-#' Should a data source be requeried?
-#' #'
-#' @param dataName Character. Name of home data source. e.g. 'BDBSA' or
-#' 'GBIF'. This is used to generate file location.
-#' @param timeDiff Numeric. Maximum number of days between getting new updates
-#' @param override Logical. Override any results from timeDiff. Would usually
-#' be specified globally for an ecosystems run.
+#' @param df Dataframe with standardised names
+#' @param dataName Character. Name of data source (e.g. 'BDBSA' or 'GBIF')
 #'
-#' @return logical
+#' @return Dataframe with column 'site' = concatenated dataName, date, lat and
+#' long
+#'
+#' @family Help with combining data sources
 #' @export
 #'
 #' @examples
-#' get_new_data("BDBSA",60,FALSE)
+  ds_site_name <- function(df,dataName = thisName) {
+
+    if(isFALSE("date" %in% names(df))) df$date <- "NoDate"
+
+    df %>%
+      dplyr::mutate(site = paste0(dataName
+                                  ,"_"
+                                  ,date
+                                  ,"_"
+                                  ,lat
+                                  ,"_"
+                                  ,long
+                                  )
+                    )
+
+  }
+
+#' Create an 'area of interest'
 #'
-  get_new_data <- function(dataName, timeDiff, override = FALSE) {
+#' @param polygons sf.
+#' @param filterPolys character. Used to filter filterPolysCol.
+#' @param filterPolysCol character. Which column to filter on.
+#' @param polyBuffer numeric. Create a buffer around the area of interest of
+#' polyBuffer metres.
+#' @param doMask logical. If FALSE, just use extent of polyBuffer.
+#' @param useCRS numeric. \href{https://epsg.io/}{EPSG} code giving coordinate
+#' system to use in output sf.
+#'
+#' @return sf.
+#' @export
+#'
+#' @examples
+  make_aoi <- function(polygons
+                       , filterPolys = FALSE
+                       , filterPolysCol = NULL
+                       , polyBuffer
+                       , doMask = TRUE
+                       , useCRS = 3577
+                       ) {
 
-    dsFile <- base::file.path("out",dataName,paste0(dataName,".feather"))
+    if(!isFALSE(filterPolys)) {
 
-    getNewTime <- if(file.exists(dsFile)) {
+      keepRows <- polygons %>%
+        sf::st_set_geometry(NULL) %>%
+        dplyr::pull(!!ensym(filterPolysCol)) %>%
+        grep(paste0(filterPolys,collapse = "|"),.)
+
+      polygons <- polygons %>%
+        dplyr::slice(keepRows)
+
+      }
+
+    polygons <- if(doMask) {
+
+      polygons %>%
+        dplyr::mutate(dissolve = 1) %>%
+        dplyr::summarise(Include = n()) %>%
+        sf::st_cast() %>%
+        sf::st_buffer(polyBuffer)
+
+    } else {
+
+      polygons %>%
+        dplyr::mutate(dissolve = 1) %>%
+        dplyr::summarise(Include = n()) %>%
+        sf::st_cast() %>%
+        sf::st_buffer(polyBuffer) %>%
+        sf::st_bbox() %>%
+        sf::st_as_sfc() %>%
+        sf::st_sf() %>%
+        dplyr::mutate(Include = 1)
+
+    }
+
+    polygons <- polygons %>%
+      sf::st_transform(crs = useCRS)
+
+  }
+
+#' Collect rasters from raster folder into named list
+#'
+#' @param rasterFolder Character. Path to folder containing rasters
+#' @param grepType Character. What type of rasters (e.g. 'tif')
+#' @param pattern Character. Optional. Further pattern to filter resulting list
+#' of rasters.
+#'
+#' @return List. Named list of rasters (name is from file name)
+#' @export
+#'
+#' @examples
+  raster_prep <- function(rasterFolder, grepType = c("tif","grd"), pattern = NULL) {
+
+    rastersAll <- tibble::tibble(path = fs::dir_ls(rasterFolder)) %>%
+      dplyr::filter(grepl(paste0(grepType,"$",collapse = "|"),path)) %>%
+      {if(!is.null(pattern)) (.) %>% dplyr::filter(grepl(paste0(pattern,collapse = "|"),path)) else (.)} %>%
+      dplyr::mutate(file = purrr::map_chr(path,fs::path_file)
+                    , name = purrr::map_chr(file,~gsub("\\.tif","",.))
+                    , ras = purrr::map(path,raster::raster)
+                    )
+
+    rastersAll$ras %>%
+      stats::setNames(rastersAll$name)
+
+  }
+
+
+#' Use a data map to combine several data sources into one data frame
+#'
+#' @param thisName Character. Name of the data source.
+#' @param df Dataframe containing the columns to select and (potentially) rename
+#' @param namesMap Dataframe mapping old names to new names
+#' @param excludeNames Character. Column names in namesMap to exclude from the
+#' combined data
+#'
+#' @return Tibble with select and renamed columns
+#' @family Help with combining data sources
+#' @export
+#'
+#' @examples
+  remap_data_names <- function(thisName, df, namesMap, excludeNames = c("dataName","days")) {
+
+    theseNames <- namesMap %>%
+      dplyr::filter(dataName == thisName) %>%
+      dplyr::select(grep(paste0(excludeNames,collapse = "|"),names(.),invert = TRUE, value = TRUE))
+
+    oldNames <- theseNames %>%
+      unlist(., use.names=FALSE) %>%
+      stats::na.omit() %>%
+      unname()
+
+    newNames <- theseNames %>%
+      janitor::remove_empty("cols") %>%
+      names()
+
+    res <- df %>%
+      dplyr::select(all_of(oldNames)) %>%
+      stats::setNames(newNames) %>%
+      tibble::as_tibble()
+
+    hasDate <- "date" %in% names(res)
+
+    if(hasDate) {
+
+      dateDone <- lubridate::is.Date(res$date)
+
+      if(!dateDone) {
+
+        res$date <- lubridate::as_date(res$date)
+
+      }
+
+      res <- res %>%
+        dplyr::filter(!is.na(date))
+
+    }
+
+    res <- res  %>%
+      dplyr::filter(!is.na(lat)
+                    , !is.na(long)
+                    ) %>%
+      envImport::ds_site_name(dataName = thisName)
+
+  }
+
+#' How many days since the data source was queried?
+#'
+#' If file exits, time since file was created, else NA
+#'
+#' @param dataName Character. Name of data source. e.g. 'BDBSA' or 'GBIF'.
+#' This is used to generate file location.
+#'
+#' @return Numeric. Days since last update.
+#' @family Help with combining data sources
+#' @export
+#'
+#' @examples
+#' days_since_update("BDBSA")
+#'
+  days_since_update <- function(dataName) {
+
+    dsFile <- base::file.path("out","ds",paste0(dataName,".feather"))
+
+    if(file.exists(dsFile)) {
 
       base::difftime(base::Sys.time()
-                     , base::file.mtime(dsFile)
-                     , units = "days"
-                     ) > timeDiff
+                   , base::file.mtime(dsFile)
+                   , units = "days"
+                   ) %>%
+        as.numeric() %>%
+        round(1)
 
-    } else TRUE
-
-    override || getNewTime
+      } else Inf
 
   }
 
@@ -37,22 +344,24 @@
 #' Get data
 #'
 #' Import data, running 'get_dataName' to requery original data source,
-#' if 'lgl'. Optionally times the query, if timeR exists and is specified.
+#' if 'lgl'. Optionally times the query, if timeR exists and is specified. Data
+#' is saved to (and imported from)
+#' file.path("out","ds","paste0(dataName,".feather"))
 #'
 #' @param dataName Character. Name of home data source. e.g. 'BDBSA' or 'GBIF'.
 #' This is used to generate file location.
 #' @param lgl Logical. Usually generated by get_new_data
 #' @param timer Character. timeR object name, if one exists.
 #'
-#' @return Data
+#' @return Data from out/ds/dataName.feather. If new data is queried,
+#' out/ds/dataName.feather will be created, overwriting if necessary.
+#' @family Help with combining data sources
 #' @export
 #'
 #' @examples
   get_data <- function(dataName,lgl,timer = "extractTimer") {
 
-    dsFile <- base::file.path("out",dataName,paste0(dataName,".feather"))
-
-    dir.create(dirname(dsFile))
+    dsFile <- base::file.path("out","ds",paste0(dataName,".feather"))
 
     if(lgl) {
 
@@ -61,7 +370,7 @@
       if(exists(timer)) get(timer)$start(dataName)
 
       temp <- do.call(dataFuntion
-                      , args = list(dsFile = dsFile)
+                      , list(dsFile)
                       )
 
       if(exists(timer)) get(timer)$stop(dataName,comment = paste0(nrow(temp)," records"))
@@ -92,7 +401,6 @@
 #'
 #' @examples
 #'  access_query_32(db_path = "path/to/site.accdb", db_table = "sites", table_out = "sites")
-
 #'
   access_query_32 <- function(db_path, db_table = "qryData_RM", table_out = "data_access") {
 
@@ -147,58 +455,26 @@
 
 #' Create unified data source
 #'
-#' @param dataMap Dataframe. Needs to contain a coloumn 'dataSource'. Other
-#' columns represent the column names in the unified data source. Row values
-#' against each dataSource contain the name of the column in the original data
+#' @param dataMap Dataframe. Needs to contain columns 'dataName' and 'days'.
+#' Other columns are the column names in the unified data source. Values
+#' against each dataName contain the name of the column in the original data
 #' source that should map to the current column name.
-#' @param sourceType Character. What type of unified data source is being
-#' created. e.g. 'flor' for a floristic data sources, 'lc' for landcover data
-#' sources
 #'
-#' @return single data frame unifying the data from the input dataSource s
+#' @return single data frame unifying the data from the input dataName s
+#' @family functions to help with combining data sources
 #' @export
 #'
 #' @examples
-  import_sources <- function(dataMap, sourceType) {
+  import_dataNames <- function(dataMap) {
 
-    temp <- dataMap %>%
-      dplyr::select(dataSource,days) %>%
-      dplyr::mutate(getNew = map2_lgl(dataSource,days,get_new_data)
-                    , getNew = map_lgl(getNew,~if_else(getNewData,getNewData,.))
-                    , rawData = map2(source,getNew,get_data)
-                    , data = map2(source,rawData,prep_data,namesMap = dataMapFlor)
-                    )
-
-    florCombine <- florSource %>%
-      dplyr::select(negate(is.list),data) %>%
-      tidyr::unnest(cols = c(data)) %>%
-      dplyr::select(!matches("^n$"))
-
-
-    #------florAll--------------
-
-    # Create initial flora data set
-    florAll <- florCombine %>%
-      dplyr::add_count(lat,long,date,source,name = "siteSR") %>%
-      #dplyr::sample_n(100) %>% # TESTING
-      add_raster_cell(r) %>%
-      dplyr::filter(!is.na(cell)) %>%
-      dplyr::mutate(SPECIES = gsub("\\s"," ",SPECIES)
-                    , SPECIES = str_squish(SPECIES)
-                    #, SPECIES = gsub(" subsp\\."," ssp.",SPECIES)
-                    #, SPECIES = enc2utf8(SPECIES)
-                    #, SPECIES = gsub(rawToChar(charToRaw("×")),"x",SPECIES)
-                    #, SPECIES = if_else(grepl(" ",SPECIES),SPECIES,paste0(SPECIES," sp."))
-                    , year = year(date)
-                    , month = month(date)
-                    , SiteID = paste(source,cell,year,month,sep = "_")
-      )
-
-
-    write_feather(florAll
-                  , path("out","florAll.feather")
-    )
-
-
+    dataMap %>%
+      dplyr::select(dataName,days) %>%
+      dplyr::mutate(getNew = purrr::map_dbl(dataName,envImport::days_since_update)
+                    , getNew = getNew > days
+                    , dat = purrr::map2(dataName,getNew,envImport::get_data)
+                    , dat = purrr::map2(dataName,dat,envImport::remap_data_names,namesMap = dataMap)
+                    ) %>%
+      tidyr::unnest(cols = c(dat)) %>%
+      dplyr::select(!tidyselect::matches("^n$"))
 
   }
