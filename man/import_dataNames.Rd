@@ -4,10 +4,10 @@
 \alias{import_datanames}
 \title{Create unified data source}
 \usage{
-import_datanames(datamap)
+import_datanames(data_map)
 }
 \arguments{
-\item{datamap}{Dataframe. Needs to contain columns 'dataname' and 'days'.
+\item{data_map}{Dataframe. Needs to contain columns 'dataname' and 'days'.
 Other columns are the column names in the unified data source. Values
 against each dataname contain the name of the column in the original data
 source that should map to the current column name.}

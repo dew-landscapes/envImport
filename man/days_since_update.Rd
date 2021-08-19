@@ -4,10 +4,10 @@
 \alias{days_since_update}
 \title{How many days since the data source was queried?}
 \usage{
-days_since_update(dataname)
+days_since_update(data_name)
 }
 \arguments{
-\item{dataname}{Character. name of data source. e.g. 'BDBSA' or 'GBIF'.
+\item{data_name}{Character. name of data source. e.g. 'BDBSA' or 'GBIF'.
 This is used to generate file location.}
 }
 \value{

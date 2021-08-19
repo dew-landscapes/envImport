@@ -4,16 +4,21 @@
 \alias{remap_data_names}
 \title{Use a data map to combine several data sources into one data frame}
 \usage{
-remap_data_names(thisname, df, namesmap, excludenames = c("dataname", "days"))
+remap_data_names(
+  this_name,
+  df,
+  names_map,
+  exclude_names = c("dataname", "days")
+)
 }
 \arguments{
-\item{thisname}{Character. name of the data source.}
+\item{this_name}{Character. name of the data source.}
 
 \item{df}{Dataframe containing the columns to select and (potentially) rename}
 
-\item{namesmap}{Dataframe mapping old names to new names}
+\item{names_map}{Dataframe mapping old names to new names}
 
-\item{excludenames}{Character. column names in namesmap to exclude from the
+\item{exclude_names}{Character. column names in namesmap to exclude from the
 combined data}
 }
 \value{

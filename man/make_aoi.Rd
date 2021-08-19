@@ -10,7 +10,7 @@ make_aoi(
   filterpolyscol = NULL,
   buffer,
   domask = TRUE,
-  useCRS = 3577
+  usecrs = 3577
 )
 }
 \arguments{
@@ -21,11 +21,11 @@ make_aoi(
 \item{filterpolyscol}{character. Which column to filter on.}
 
 \item{buffer}{numeric. Create a buffer around the area of interest of
-polyBuffer metres.}
+buffer metres.}
 
 \item{domask}{logical. If FALSE, just use extent of polyBuffer.}
 
-\item{useCRS}{numeric. \href{https://epsg.io/}{EPSG} code giving coordinate
+\item{usecrs}{numeric. \href{https://epsg.io/}{EPSG} code giving coordinate
 system to use in output sf.}
 }
 \value{
