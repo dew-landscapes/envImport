@@ -4,12 +4,12 @@
 \alias{raster_prep}
 \title{Collect rasters from raster folder into named list}
 \usage{
-raster_prep(rasterFolder, grepType = c("tif", "grd"), pattern = NULL)
+raster_prep(rasterfolder, greptype = c("tif", "grd"), pattern = NULL)
 }
 \arguments{
-\item{rasterFolder}{Character. Path to folder containing rasters}
+\item{rasterfolder}{Character. Path to folder containing rasters}
 
-\item{grepType}{Character. What type of rasters (e.g. 'tif')}
+\item{greptype}{Character. What type of rasters (e.g. 'tif')}
 
 \item{pattern}{Character. Optional. Further pattern to filter resulting list
 of rasters.}

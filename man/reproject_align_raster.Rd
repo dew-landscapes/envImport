@@ -11,7 +11,7 @@ reproject_align_raster(
   desired_res,
   desired_crs,
   method = "bilinear",
-  outFile = NULL,
+  outfile = NULL,
   ...
 )
 }
@@ -28,7 +28,9 @@ reproject_align_raster(
 
 \item{method}{resampling method. Either "bilinear" for bilinear interpolation (the default), or "ngb" for using the nearest neighbor}
 
-\item{outFile}{name of file to create}
+\item{outfile}{name of file to create}
+
+\item{...}{passed to writeRaster}
 }
 \description{
 Modified from https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R

@@ -19,7 +19,8 @@ Makes the table available as the object 'table_out'.
 \description{
 Generates an instance of 32-bit R, queries the database 'db_path' to
 retrieve the table 'db_table' and makes the table available as the object
-'table_out'. Copied from https://stackoverflow.com/questions/13070706/how-to-connect-r-with-access-database-in-64-bit-window
+'table_out'. Sourced from the \href{https://stackoverflow.com/questions/13070706/how-to-connect-r-with-access-database-in-64-bit-window}{Stack Exchange Network}
+post by \href{https://stackoverflow.com/users/3242130/manotheshark}{manotheshark}.
 }
 \examples{
  access_query_32(db_path = "path/to/site.accdb", db_table = "sites", table_out = "sites")

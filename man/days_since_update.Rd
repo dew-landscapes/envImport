@@ -4,10 +4,10 @@
 \alias{days_since_update}
 \title{How many days since the data source was queried?}
 \usage{
-days_since_update(dataName)
+days_since_update(dataname)
 }
 \arguments{
-\item{dataName}{Character. Name of data source. e.g. 'BDBSA' or 'GBIF'.
+\item{dataname}{Character. name of data source. e.g. 'BDBSA' or 'GBIF'.
 This is used to generate file location.}
 }
 \value{
@@ -22,7 +22,6 @@ days_since_update("BDBSA")
 }
 \seealso{
 Other Help with combining data sources: 
-\code{\link{ds_site_name}()},
 \code{\link{get_data}()},
 \code{\link{remap_data_names}()}
 }

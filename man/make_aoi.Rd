@@ -6,24 +6,24 @@
 \usage{
 make_aoi(
   polygons,
-  filterPolys = FALSE,
-  filterPolysCol = NULL,
-  polyBuffer,
-  doMask = TRUE,
+  filterpolys = FALSE,
+  filterpolyscol = NULL,
+  buffer,
+  domask = TRUE,
   useCRS = 3577
 )
 }
 \arguments{
 \item{polygons}{sf.}
 
-\item{filterPolys}{character. Used to filter filterPolysCol.}
+\item{filterpolys}{character. Used to filter filterpolyscol.}
 
-\item{filterPolysCol}{character. Which column to filter on.}
+\item{filterpolyscol}{character. Which column to filter on.}
 
-\item{polyBuffer}{numeric. Create a buffer around the area of interest of
+\item{buffer}{numeric. Create a buffer around the area of interest of
 polyBuffer metres.}
 
-\item{doMask}{logical. If FALSE, just use extent of polyBuffer.}
+\item{domask}{logical. If FALSE, just use extent of polyBuffer.}
 
 \item{useCRS}{numeric. \href{https://epsg.io/}{EPSG} code giving coordinate
 system to use in output sf.}
