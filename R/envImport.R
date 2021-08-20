@@ -235,7 +235,7 @@
 #' @export
 #'
 #' @examples
-  remap_data_names <- function(this_name, df, names_map, exclude_names = c("data_name","days")) {
+  remap_data_names <- function(this_name, df, names_map, exclude_names = c("data_name","order","days")) {
 
     these_names <- names_map %>%
       dplyr::filter(data_name == this_name) %>%
