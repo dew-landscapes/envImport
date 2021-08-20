@@ -235,9 +235,9 @@
 #' @export
 #'
 #' @examples
-  remap_data_names <- function(this_name, df, names_map, exclude_names = c("dataname","days")) {
+  remap_data_names <- function(this_name, df, names_map, exclude_names = c("data_name","days")) {
 
-    thesen_ames <- names_map %>%
+    these_names <- names_map %>%
       dplyr::filter(data_name == this_name) %>%
       dplyr::select(grep(paste0(exclude_names,collapse = "|"),names(.),invert = TRUE, value = TRUE))
 
@@ -424,12 +424,12 @@
 
 #' Create unified data source
 #'
-#' @param data_map Dataframe. Needs to contain columns 'dataname' and 'days'.
+#' @param data_map Dataframe. Needs to contain columns `data_name` and `days`.
 #' Other columns are the column names in the unified data source. Values
-#' against each dataname contain the name of the column in the original data
+#' against each `data_name` contain the name of the column in the original data
 #' source that should map to the current column name.
 #'
-#' @return single data frame unifying the data from the input dataname s
+#' @return single data frame unifying the data from the input `data_name`s
 #' @family functions to help with combining data sources
 #' @export
 #'
