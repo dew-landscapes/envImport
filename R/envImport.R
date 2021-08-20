@@ -428,18 +428,20 @@
 #' Other columns are the column names in the unified data source. Values
 #' against each `data_name` contain the name of the column in the original data
 #' source that should map to the current column name.
+#' @param override_days Logical over-ride of `get_new` output.
 #'
 #' @return single data frame unifying the data from the input `data_name`s
 #' @family functions to help with combining data sources
 #' @export
 #'
 #' @examples
-  import_datanames <- function(data_map) {
+  import_data_names <- function(data_map, override_days = NULL) {
 
     data_map %>%
       dplyr::select(data_name,days) %>%
       dplyr::mutate(get_new = purrr::map_dbl(data_name,envImport::days_since_update)
                     , get_new = get_new > days
+                    , get_new = if(!is.null(override_days)) override_days else get_new
                     , dat = purrr::map2(data_name,get_new,envImport::get_data)
                     , dat = purrr::map2(data_name,dat,envImport::remap_data_names,names_map = data_map)
                     ) %>%

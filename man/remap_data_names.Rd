@@ -8,7 +8,7 @@ remap_data_names(
   this_name,
   df,
   names_map,
-  exclude_names = c("dataname", "days")
+  exclude_names = c("data_name", "days")
 )
 }
 \arguments{
