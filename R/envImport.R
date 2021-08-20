@@ -272,6 +272,12 @@
 
     }
 
+    if("site" %in% names(res)){
+
+      res$site = as.character(res$site)
+
+    }
+
     res <- res  %>%
       dplyr::filter(!is.na(lat)
                     , !is.na(long)
@@ -435,7 +441,7 @@
 #' @export
 #'
 #' @examples
-  import_data_names <- function(data_map, override_days = NULL) {
+  unify_data_sources <- function(data_map, override_days = NULL) {
 
     data_map %>%
       dplyr::select(data_name,days) %>%
