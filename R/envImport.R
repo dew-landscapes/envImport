@@ -342,18 +342,18 @@
                        , timer = "extractTimer"
                        ) {
 
+
+    .data_map = data_map
+
     ds_file <- base::file.path("out","ds",paste0(data_name,".feather"))
 
     if(lgl) {
 
-      data_function <- paste0("get_",data_name)
-
       if(exists(timer)) get(timer)$start(data_name)
 
-      temp <- R.utils::doCall(data_function
-                              , list(out_file = ds_file
-                                     , data_map = data_map
-                                     )
+      temp <- R.utils::doCall(paste0("get_",data_name)
+                              , out_file = ds_file
+                              , data_map = .data_map
                               )
 
       if(exists(timer)) get(timer)$stop(data_name,comment = paste0(nrow(temp)," records"))
