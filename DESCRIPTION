@@ -23,6 +23,7 @@ Imports:
     lubridate,
     magrittr,
     purrr,
+    R.utils,
     raster,
     rio,
     sf,
