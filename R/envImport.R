@@ -1,6 +1,7 @@
 #' Reprojects/resamples and aligns a raster
 #'
-#' Modified from https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R
+#' Modified from a [function](https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R)
+#' found on Github by [Alex](https://github.com/ailich).
 #'
 #' Reprojects/resamples and aligns a raster by matching a raster a raster to a specified origin, resolution, and coordinate reference system, or that of a reference raster. Useful for preparing adjacent areas before using raster::merge or raster::mosaic. Also, see documentation for mytools::combine_rasters.
 #' @param rast raster to be reprojected or resampled
@@ -10,7 +11,8 @@
 #' @param desired_crs desired coordinate reference system of output raster (CRS class)
 #' @param method resampling method. Either "bilinear" for bilinear interpolation (the default), or "ngb" for using the nearest neighbor
 #' @param outfile name of file to create
-#' @param ... passed to writeRaster
+#' @param ... passed to \link[raster]{writeRaster}
+#' @importFrom raster res
 #' @importFrom raster crs
 #' @importFrom raster extent
 #' @importFrom raster origin
@@ -35,7 +37,7 @@
       desired_origin <- origin(ref_rast) # Desired origin
       desired_res <- res(ref_rast) # Desired resolution
       desired_crs <- crs(ref_rast) # Desired crs
-      desired_extent <- raster::extent(ref_rast) # Desired extent
+      desired_extent <- extent(ref_rast) # Desired extent
 
     }
 
@@ -373,8 +375,9 @@
 #'
 #' Generates an instance of 32-bit R, queries the database 'db_path' to
 #' retrieve the table 'db_table' and makes the table available as the object
-#' 'table_out'. Sourced from the [Stack Exchange Network](https://stackoverflow.com/questions/13070706/how-to-connect-r-with-access-database-in-64-bit-window)
-#' post by [manotheshark](https://stackoverflow.com/users/3242130/manotheshark).
+#' 'table_out'. Modified from the Stack Exchange Network
+#' [post](https://stackoverflow.com/questions/13070706/how-to-connect-r-with-access-database-in-64-bit-window)
+#'  by [manotheshark](https://stackoverflow.com/users/3242130/manotheshark).
 #'
 #' @param db_path Character. Path to MS Access database.
 #' @param db_table Character. Name of table within database.
