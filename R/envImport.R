@@ -237,7 +237,15 @@
 #' @export
 #'
 #' @examples
-  remap_data_names <- function(this_name, df, names_map, exclude_names = c("data_name","order","days")) {
+  remap_data_names <- function(this_name
+                               , df
+                               , names_map
+                               , exclude_names = c("data_name"
+                                                   , "order"
+                                                   , "days"
+                                                   , "desc"
+                                                   )
+                               ) {
 
     these_names <- names_map %>%
       dplyr::filter(data_name == this_name) %>%
@@ -445,13 +453,17 @@
 #' against each `data_name` contain the name of the column in the original data
 #' source that should map to the current column name.
 #' @param override_days Logical over-ride of `get_new` output.
+#' @param exclude Passed to \link[envImport]{remap_data_names} argument `exclude_names`.
 #'
 #' @return single data frame unifying the data from the input `data_name`s
 #' @family functions to help with combining data sources
 #' @export
 #'
 #' @examples
-  unite_data_sources <- function(data_map, override_days = NULL) {
+  unite_data_sources <- function(data_map
+                                 , override_days = NULL
+                                 , exclude = formals(envImport::remap_data_names)$exclude_names
+                                 ) {
 
     .data_map = data_map
 
@@ -471,6 +483,7 @@
                                         , dat
                                         , envImport::remap_data_names
                                         , names_map = data_map
+                                        , exclude_names = exclude
                                         )
                     ) %>%
       tidyr::unnest(cols = c(dat)) %>%

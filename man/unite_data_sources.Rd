@@ -4,7 +4,11 @@
 \alias{unite_data_sources}
 \title{Unify multiple data sources into one data frame}
 \usage{
-unite_data_sources(data_map, override_days = NULL)
+unite_data_sources(
+  data_map,
+  override_days = NULL,
+  exclude = formals(envImport::remap_data_names)$exclude_names
+)
 }
 \arguments{
 \item{data_map}{Dataframe. Needs to contain columns \code{data_name} and \code{days}.
@@ -13,6 +17,8 @@ against each \code{data_name} contain the name of the column in the original dat
 source that should map to the current column name.}
 
 \item{override_days}{Logical over-ride of \code{get_new} output.}
+
+\item{exclude}{Passed to \link\href{remap_data_names}{envImport} argument \code{exclude_names}.}
 }
 \value{
 single data frame unifying the data from the input \code{data_name}s
