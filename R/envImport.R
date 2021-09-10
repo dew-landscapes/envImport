@@ -249,7 +249,14 @@
 
     these_names <- names_map %>%
       dplyr::filter(data_name == this_name) %>%
-      dplyr::select(grep(paste0(exclude_names,collapse = "|"),names(.),invert = TRUE, value = TRUE))
+      dplyr::select(grep(paste0(exclude_names
+                                , collapse = "|"
+                                )
+                         , names(.)
+                         , invert = TRUE
+                         , value = TRUE
+                         )
+                    )
 
     old_names <- these_names %>%
       unlist(., use.names=FALSE) %>%
@@ -462,7 +469,11 @@
 #' @examples
   unite_data_sources <- function(data_map
                                  , override_days = NULL
-                                 , exclude = formals(envImport::remap_data_names)$exclude_names
+                                 , exclude = c("data_name"
+                                               , "order"
+                                               , "days"
+                                               , "desc"
+                                               )
                                  ) {
 
     .data_map = data_map
