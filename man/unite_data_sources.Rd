@@ -7,7 +7,7 @@
 unite_data_sources(
   data_map,
   override_days = NULL,
-  exclude = formals(envImport::remap_data_names)$exclude_names
+  exclude = c("data_name", "order", "days", "desc")
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ source that should map to the current column name.}
 
 \item{override_days}{Logical over-ride of \code{get_new} output.}
 
-\item{exclude}{Passed to \link\href{remap_data_names}{envImport} argument \code{exclude_names}.}
+\item{exclude}{Passed to \link[envImport]{remap_data_names} argument \code{exclude_names}.}
 }
 \value{
 single data frame unifying the data from the input \code{data_name}s

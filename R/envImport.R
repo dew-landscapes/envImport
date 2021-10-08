@@ -1,3 +1,33 @@
+
+#' Test for intersection of two rasters
+#'
+#' @param a 1st raster
+#' @param b 2nd raster
+#'
+#' @return Logical
+#' @export
+#'
+#' @examples
+test_intersection <- function(a, b){
+
+  use_crs <- sf::st_crs(b)
+
+  ext_a <- sf::st_bbox(a) %>%
+    sf::st_as_sfc() %>%
+    sf::st_transform(crs = use_crs) %>%
+    sf::as_Spatial()
+
+  ext_b <- sf::st_bbox(b) %>%
+    sf::st_as_sfc() %>%
+    sf::st_transform(crs = use_crs) %>%
+    sf::as_Spatial()
+
+  int <- raster::intersect(ext_a, ext_b)
+
+  !is.null(int)
+
+  }
+
 #' Reprojects/resamples and aligns a raster
 #'
 #' Modified from a [function](https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R)
@@ -10,7 +40,7 @@
 #' @param desired_res  desired resolution of output raster. Either an integer or a vector of length 2 (x,y)
 #' @param desired_crs desired coordinate reference system of output raster (CRS class)
 #' @param method resampling method. Either "bilinear" for bilinear interpolation (the default), or "ngb" for using the nearest neighbor
-#' @param outfile name of file to create
+#' @param out_file name of file to create
 #' @param ... passed to \link[raster]{writeRaster}
 #' @importFrom raster res
 #' @importFrom raster crs
@@ -27,10 +57,11 @@
                                     , desired_res
                                     , desired_crs
                                     , method = "bilinear"
-                                    , outfile = NULL
+                                    , out_file = NULL
                                     , ...
                                     ){
 
+    #--------overlap---------
     #Set parameters based on ref rast if it was supplied
     if (!is.null(ref_rast)) {
 
@@ -60,7 +91,6 @@
       return(rast)
 
     }
-
 
     # reproject desired extent crs
 
@@ -106,7 +136,7 @@
       rast_new <- resample(x = rast
                            , y = rast_new_template
                            , method = method
-                           , filename = outfile
+                           , filename = out_file
                            , ...
                            )
 
@@ -115,7 +145,7 @@
       rast_new <- projectRaster(from = rast
                                 , to = rast_new_template
                                 , method = method
-                                , filename = outfile
+                                , filename = out_file
                                 , ...
                                 )
 
