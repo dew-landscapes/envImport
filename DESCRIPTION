@@ -6,7 +6,7 @@ Authors@R:
            family = "Willoughby",
            role = c("aut", "cre"),
            email = "nige.willoughby@gmail.com")
-Description: Tool to help with data preparation for varied environmental
+Description: Tools to help with data preparation for varied environmental
     analyses. Combine, re-running queries if requested, disparate data sources
     into one (dataframe). Queries can be re-run if they are named appropriately
     and stored in the /code folder of the project. Align and stack rasters to
@@ -16,6 +16,8 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+URL: https://github.com/Acanthiza/envImport
+BugReports: https://github.com/Acanthiza/envImport/issues
 Imports: 
     dplyr,
     fs,
