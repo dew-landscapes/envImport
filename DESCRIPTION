@@ -20,6 +20,7 @@ URL: https://github.com/Acanthiza/envImport
 BugReports: https://github.com/Acanthiza/envImport/issues
 Imports: 
     dplyr,
+    forcats,
     fs,
     janitor,
     lubridate,
@@ -32,9 +33,10 @@ Imports:
     stats,
     stringr,
     svSocket,
+    terra,
     threadr (>= 0.9.129),
     tibble,
     tidyr,
     tidyselect
-Remotes:  
+Remotes: 
     skgrange/threadr
