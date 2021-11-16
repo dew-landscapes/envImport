@@ -41,7 +41,7 @@ test_intersection <- function(a, b){
 #' @param desired_crs desired coordinate reference system of output raster (CRS class)
 #' @param method resampling method. Either "bilinear" for bilinear interpolation (the default), or "ngb" for using the nearest neighbor
 #' @param outfile name of file to create
-#' @param ... passed to \link[raster]{writeRaster}
+#' @param ... passed to [raster::writeRaster()].
 #' @importFrom raster res
 #' @importFrom raster crs
 #' @importFrom raster extent
@@ -59,7 +59,7 @@ reproject_align_raster<- function(rast
                                   , method = "bilinear"
                                   , outfile = NULL
                                   , ...
-){
+                                  ){
 
   #Set parameters based on ref rast if it was supplied
   if (!is.null(ref_rast)) {
@@ -83,7 +83,7 @@ reproject_align_raster<- function(rast
      isTRUE(all.equal(origin(rast), desired_origin)) &
      identical(desired_res, res(rast)) &
      isTRUE(all.equal(extent(rast),desired_extent))
-  ){
+     ){
 
     message("raster was already aligned")
 
@@ -119,7 +119,7 @@ reproject_align_raster<- function(rast
                               , ymx = new_ymax
                               , res = desired_res
                               , crs = desired_crs
-  )
+                              )
 
   # Throw error if origin doesn't match
   if(!isTRUE(all.equal(desired_origin,origin(rast_new_template)))) {
@@ -138,7 +138,7 @@ reproject_align_raster<- function(rast
                          , method = method
                          , filename = outfile
                          , ...
-    )
+                         )
 
   } else {
 
@@ -147,7 +147,7 @@ reproject_align_raster<- function(rast
                               , method = method
                               , filename = outfile
                               , ...
-    )
+                              )
 
   }
 

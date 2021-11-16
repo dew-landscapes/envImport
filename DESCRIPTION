@@ -32,6 +32,9 @@ Imports:
     stats,
     stringr,
     svSocket,
+    threadr (>= 0.9.129),
     tibble,
     tidyr,
     tidyselect
+Remotes:  
+    skgrange/threadr

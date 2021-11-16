@@ -30,7 +30,7 @@ reproject_align_raster(
 
 \item{outfile}{name of file to create}
 
-\item{...}{passed to \link[raster]{writeRaster}}
+\item{...}{passed to \code{\link[raster:writeRaster]{raster::writeRaster()}}.}
 }
 \description{
 Modified from a \href{https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R}{function}
