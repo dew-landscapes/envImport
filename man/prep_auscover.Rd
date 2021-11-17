@@ -9,7 +9,6 @@ prep_auscover(
   dir_out = "../../data/raster/Auscover",
   epoch_step = 10,
   epoch_overlap = FALSE,
-  force_new = FALSE,
   ...
 )
 }
@@ -23,9 +22,6 @@ prep_auscover(
 \item{epoch_overlap}{Logical. Should epochs overlap by one year? i.e.
 \code{epoch_overlap = TRUE} gives, say, 2000-2010 and 2010-2020 whereas
 \code{epoch_overalp = FALSE} gives, say, 2000-2009 and 2010-2019.}
-
-\item{force_new}{Logical. If true, existing summarised file(s) will be
-overwritten.}
 
 \item{...}{Passed to \code{\link[=summarise_ftp_paths]{summarise_ftp_paths()}}.}
 }

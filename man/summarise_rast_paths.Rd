@@ -8,7 +8,7 @@ summarise_rast_paths(
   paths,
   out_base = tempfile(),
   force_new = FALSE,
-  funcs = list(mean = mean, med = median, min = min, max = max, sd = sd),
+  funcs = c("mean", "median", "min", "max", "sd"),
   out_type = "tif",
   ...
 )
@@ -23,7 +23,7 @@ summarise_rast_paths(
 \item{force_new}{Logical. Run summarise even if resulting file already
 exists.}
 
-\item{funcs}{List of functions to use in summarising rasters.}
+\item{funcs}{Vector of function names to use in summarising rasters.}
 
 \item{out_type}{Extension for raster file written. Required as filename is
 created from \code{out_base} and \code{func} so can't be passed directly.}

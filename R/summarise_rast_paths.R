@@ -11,7 +11,7 @@
 #' `_func.tif`.
 #' @param force_new Logical. Run summarise even if resulting file already
 #' exists.
-#' @param funcs List of functions to use in summarising rasters.
+#' @param funcs Vector of function names to use in summarising rasters.
 #' @param out_type Extension for raster file written. Required as filename is
 #' created from `out_base` and `func` so can't be passed directly.
 #' @param ... Passed to [terra::app()]. Thus, (presumably) includes options to
@@ -24,23 +24,37 @@
 summarise_rast_paths <- function(paths
                                 , out_base = tempfile()
                                 , force_new = FALSE
-                                , funcs = list(mean = mean
-                                               , med = median
-                                               , min = min
-                                               , max = max
-                                               , sd = sd
-                                               )
+                                , funcs = c("mean", "median", "min", "max", "sd")
                                 , out_type = "tif"
                                 , ...
                                 ) {
 
+  fs::dir_create(dirname(out_base))
+
   s <- terra::rast(as.character(paths))
 
-  summarise_func <- function(func, func_name) {
+  layers <- names(terra::rast(paths[[1]]))
+
+  stacks <- tibble::tibble(layer = layers) %>%
+    dplyr::mutate(layer_id = dplyr::row_number()
+                  , subsets = purrr::map(layer_id, ~ seq(., length(layers)* length(paths), by = length(layers)))
+                  , s = purrr::map(subsets
+                                 , ~terra::subset(s
+                                                  , .
+                                                  )
+                                 )
+                  ) %>%
+    dplyr::left_join(tibble::tibble(func = funcs)
+                     , by = character()
+                     )
+
+  summarise_func <- function(stack, layer_id, func_name) {
 
     out_file <- paste0(out_base
                        , "_"
                        , func_name
+                       , "_lyr"
+                       , layer_id
                        , "."
                        , out_type
                        )
@@ -52,17 +66,20 @@ summarise_rast_paths <- function(paths
     if(do) {
 
       terra::app(s
-                 , fun = func
+                 , fun = get(func_name)
                  , filename = out_file
-                 , ...
+                 , na.rm = TRUE
+                 #, ...
                  )
 
     }
 
   }
 
-  purrr::walk2(funcs
-               , names(funcs)
+  purrr::pwalk(list(stacks$s
+                    , stacks$layer_id
+                    , stacks$func
+                    )
                , summarise_func
                )
 

@@ -12,8 +12,6 @@
 #' @param epoch_overlap Logical. Should epochs overlap by one year? i.e.
 #' `epoch_overlap = TRUE` gives, say, 2000-2010 and 2010-2020 whereas
 #' `epoch_overalp = FALSE` gives, say, 2000-2009 and 2010-2019.
-#' @param force_new Logical. If true, existing summarised file(s) will be
-#' overwritten.
 #' @param ... Passed to [envImport::summarise_ftp_paths()].
 #'
 #' @return Side effect of creating raster summaries per epoch and func (see
@@ -25,19 +23,18 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                           , dir_out = "../../data/raster/Auscover"
                           , epoch_step = 10
                           , epoch_overlap = FALSE
-                          , force_new = FALSE
                           , ...
                           ) {
 
-  done_file <- fs::path(dir_out,"paths_done.csv")
-
-  paths_done <- if(file.exists(done_file)) {
-
-    rio::import(done_file)
-
-  } else tibble::tibble(data = NULL)
-
-  if(force_new) paths_done <- tibble::tibble(data = NULL)
+  # done_file <- fs::path(dir_out,"paths_done.csv")
+  #
+  # paths_done <- if(file.exists(done_file)) {
+  #
+  #   rio::import(done_file)
+  #
+  # } else tibble::tibble(data = NULL)
+  #
+  # if(force_new) paths_done <- tibble::tibble(data = NULL)
 
   luseasons <- tibble::tribble(
     ~season, ~months,
@@ -103,9 +100,9 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                   , out_file = fs::path(dir_local,out_file)
                   )
 
-  raster_summaries$done <- purrr::map_lgl(raster_summaries$data
-                                          , ~all(. %in% paths_done$data)
-                                          )
+  # raster_summaries$done <- purrr::map_lgl(raster_summaries$data
+  #                                         , ~all(. %in% paths_done$data)
+  #                                         )
 
   # This just will not work with furrr::future_walk
   # many, many suggestions, iterations attempted.
@@ -116,7 +113,8 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
   purrr::walk2(raster_summaries$data[!raster_summaries$done]
                , raster_summaries$out_file[!raster_summaries$done]
                , summarise_rast_paths
-               , ...
+               , na.rm = TRUE
+               #, ...
                )
 
   rio::export(raster_summaries %>%
@@ -124,5 +122,7 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                 tidyr::unnest(cols = c(data))
               , done_file
               )
+
+  return(raster_summaries)
 
 }
