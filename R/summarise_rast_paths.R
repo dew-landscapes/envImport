@@ -68,8 +68,7 @@ summarise_rast_paths <- function(paths
       terra::app(s
                  , fun = get(func_name)
                  , filename = out_file
-                 , na.rm = TRUE
-                 #, ...
+                 , ...
                  )
 
     }

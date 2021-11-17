@@ -2,14 +2,13 @@
 % Please edit documentation in R/prep_auscover.R
 \name{prep_auscover}
 \alias{prep_auscover}
-\title{Generate lists of paths and run \code{summarise_rast_paths}.}
+\title{Generate lists of paths in preparation for \code{summarise_rast_paths}.}
 \usage{
 prep_auscover(
   dir_local = "../../data/raster/AusCover/landsat",
   dir_out = "../../data/raster/Auscover",
   epoch_step = 10,
-  epoch_overlap = FALSE,
-  ...
+  epoch_overlap = FALSE
 )
 }
 \arguments{
@@ -22,15 +21,18 @@ prep_auscover(
 \item{epoch_overlap}{Logical. Should epochs overlap by one year? i.e.
 \code{epoch_overlap = TRUE} gives, say, 2000-2010 and 2010-2020 whereas
 \code{epoch_overalp = FALSE} gives, say, 2000-2009 and 2010-2019.}
-
-\item{...}{Passed to \code{\link[=summarise_ftp_paths]{summarise_ftp_paths()}}.}
 }
 \value{
-Side effect of creating raster summaries per epoch and func (see
-\code{func} argument in \code{\link[=summarise_ftp_paths]{summarise_ftp_paths()}}).
+Dataframe with columns
+\itemize{
+\item{out_file}{Base name for summary files to be created. These will be
+appended with function name and \code{lyr1:n} by
+\code{\link[=summarise_rast_paths]{summarise_rast_paths()}}}
+\item{data}{List column of full path of files to summarise.}
+}
 }
 \description{
 Using the file naming conventions in the \url{AusCover data}, collate paths of
-previously downloaded raster files and run
-\code{\link[=summarise_raster_paths]{summarise_raster_paths()}}, creating summary rasters for epochs.
+previously downloaded raster files in preparation for running
+\code{\link[=summarise_rast_paths]{summarise_rast_paths()}}.
 }

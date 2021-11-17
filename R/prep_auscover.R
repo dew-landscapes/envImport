@@ -1,10 +1,10 @@
 
 
-#' Generate lists of paths and run `summarise_rast_paths`.
+#' Generate lists of paths in preparation for `summarise_rast_paths`.
 #'
 #' Using the file naming conventions in the [AusCover data](), collate paths of
-#' previously downloaded raster files and run
-#' [envImport::summarise_raster_paths()], creating summary rasters for epochs.
+#' previously downloaded raster files in preparation for running
+#' [envImport::summarise_rast_paths()].
 #'
 #' @param dir_local Character. Path to search for rasters to summarise.
 #' @param dir_out Character. Path to save summarised rasters.
@@ -12,10 +12,14 @@
 #' @param epoch_overlap Logical. Should epochs overlap by one year? i.e.
 #' `epoch_overlap = TRUE` gives, say, 2000-2010 and 2010-2020 whereas
 #' `epoch_overalp = FALSE` gives, say, 2000-2009 and 2010-2019.
-#' @param ... Passed to [envImport::summarise_ftp_paths()].
 #'
-#' @return Side effect of creating raster summaries per epoch and func (see
-#' `func` argument in [envImport::summarise_ftp_paths()]).
+#' @return Dataframe with columns
+#' \itemize{
+#'   \item{out_file}{Base name for summary files to be created. These will be
+#'   appended with function name and `lyr1:n` by
+#'   [envImport::summarise_rast_paths()]}
+#'   \item{data}{List column of full path of files to summarise.}
+#' }
 #' @export
 #'
 #' @examples
@@ -23,18 +27,7 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                           , dir_out = "../../data/raster/Auscover"
                           , epoch_step = 10
                           , epoch_overlap = FALSE
-                          , ...
                           ) {
-
-  # done_file <- fs::path(dir_out,"paths_done.csv")
-  #
-  # paths_done <- if(file.exists(done_file)) {
-  #
-  #   rio::import(done_file)
-  #
-  # } else tibble::tibble(data = NULL)
-  #
-  # if(force_new) paths_done <- tibble::tibble(data = NULL)
 
   luseasons <- tibble::tribble(
     ~season, ~months,
@@ -99,30 +92,5 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                   , data = purrr::map(data, "path")
                   , out_file = fs::path(dir_local,out_file)
                   )
-
-  # raster_summaries$done <- purrr::map_lgl(raster_summaries$data
-  #                                         , ~all(. %in% paths_done$data)
-  #                                         )
-
-  # This just will not work with furrr::future_walk
-  # many, many suggestions, iterations attempted.
-  # The passing of paths, creating the stack within the function part of those iterations.
-  # Also works with a single function that does all the calcs in one pass, but took 7.5 hours per epoch
-  # (even with multiple cores passed to terra::app) compared with 20 minutes per function per epoch.
-
-  purrr::walk2(raster_summaries$data[!raster_summaries$done]
-               , raster_summaries$out_file[!raster_summaries$done]
-               , summarise_rast_paths
-               , na.rm = TRUE
-               #, ...
-               )
-
-  rio::export(raster_summaries %>%
-                dplyr::select(Negate(where(is.logical))) %>%
-                tidyr::unnest(cols = c(data))
-              , done_file
-              )
-
-  return(raster_summaries)
 
 }
