@@ -8,7 +8,8 @@ prep_auscover(
   dir_local = "../../data/raster/AusCover/landsat",
   dir_out = "../../data/raster/Auscover",
   epoch_step = 10,
-  epoch_overlap = FALSE
+  epoch_overlap = FALSE,
+  epoch_which = -1
 )
 }
 \arguments{
@@ -21,14 +22,19 @@ prep_auscover(
 \item{epoch_overlap}{Logical. Should epochs overlap by one year? i.e.
 \code{epoch_overlap = TRUE} gives, say, 2000-2010 and 2010-2020 whereas
 \code{epoch_overalp = FALSE} gives, say, 2000-2009 and 2010-2019.}
+
+\item{epoch_which}{Numeric. Which epochs to summarise? Zero for current
+epoch, -1 for immediate previous epoch etc. -2:-1 for the last two full
+epochs.}
 }
 \value{
 Dataframe with columns
 \itemize{
-\item{out_file}{Base name for summary files to be created. These will be
-appended with function name and \code{lyr1:n} by
-\code{\link[=summarise_rast_paths]{summarise_rast_paths()}}}
-\item{data}{List column of full path of files to summarise.}
+\item{product}{Raster product in \code{data}. See \link[envEcosystems:env]{envEcosystems::env}.}
+\item{epoch}{Last two digits of initial year and final year for rasters
+in \code{data}. e.g. 10-19.}
+\item{season}{Season for rasters in \code{data}.}
+\item{data}{List column of full path of raster files to summarise.}
 }
 }
 \description{

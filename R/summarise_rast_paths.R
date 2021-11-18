@@ -9,8 +9,9 @@
 #'
 #' @param paths Character. Paths to any raster that can be read by
 #' [terra::rast()].
-#' @param out_base Character. Path including start of file name. Appended with
-#' `_func.tif`.
+#' @param out_dir Character. Path for saving summarised rasters.
+#' @param product,season,epoch Character. Descriptors for rasters being
+#' summarised. See [envEcosystems::env].
 #' @param force_new Logical. Run summarise even if resulting file already
 #' exists.
 #' @param funcs Function to apply to each vector of stacked cells.
@@ -26,14 +27,15 @@
 #'
 #'
 summarise_rast_paths <- function(paths
-                                 , out_base = tempfile()
+                                 , out_dir
+                                 , product
+                                 , season = NA
+                                 , epoch = NA
                                  , force_new = FALSE
                                  , funcs = c("mean", "median", "min", "max", "sd")
                                  , out_type = "tif"
                                  , ...
                                  ) {
-
-  fs::dir_create(dirname(out_base))
 
   s <- terra::rast(as.character(paths))
 
@@ -50,18 +52,27 @@ summarise_rast_paths <- function(paths
                   ) %>%
     dplyr::left_join(tibble::tibble(func = funcs)
                      , by = character()
-                     )
+                     ) %>%
+    dplyr::mutate(out_file = fs::path(out_dir
+                                      , paste0(product
+                                               , "_lyr"
+                                               , layer_id
+                                               , "_"
+                                               , func
+                                               , "_"
+                                               , season
+                                               , "_"
+                                               , epoch
+                                               , "."
+                                               , out_type
+                                               )
+                                      )
+                  )
 
-  summarise_func <- function(lyr_stack, layer_id, func_name) {
-
-    out_file <- paste0(out_base
-                       , "_"
-                       , func_name
-                       , "_lyr"
-                       , layer_id
-                       , "."
-                       , out_type
-                       )
+  summarise_func <- function(lyr_stack
+                             , func_name
+                             , out_file
+                             ) {
 
     do <- !file.exists(out_file)
 
@@ -80,8 +91,8 @@ summarise_rast_paths <- function(paths
   }
 
   purrr::pwalk(list(stacks$s
-                    , stacks$layer_id
                     , stacks$func
+                    , stacks$out_file
                     )
                , summarise_func
                )

@@ -12,13 +12,17 @@
 #' @param epoch_overlap Logical. Should epochs overlap by one year? i.e.
 #' `epoch_overlap = TRUE` gives, say, 2000-2010 and 2010-2020 whereas
 #' `epoch_overalp = FALSE` gives, say, 2000-2009 and 2010-2019.
+#' @param epoch_which Numeric. Which epochs to summarise? Zero for current
+#' epoch, -1 for immediate previous epoch etc. -2:-1 for the last two full
+#' epochs.
 #'
 #' @return Dataframe with columns
 #' \itemize{
-#'   \item{out_file}{Base name for summary files to be created. These will be
-#'   appended with function name and `lyr1:n` by
-#'   [envImport::summarise_rast_paths()]}
-#'   \item{data}{List column of full path of files to summarise.}
+#'   \item{product}{Raster product in `data`. See [envEcosystems::env].}
+#'   \item{epoch}{Last two digits of initial year and final year for rasters
+#'   in `data`. e.g. 10-19.}
+#'   \item{season}{Season for rasters in `data`.}
+#'   \item{data}{List column of full path of raster files to summarise.}
 #' }
 #' @export
 #'
@@ -27,6 +31,7 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                           , dir_out = "../../data/raster/Auscover"
                           , epoch_step = 10
                           , epoch_overlap = FALSE
+                          , epoch_which = -1
                           ) {
 
   luseasons <- tibble::tribble(
@@ -41,16 +46,21 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
   starts <- 1990 + epoch_step*0:10
   ends <- starts + (epoch_step - 1 + epoch_overlap)
 
+  now <- as.numeric(format(Sys.Date(), "%Y"))
+
   eps <- tibble::tibble(start = starts
                         , end = ends
                         ) %>%
     dplyr::mutate(year = purrr::map2(start, end, ~.x:.y)
                   , epoch = paste0(substr(start,3,4), "-", substr(end,3,4))
                   , epoch = forcats::fct_inorder(epoch, ordered = TRUE)
-                  , epoch_id = dplyr::row_number()
                   , epoch_min = purrr::map_int(year, min)
                   , epoch_max = purrr::map_int(year, max)
-                  )
+                  , epoch_now = purrr::map_lgl(year, ~ ! now %in% .)
+                  , epoch_index = dplyr::row_number() - max(dplyr::row_number() * !epoch_now)
+                  ) %>%
+    dplyr::filter(epoch_index < 1) %>%
+    dplyr::filter(epoch_index %in% epoch_which)
 
   luepoch <- eps %>%
     tidyr::unnest(cols = c(year))
@@ -71,8 +81,8 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                   #, file_prod = substr(tif, 5, 6)
                   #, file_loc = stringr::str_match(tif, "_([[:alpha:]]{2,3})_")[,2]
                   , file_dates = stringr::str_match(tif, "_[[:alpha:]]{1}([[:digit:]]+)_")[,2]
-                  , file_pro = stringr::str_match(tif, "_([[:alnum:]]+)\\.")[,2]
-                  , file_pro = gsub("a2", "", file_pro)
+                  , product = stringr::str_match(tif, "_([[:alnum:]]+)\\.")[,2]
+                  , product = gsub("a2", "", product)
                   , months = paste0(substr(file_dates,5,6),substr(file_dates,11,12))
                   , year = as.integer(substr(file_dates, 1, 4))
                   , year = dplyr::if_else(months == "1202"
@@ -81,16 +91,15 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                                           ) # sets summer to next year
                   ) %>%
     dplyr::filter(year >= 1990) %>%
-    dplyr::select(contains("file"), year, months, path, -file_dates) %>%
-    dplyr::left_join(luepoch %>%
+    dplyr::select(product, year, months, path, -file_dates) %>%
+    dplyr::inner_join(luepoch %>%
                        dplyr::select(year, epoch)
                      ) %>%
     dplyr::left_join(luseasons) %>%
-    tidyr::nest(data = -matches("file|epoch|season")) %>%
-    tidyr::unite("out_file", matches("file|epoch|season")) %>%
+    tidyr::nest(data = -matches("product|epoch|season")) %>%
+    dplyr::mutate(n_layers = map_dbl(data, nrow)) %>%
     dplyr::mutate(NULL
                   , data = purrr::map(data, "path")
-                  , out_file = fs::path(dir_local,out_file)
                   )
 
 }

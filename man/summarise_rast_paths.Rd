@@ -6,7 +6,10 @@
 \usage{
 summarise_rast_paths(
   paths,
-  out_base = tempfile(),
+  out_dir,
+  product,
+  season = NA,
+  epoch = NA,
   force_new = FALSE,
   funcs = c("mean", "median", "min", "max", "sd"),
   out_type = "tif",
@@ -17,8 +20,10 @@ summarise_rast_paths(
 \item{paths}{Character. Paths to any raster that can be read by
 \code{\link[terra:rast]{terra::rast()}}.}
 
-\item{out_base}{Character. Path including start of file name. Appended with
-\verb{_func.tif}.}
+\item{out_dir}{Character. Path for saving summarised rasters.}
+
+\item{product, season, epoch}{Character. Descriptors for rasters being
+summarised. See \link[envEcosystems:env]{envEcosystems::env}.}
 
 \item{force_new}{Logical. Run summarise even if resulting file already
 exists.}
