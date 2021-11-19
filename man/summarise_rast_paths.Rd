@@ -9,11 +9,11 @@ summarise_rast_paths(
   product,
   season = NA,
   epoch = NA,
+  layer = 1L,
   out_dir,
   force_new = FALSE,
   funcs = c("mean", "median", "min", "max", "sd"),
   out_type = "tif",
-  exclude_layers = NULL,
   ...
 )
 }

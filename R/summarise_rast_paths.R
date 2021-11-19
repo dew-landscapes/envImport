@@ -30,11 +30,11 @@ summarise_rast_paths <- function(paths
                                  , product
                                  , season = NA
                                  , epoch = NA
+                                 , layer = 1L
                                  , out_dir
                                  , force_new = FALSE
                                  , funcs = c("mean", "median", "min", "max", "sd")
                                  , out_type = "tif"
-                                 , exclude_layers = NULL
                                  , ...
                                  ) {
 
@@ -42,24 +42,16 @@ summarise_rast_paths <- function(paths
 
   all_layers <- names(terra::rast(paths[[1]]))
 
-  if(isTRUE(!is.null(exclude_layers))) {
-
-    if(is.numeric(exclude_layers)) layers <- layers[-exclude_layers]
-
-    if(is.character(exclude_layers)) layers <- layers[!layers %in% exclude_layers]
-
-  } else layers <- all_layers
-
   stacks <- tibble::tibble(layer = all_layers) %>%
     dplyr::mutate(layer_id = dplyr::row_number()
                   , subsets = purrr::map(layer_id
                                          , ~ seq(.
-                                                 , length(layers)* length(paths)
-                                                 , by = length(layers)
+                                                 , length(all_layers)* length(paths)
+                                                 , by = length(all_layers)
                                                  )
                                          )
                   ) %>%
-    dplyr::filter(layer %in% layers) %>%
+    dplyr::filter(layer_id == layer) %>%
     dplyr::mutate(s = purrr::map(subsets
                                    , ~terra::subset(s
                                                     , .
@@ -71,8 +63,8 @@ summarise_rast_paths <- function(paths
                      ) %>%
     dplyr::mutate(out_file = fs::path(out_dir
                                       , paste0(product
-                                               , "_lyr"
-                                               , layer_id
+                                               , "_"
+                                               , layer
                                                , "_"
                                                , func
                                                , "_"
