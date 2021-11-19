@@ -65,9 +65,9 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
   luepoch <- eps %>%
     tidyr::unnest(cols = c(year))
 
-  raster_summaries <- fs::dir_info(dir_local
-                                   , recurse = TRUE
-                                   ) %>%
+  fs::dir_info(dir_local
+               , recurse = TRUE
+               ) %>%
     dplyr::filter(type == "file") %>%
     dplyr::mutate(dir = fs::path_dir(path)
                   , tif = fs::path_file(path)
@@ -97,7 +97,7 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
                      ) %>%
     dplyr::left_join(luseasons) %>%
     tidyr::nest(data = -matches("product|epoch|season")) %>%
-    dplyr::mutate(n_layers = map_dbl(data, nrow)) %>%
+    dplyr::mutate(n_layers = purrr::map_dbl(data, nrow)) %>%
     dplyr::mutate(NULL
                   , data = purrr::map(data, "path")
                   )

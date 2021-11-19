@@ -125,13 +125,14 @@ multi-layer rasters. Lyr<code>n</code> is added to filename.</p>
 
     <pre class="usage"><span class='fu'>summarise_rast_paths</span><span class='op'>(</span>
   <span class='va'>paths</span>,
-  <span class='va'>out_dir</span>,
   <span class='va'>product</span>,
   season <span class='op'>=</span> <span class='cn'>NA</span>,
   epoch <span class='op'>=</span> <span class='cn'>NA</span>,
+  <span class='va'>out_dir</span>,
   force_new <span class='op'>=</span> <span class='cn'>FALSE</span>,
   funcs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='st'>"median"</span>, <span class='st'>"min"</span>, <span class='st'>"max"</span>, <span class='st'>"sd"</span><span class='op'>)</span>,
   out_type <span class='op'>=</span> <span class='st'>"tif"</span>,
+  exclude_layers <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -144,13 +145,13 @@ multi-layer rasters. Lyr<code>n</code> is added to filename.</p>
 <code><a href='https://rdrr.io/pkg/terra/man/rast.html'>terra::rast()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>out_dir</th>
-      <td><p>Character. Path for saving summarised rasters.</p></td>
-    </tr>
-    <tr>
       <th>product, season, epoch</th>
       <td><p>Character. Descriptors for rasters being
 summarised. See <a href='https://rdrr.io/pkg/envEcosystems/man/env.html'>envEcosystems::env</a>.</p></td>
+    </tr>
+    <tr>
+      <th>out_dir</th>
+      <td><p>Character. Path for saving summarised rasters.</p></td>
     </tr>
     <tr>
       <th>force_new</th>

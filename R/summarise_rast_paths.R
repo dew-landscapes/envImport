@@ -9,9 +9,9 @@
 #'
 #' @param paths Character. Paths to any raster that can be read by
 #' [terra::rast()].
-#' @param out_dir Character. Path for saving summarised rasters.
 #' @param product,season,epoch Character. Descriptors for rasters being
 #' summarised. See [envEcosystems::env].
+#' @param out_dir Character. Path for saving summarised rasters.
 #' @param force_new Logical. Run summarise even if resulting file already
 #' exists.
 #' @param funcs Function to apply to each vector of stacked cells.
@@ -27,24 +27,40 @@
 #'
 #'
 summarise_rast_paths <- function(paths
-                                 , out_dir
                                  , product
                                  , season = NA
                                  , epoch = NA
+                                 , out_dir
                                  , force_new = FALSE
                                  , funcs = c("mean", "median", "min", "max", "sd")
                                  , out_type = "tif"
+                                 , exclude_layers = NULL
                                  , ...
                                  ) {
 
   s <- terra::rast(as.character(paths))
 
-  layers <- names(terra::rast(paths[[1]]))
+  all_layers <- names(terra::rast(paths[[1]]))
 
-  stacks <- tibble::tibble(layer = layers) %>%
+  if(isTRUE(!is.null(exclude_layers))) {
+
+    if(is.numeric(exclude_layers)) layers <- layers[-exclude_layers]
+
+    if(is.character(exclude_layers)) layers <- layers[!layers %in% exclude_layers]
+
+  } else layers <- all_layers
+
+  stacks <- tibble::tibble(layer = all_layers) %>%
     dplyr::mutate(layer_id = dplyr::row_number()
-                  , subsets = purrr::map(layer_id, ~ seq(., length(layers)* length(paths), by = length(layers)))
-                  , s = purrr::map(subsets
+                  , subsets = purrr::map(layer_id
+                                         , ~ seq(.
+                                                 , length(layers)* length(paths)
+                                                 , by = length(layers)
+                                                 )
+                                         )
+                  ) %>%
+    dplyr::filter(layer %in% layers) %>%
+    dplyr::mutate(s = purrr::map(subsets
                                    , ~terra::subset(s
                                                     , .
                                                     )
