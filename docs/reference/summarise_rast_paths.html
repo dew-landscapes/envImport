@@ -131,7 +131,7 @@ multi-layer rasters. Lyr<code>n</code> is added to filename.</p>
   layer <span class='op'>=</span> <span class='fl'>1L</span>,
   <span class='va'>out_dir</span>,
   force_new <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  funcs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='st'>"median"</span>, <span class='st'>"min"</span>, <span class='st'>"max"</span>, <span class='st'>"sd"</span><span class='op'>)</span>,
+  methods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='st'>"median"</span>, <span class='st'>"min"</span>, <span class='st'>"max"</span>, <span class='st'>"sd"</span><span class='op'>)</span>,
   out_type <span class='op'>=</span> <span class='st'>"tif"</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -164,18 +164,18 @@ time can be summarised.</p></td>
 exists.</p></td>
     </tr>
     <tr>
-      <th>funcs</th>
-      <td><p>Function to apply to each vector of stacked cells.</p></td>
-    </tr>
-    <tr>
       <th>out_type</th>
       <td><p>Extension for raster file written. Required as filename is
-created from <code>out_base</code> and <code>func</code> so can't be passed directly.</p></td>
+created from <code>out_base</code> and <code>method</code> so can't be passed directly.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Passed to <code><a href='https://rdrr.io/pkg/terra/man/app.html'>terra::app()</a></code>. Thus, (presumably) includes options to
 <code><a href='https://rdrr.io/pkg/terra/man/writeRaster.html'>terra::writeRaster()</a></code> via <code>wopt</code> argument (untested).</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>Method to apply to each vector of stacked cells.</p></td>
     </tr>
     </table>
 

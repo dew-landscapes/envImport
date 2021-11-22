@@ -125,7 +125,8 @@ running <code><a href='summarise_rast_paths.html'>summarise_rast_paths()</a></co
   dir_local <span class='op'>=</span> <span class='st'>"../../data/raster/dynamic/AusCover/landsat/"</span>,
   epoch_step <span class='op'>=</span> <span class='fl'>10</span>,
   epoch_overlap <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  epoch_which <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>
+  epoch_which <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
+  filt_n <span class='op'>=</span> <span class='fl'>9</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -150,6 +151,11 @@ running <code><a href='summarise_rast_paths.html'>summarise_rast_paths()</a></co
       <td><p>Numeric. Which epochs to summarise? Zero for current
 epoch, -1 for immediate previous epoch etc. -2:-1 for the last two full
 epochs.</p></td>
+    </tr>
+    <tr>
+      <th>filt_n</th>
+      <td><p>Numeric. Filter prepared stacks with less than <code>filt_n</code>
+rasters.</p></td>
     </tr>
     </table>
 

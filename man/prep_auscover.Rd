@@ -8,7 +8,8 @@ prep_auscover(
   dir_local = "../../data/raster/dynamic/AusCover/landsat/",
   epoch_step = 10,
   epoch_overlap = FALSE,
-  epoch_which = -1
+  epoch_which = -1,
+  filt_n = 9
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ prep_auscover(
 \item{epoch_which}{Numeric. Which epochs to summarise? Zero for current
 epoch, -1 for immediate previous epoch etc. -2:-1 for the last two full
 epochs.}
+
+\item{filt_n}{Numeric. Filter prepared stacks with less than \code{filt_n}
+rasters.}
 }
 \value{
 Dataframe with columns

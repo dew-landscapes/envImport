@@ -16,9 +16,9 @@
 #' @param out_dir Character. Path for saving summarised rasters.
 #' @param force_new Logical. Run summarise even if resulting file already
 #' exists.
-#' @param funcs Function to apply to each vector of stacked cells.
+#' @param method Method to apply to each vector of stacked cells.
 #' @param out_type Extension for raster file written. Required as filename is
-#' created from `out_base` and `func` so can't be passed directly.
+#' created from `out_base` and `method` so can't be passed directly.
 #' @param ... Passed to [terra::app()]. Thus, (presumably) includes options to
 #' [terra::writeRaster()] via `wopt` argument (untested).
 #'
@@ -35,7 +35,7 @@ summarise_rast_paths <- function(paths
                                  , layer = 1L
                                  , out_dir
                                  , force_new = FALSE
-                                 , funcs = c("mean", "median", "min", "max", "sd")
+                                 , methods = c("mean", "median", "min", "max", "sd")
                                  , out_type = "tif"
                                  , ...
                                  ) {
@@ -60,7 +60,7 @@ summarise_rast_paths <- function(paths
                                                     )
                                    )
                   ) %>%
-    dplyr::left_join(tibble::tibble(func = funcs)
+    dplyr::left_join(tibble::tibble(func = method)
                      , by = character()
                      ) %>%
     dplyr::mutate(out_file = fs::path(out_dir

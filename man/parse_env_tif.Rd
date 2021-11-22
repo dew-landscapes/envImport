@@ -16,7 +16,7 @@ Dataframe with columns
 \describe{
 \item{process}{e.g. dja is persistent green cover.}
 \item{layer}{band or layer that was summarised.}
-\item{func}{Function that was used to summarise.}
+\item{method}{Method that was used to summarise.}
 \item{season}{Season into which summary was made.}
 \item{epoch}{Date range (years) into which summary was made.}
 \item{type}{File type of \code{path}.}

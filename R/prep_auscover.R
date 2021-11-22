@@ -14,6 +14,8 @@
 #' @param epoch_which Numeric. Which epochs to summarise? Zero for current
 #' epoch, -1 for immediate previous epoch etc. -2:-1 for the last two full
 #' epochs.
+#' @param filt_n Numeric. Filter prepared stacks with less than `filt_n`
+#' rasters.
 #'
 #' @return Dataframe with columns
 #' \describe{
@@ -30,6 +32,7 @@ prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsa
                           , epoch_step = 10
                           , epoch_overlap = FALSE
                           , epoch_which = -1
+                          , filt_n = 9
                           ) {
 
   luseasons <- tibble::tribble(
@@ -72,7 +75,6 @@ prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsa
                   ) %>%
     dplyr::select(dir, tif, type, path) %>%
     dplyr::add_count(dir) %>%
-    dplyr::filter(n > 50) %>%
     dplyr::mutate(NULL
                   , file_dates = stringr::str_match(tif, "_[[:alpha:]]{1}([[:digit:]]+)_")[,2]
                   , process = stringr::str_match(tif, "_([[:alnum:]]+)\\.")[,2]
@@ -84,7 +86,6 @@ prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsa
                                           , year
                                           ) # sets summer to next year
                   ) %>%
-    dplyr::filter(year >= 1990) %>%
     dplyr::select(process, year, months, path, -file_dates) %>%
     dplyr::inner_join(luepoch %>%
                        dplyr::select(year, epoch)
@@ -92,6 +93,7 @@ prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsa
     dplyr::left_join(luseasons) %>%
     tidyr::nest(data = -matches("process|epoch|season")) %>%
     dplyr::mutate(n_layers = purrr::map_dbl(data, nrow)) %>%
+    dplyr::filter(n_layers >= filt_n) %>%
     dplyr::mutate(NULL
                   , data = purrr::map(data, "path")
                   )
