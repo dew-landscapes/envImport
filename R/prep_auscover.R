@@ -7,7 +7,6 @@
 #' [envImport::summarise_rast_paths()].
 #'
 #' @param dir_local Character. Path to search for rasters to summarise.
-#' @param dir_out Character. Path to save summarised rasters.
 #' @param epoch_step Numeric. How many years in an epoch?
 #' @param epoch_overlap Logical. Should epochs overlap by one year? i.e.
 #' `epoch_overlap = TRUE` gives, say, 2000-2010 and 2010-2020 whereas
@@ -27,8 +26,7 @@
 #' @export
 #'
 #' @examples
-prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
-                          , dir_out = "../../data/raster/Auscover"
+prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsat/"
                           , epoch_step = 10
                           , epoch_overlap = FALSE
                           , epoch_which = -1

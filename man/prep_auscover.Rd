@@ -5,8 +5,7 @@
 \title{Generate lists of paths in preparation for \code{summarise_rast_paths}.}
 \usage{
 prep_auscover(
-  dir_local = "../../data/raster/AusCover/landsat",
-  dir_out = "../../data/raster/Auscover",
+  dir_local = "../../data/raster/dynamic/AusCover/landsat/",
   epoch_step = 10,
   epoch_overlap = FALSE,
   epoch_which = -1
@@ -14,8 +13,6 @@ prep_auscover(
 }
 \arguments{
 \item{dir_local}{Character. Path to search for rasters to summarise.}
-
-\item{dir_out}{Character. Path to save summarised rasters.}
 
 \item{epoch_step}{Numeric. How many years in an epoch?}
 
