@@ -16,8 +16,8 @@
 #'
 #' @examples
 get_ftp_files <- function(paths
-                          , path_from = "ftp://qld.auscover.org.au/"
-                          , path_to = "../../data/raster/AusCover/"
+                          , path_from = "ftp://qld.auscover.org.au"
+                          , path_to = "../../data/raster/dynamic/AusCover"
                           , check_fun = NULL
                           , force_new = FALSE
                           ){
