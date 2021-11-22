@@ -6,7 +6,7 @@
 \usage{
 summarise_rast_paths(
   paths,
-  product,
+  process,
   season = NA,
   epoch = NA,
   layer = 1L,
@@ -21,7 +21,7 @@ summarise_rast_paths(
 \item{paths}{Character. Paths to any raster that can be read by
 \code{\link[terra:rast]{terra::rast()}}.}
 
-\item{product, season, epoch}{Character. Descriptors for rasters being
+\item{process, season, epoch}{Character. Descriptors for rasters being
 summarised. See \link[envEcosystems:env]{envEcosystems::env}.}
 
 \item{layer}{Numeric. Layer/band of \code{paths} to summarise. Only one band at a

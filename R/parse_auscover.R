@@ -9,7 +9,7 @@
 #' @param ... Passed to [fs::dir_info()].
 #'
 #' @return Dataframe with columns
-#' \itemize{
+#' \describe{
 #'   \item{satellite}{satellite category.}
 #'   \item{instrument}{tm: thematic.}
 #'   \item{product}{re: reflective.}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse AusCover file names. — parse_auscover • envImport</title>
+<title>Parse tif saved using raster file naming convention among env packages. — parse_env_tif • envImport</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Parse AusCover file names. — parse_auscover" />
-<meta property="og:description" content="See for example AusCover persistent green.
-filenaming convention." />
+<meta property="og:title" content="Parse tif saved using raster file naming convention among env packages. — parse_env_tif" />
+<meta property="og:description" content="Parse tif saved using raster file naming convention among env packages." />
 
 
 
@@ -109,17 +108,16 @@ filenaming convention." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse AusCover file names.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/parse_auscover.R'><code>R/parse_auscover.R</code></a></small>
-    <div class="hidden name"><code>parse_auscover.Rd</code></div>
+    <h1>Parse tif saved using raster file naming convention among <code>env</code> packages.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/parse_env_tif.R'><code>R/parse_env_tif.R</code></a></small>
+    <div class="hidden name"><code>parse_env_tif.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See for example AusCover <a href='https://object-store.rc.nectar.org.au/v1/AUTH_05bca33fce34447ba7033b9305947f11/data_submission_tool_attachments/e60f5125-ed2f-47cb-99a7-c9a201e44d2f/seasonal_persistent_green_landsat_filenaming_conven_h5HG2vG.txt'>persistent green</a>.
-filenaming convention.</p>
+    <p>Parse tif saved using raster file naming convention among <code>env</code> packages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_auscover</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>parse_env_tif</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,16 +135,12 @@ filenaming convention.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Dataframe with columns</p><dl>
-<dt>satellite</dt><dd><p>satellite category.</p></dd>
-<dt>instrument</dt><dd><p>tm: thematic.</p></dd>
-<dt>product</dt><dd><p>re: reflective.</p></dd>
-<dt>where</dt><dd><p>sa: South Australia.</p></dd>
-<dt>when</dt><dd><p>Season start and season end dates as "m"YYYYmmYYYYmm.</p></dd>
 <dt>process</dt><dd><p>e.g. dja is persistent green cover.</p></dd>
-<dt>months</dt><dd><p>Month component of <code>when</code> as mmmm.</p></dd>
-<dt>year</dt><dd><p>Year component of <code>when</code> as YYYY. For <code>months</code> = <code>1202</code>, <code>year</code>
-= <code>year + 1</code>.</p></dd>
-<dt>tif</dt><dd><p>Filename.</p></dd>
+<dt>layer</dt><dd><p>band or layer that was summarised.</p></dd>
+<dt>func</dt><dd><p>Function that was used to summarise.</p></dd>
+<dt>season</dt><dd><p>Season into which summary was made.</p></dd>
+<dt>epoch</dt><dd><p>Date range (years) into which summary was made.</p></dd>
+<dt>type</dt><dd><p>File type of <code>path</code>.</p></dd>
 <dt>path</dt><dd><p>Full (relative) path including <code>tif</code>.</p></dd>
 
 </dl>

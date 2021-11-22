@@ -9,7 +9,7 @@
 #'
 #' @param paths Character. Paths to any raster that can be read by
 #' [terra::rast()].
-#' @param product,season,epoch Character. Descriptors for rasters being
+#' @param process,season,epoch Character. Descriptors for rasters being
 #' summarised. See [envEcosystems::env].
 #' @param layer Numeric. Layer/band of `paths` to summarise. Only one band at a
 #' time can be summarised.
@@ -29,7 +29,7 @@
 #'
 #'
 summarise_rast_paths <- function(paths
-                                 , product
+                                 , process
                                  , season = NA
                                  , epoch = NA
                                  , layer = 1L
@@ -64,7 +64,7 @@ summarise_rast_paths <- function(paths
                      , by = character()
                      ) %>%
     dplyr::mutate(out_file = fs::path(out_dir
-                                      , paste0(product
+                                      , paste0(process
                                                , "_"
                                                , layer
                                                , "_"

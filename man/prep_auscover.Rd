@@ -29,7 +29,7 @@ epochs.}
 }
 \value{
 Dataframe with columns
-\itemize{
+\describe{
 \item{product}{Raster product in \code{data}. See \link[envEcosystems:env]{envEcosystems::env}.}
 \item{epoch}{Last two digits of initial year and final year for rasters
 in \code{data}. e.g. 10-19.}
