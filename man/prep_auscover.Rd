@@ -2,7 +2,7 @@
 % Please edit documentation in R/prep_auscover.R
 \name{prep_auscover}
 \alias{prep_auscover}
-\title{Generate lists of paths in preparation for \code{summarise_rast_paths}.}
+\title{Generate lists of paths in preparation for \code{\link[=summarise_rast_paths]{summarise_rast_paths()}}.}
 \usage{
 prep_auscover(
   dir_local = "../../data/raster/dynamic/AusCover/landsat/",
@@ -27,7 +27,7 @@ epochs.}
 \value{
 Dataframe with columns
 \describe{
-\item{product}{Raster product in \code{data}. See \link[envEcosystems:env]{envEcosystems::env}.}
+\item{process}{Raster product in \code{data}. See \link[envEcosystems:env]{envEcosystems::env}.}
 \item{epoch}{Last two digits of initial year and final year for rasters
 in \code{data}. e.g. 10-19.}
 \item{season}{Season for rasters in \code{data}.}
@@ -35,7 +35,7 @@ in \code{data}. e.g. 10-19.}
 }
 }
 \description{
-Using the file naming conventions in the \url{AusCover data}, collate paths of
-previously downloaded raster files in preparation for running
-\code{\link[=summarise_rast_paths]{summarise_rast_paths()}}.
+Using the file naming conventions in the \href{http://data.auscover.org.au/xwiki/bin/view/Field+Sites/AusCover+Filenaming+Convention}{AusCover data}
+, collate paths of previously downloaded raster files in preparation for
+running \code{\link[=summarise_rast_paths]{summarise_rast_paths()}}.
 }

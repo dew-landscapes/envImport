@@ -1,10 +1,10 @@
 
 
-#' Generate lists of paths in preparation for `summarise_rast_paths`.
+#' Generate lists of paths in preparation for [summarise_rast_paths()].
 #'
-#' Using the file naming conventions in the [AusCover data](), collate paths of
-#' previously downloaded raster files in preparation for running
-#' [envImport::summarise_rast_paths()].
+#' Using the file naming conventions in the [AusCover data](http://data.auscover.org.au/xwiki/bin/view/Field+Sites/AusCover+Filenaming+Convention)
+#' , collate paths of previously downloaded raster files in preparation for
+#' running [envImport::summarise_rast_paths()].
 #'
 #' @param dir_local Character. Path to search for rasters to summarise.
 #' @param epoch_step Numeric. How many years in an epoch?
@@ -17,7 +17,7 @@
 #'
 #' @return Dataframe with columns
 #' \describe{
-#'   \item{product}{Raster product in `data`. See [envEcosystems::env].}
+#'   \item{process}{Raster product in `data`. See [envEcosystems::env].}
 #'   \item{epoch}{Last two digits of initial year and final year for rasters
 #'   in `data`. e.g. 10-19.}
 #'   \item{season}{Season for rasters in `data`.}
@@ -75,8 +75,8 @@ prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsa
     dplyr::filter(n > 50) %>%
     dplyr::mutate(NULL
                   , file_dates = stringr::str_match(tif, "_[[:alpha:]]{1}([[:digit:]]+)_")[,2]
-                  , product = stringr::str_match(tif, "_([[:alnum:]]+)\\.")[,2]
-                  , product = gsub("a2", "", product)
+                  , process = stringr::str_match(tif, "_([[:alnum:]]+)\\.")[,2]
+                  , process = gsub("a2", "", process)
                   , months = paste0(substr(file_dates,5,6),substr(file_dates,11,12))
                   , year = as.integer(substr(file_dates, 1, 4))
                   , year = dplyr::if_else(months == "1202"
@@ -85,12 +85,12 @@ prep_auscover <- function(dir_local = "../../data/raster/dynamic/AusCover/landsa
                                           ) # sets summer to next year
                   ) %>%
     dplyr::filter(year >= 1990) %>%
-    dplyr::select(product, year, months, path, -file_dates) %>%
+    dplyr::select(process, year, months, path, -file_dates) %>%
     dplyr::inner_join(luepoch %>%
                        dplyr::select(year, epoch)
                      ) %>%
     dplyr::left_join(luseasons) %>%
-    tidyr::nest(data = -matches("product|epoch|season")) %>%
+    tidyr::nest(data = -matches("process|epoch|season")) %>%
     dplyr::mutate(n_layers = purrr::map_dbl(data, nrow)) %>%
     dplyr::mutate(NULL
                   , data = purrr::map(data, "path")
