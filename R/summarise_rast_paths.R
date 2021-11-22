@@ -42,7 +42,7 @@ summarise_rast_paths <- function(paths
 
   all_layers <- names(terra::rast(paths[[1]]))
 
-  stacks <- tibble::tibble(layer = all_layers) %>%
+  stacks <- tibble::tibble(layer_name = all_layers) %>%
     dplyr::mutate(layer_id = dplyr::row_number()
                   , subsets = purrr::map(layer_id
                                          , ~ seq(.
