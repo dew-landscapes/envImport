@@ -24,14 +24,18 @@ parse_env_tif <- function(path
                            ) {
 
   fs::dir_info(path
-               , ...
+               #, ...
                ) %>%
     dplyr::filter(type == "file") %>%
     dplyr::mutate(tif = fs::path_file(path)) %>%
     dplyr::select(tif, path) %>%
     tidyr::separate(tif
-                    , into = c("process", "layer", "func", "season", "epoch", "type")
-                    , sep = "_|\\."
+                    , into = c("name", "type")
+                    , sep = "\\."
+                    ) %>%
+    tidyr::separate(name
+                    , into = c("process", "layer", "func", "season", "epoch")
+                    , sep = "_"
                     )
 
 }
