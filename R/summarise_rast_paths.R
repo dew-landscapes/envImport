@@ -11,6 +11,8 @@
 #' [terra::rast()].
 #' @param product,season,epoch Character. Descriptors for rasters being
 #' summarised. See [envEcosystems::env].
+#' @param layer Numeric. Layer/band of `paths` to summarise. Only one band at a
+#' time can be summarised.
 #' @param out_dir Character. Path for saving summarised rasters.
 #' @param force_new Logical. Run summarise even if resulting file already
 #' exists.

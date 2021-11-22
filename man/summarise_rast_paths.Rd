@@ -24,6 +24,9 @@ summarise_rast_paths(
 \item{product, season, epoch}{Character. Descriptors for rasters being
 summarised. See \link[envEcosystems:env]{envEcosystems::env}.}
 
+\item{layer}{Numeric. Layer/band of \code{paths} to summarise. Only one band at a
+time can be summarised.}
+
 \item{out_dir}{Character. Path for saving summarised rasters.}
 
 \item{force_new}{Logical. Run summarise even if resulting file already

@@ -76,10 +76,6 @@ prep_auscover <- function(dir_local = "../../data/raster/AusCover/landsat"
     dplyr::add_count(dir) %>%
     dplyr::filter(n > 50) %>%
     dplyr::mutate(NULL
-                  #, file_sat = substr(tif, 1, 2)
-                  #, file_inst = substr(tif, 3, 4)
-                  #, file_prod = substr(tif, 5, 6)
-                  #, file_loc = stringr::str_match(tif, "_([[:alpha:]]{2,3})_")[,2]
                   , file_dates = stringr::str_match(tif, "_[[:alpha:]]{1}([[:digit:]]+)_")[,2]
                   , product = stringr::str_match(tif, "_([[:alnum:]]+)\\.")[,2]
                   , product = gsub("a2", "", product)
