@@ -164,6 +164,11 @@ time can be summarised.</p></td>
 exists.</p></td>
     </tr>
     <tr>
+      <th>methods</th>
+      <td><p>Method(s) to apply to each vector of stacked cells. Name of
+function(s).</p></td>
+    </tr>
+    <tr>
       <th>out_type</th>
       <td><p>Extension for raster file written. Required as filename is
 created from <code>out_base</code> and <code>method</code> so can't be passed directly.</p></td>
@@ -172,10 +177,6 @@ created from <code>out_base</code> and <code>method</code> so can't be passed di
       <th>...</th>
       <td><p>Passed to <code><a href='https://rdrr.io/pkg/terra/man/app.html'>terra::app()</a></code>. Thus, (presumably) includes options to
 <code><a href='https://rdrr.io/pkg/terra/man/writeRaster.html'>terra::writeRaster()</a></code> via <code>wopt</code> argument (untested).</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>Method to apply to each vector of stacked cells.</p></td>
     </tr>
     </table>
 

@@ -16,7 +16,8 @@
 #' @param out_dir Character. Path for saving summarised rasters.
 #' @param force_new Logical. Run summarise even if resulting file already
 #' exists.
-#' @param method Method to apply to each vector of stacked cells.
+#' @param methods Method(s) to apply to each vector of stacked cells. Name of
+#' function(s).
 #' @param out_type Extension for raster file written. Required as filename is
 #' created from `out_base` and `method` so can't be passed directly.
 #' @param ... Passed to [terra::app()]. Thus, (presumably) includes options to

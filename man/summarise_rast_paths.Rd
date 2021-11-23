@@ -32,13 +32,14 @@ time can be summarised.}
 \item{force_new}{Logical. Run summarise even if resulting file already
 exists.}
 
+\item{methods}{Method(s) to apply to each vector of stacked cells. Name of
+function(s).}
+
 \item{out_type}{Extension for raster file written. Required as filename is
 created from \code{out_base} and \code{method} so can't be passed directly.}
 
 \item{...}{Passed to \code{\link[terra:app]{terra::app()}}. Thus, (presumably) includes options to
 \code{\link[terra:writeRaster]{terra::writeRaster()}} via \code{wopt} argument (untested).}
-
-\item{method}{Method to apply to each vector of stacked cells.}
 }
 \value{
 Side effect of saving summarised raster(s) to file.
