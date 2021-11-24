@@ -7,7 +7,7 @@
 parse_auscover(path)
 }
 \arguments{
-\item{path}{Character. Path to AusCover raster file.}
+\item{path(s)}{Character. Path to AusCover raster file.}
 }
 \value{
 Tibble with names
@@ -21,8 +21,6 @@ Tibble with names
 \item{months}{Month component of \code{when} as mmmm.}
 \item{year}{Year component of \code{when} as YYYY. For \code{months} = \code{1202}, \code{year}
 = \code{year + 1}.}
-\item{tif}{Filename.}
-\item{path}{Full (relative) path including \code{tif}.}
 }
 }
 \description{

@@ -5,7 +5,7 @@
 #' See for example AusCover [persistent green](https://object-store.rc.nectar.org.au/v1/AUTH_05bca33fce34447ba7033b9305947f11/data_submission_tool_attachments/e60f5125-ed2f-47cb-99a7-c9a201e44d2f/seasonal_persistent_green_landsat_filenaming_conven_h5HG2vG.txt).
 #' filenaming convention.
 #'
-#' @param path Character. Path to AusCover raster file.
+#' @param path(s) Character. Path to AusCover raster file.
 #'
 #' @return Tibble with names
 #' \describe{
@@ -18,8 +18,6 @@
 #'   \item{months}{Month component of `when` as mmmm.}
 #'   \item{year}{Year component of `when` as YYYY. For `months` = `1202`, `year`
 #'   = `year + 1`.}
-#'   \item{tif}{Filename.}
-#'   \item{path}{Full (relative) path including `tif`.}
 #' }
 #' @export
 #'
@@ -53,6 +51,5 @@ parse_auscover <- function(path) {
                                           ) # sets summer to next year
                   ) %>%
     dplyr::left_join(luseasons) %>%
-    dplyr::select(-path, -tif, everything(), tif, path)
-
+    dplyr::select(-path, -tif)
 }
