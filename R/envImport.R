@@ -10,23 +10,26 @@
 #' @examples
 test_intersection <- function(a, b){
 
-  use_crs <- sf::st_crs(b)
+  ext_a <- terra::ext(a) %>%
+    terra::as.polygons()
 
-  ext_a <- sf::st_bbox(a) %>%
-    sf::st_as_sfc() %>%
-    sf::st_transform(crs = use_crs) %>%
-    sf::as_Spatial()
+  crs(ext_a) <- crs(a)
 
-  ext_b <- sf::st_bbox(b) %>%
-    sf::st_as_sfc() %>%
-    sf::st_transform(crs = use_crs) %>%
-    sf::as_Spatial()
+  ext_b <- terra::ext(b) %>%
+    terra::as.polygons()
 
-  int <- raster::intersect(ext_a, ext_b)
+  crs(ext_b) <- crs(b)
 
-  !is.null(int)
+  ext_b <- ext_b %>%
+    terra::project(y = crs(a))
 
-  }
+  int <- terra::intersect(ext_a, ext_b)
+
+  ratio <- terra::expanse(ext_a) / terra::expanse(int)
+
+  if(isTRUE(ratio > 0)) TRUE else FALSE
+
+}
 
 #' Reprojects/resamples and aligns a raster
 #'
