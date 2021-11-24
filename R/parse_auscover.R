@@ -1,14 +1,13 @@
 
 
-#' Parse AusCover file names.
+#' Parse an AusCover file name.
 #'
 #' See for example AusCover [persistent green](https://object-store.rc.nectar.org.au/v1/AUTH_05bca33fce34447ba7033b9305947f11/data_submission_tool_attachments/e60f5125-ed2f-47cb-99a7-c9a201e44d2f/seasonal_persistent_green_landsat_filenaming_conven_h5HG2vG.txt).
 #' filenaming convention.
 #'
-#' @param path Character. Path to search for rasters to parse.
-#' @param ... Passed to [fs::dir_info()].
+#' @param path Character. Path to AusCover raster file.
 #'
-#' @return Dataframe with columns
+#' @return Tibble with names
 #' \describe{
 #'   \item{satellite}{satellite category.}
 #'   \item{instrument}{tm: thematic.}
@@ -25,9 +24,7 @@
 #' @export
 #'
 #' @examples
-parse_auscover <- function(path
-                          , ...
-                          ) {
+parse_auscover <- function(path) {
 
   luseasons <- tibble::tribble(
     ~season, ~months,
@@ -38,13 +35,9 @@ parse_auscover <- function(path
     ) %>%
     dplyr::mutate(season = forcats::fct_inorder(season))
 
-  fs::dir_info(path
-               , ...
-               ) %>%
-    dplyr::filter(type == "file") %>%
-    dplyr::mutate(tif = fs::path_file(path)) %>%
-    dplyr::select(tif, path) %>%
+  tibble::tibble(path = path) %>%
     dplyr::mutate(NULL
+                  , tif = fs::path_file(path)
                   , satellite = substr(tif, 1, 2)
                   , instrument = substr(tif, 3, 4)
                   , product = substr(tif, 5, 6)

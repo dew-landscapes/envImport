@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse AusCover file names. — parse_auscover • envImport</title>
+<title>Parse an AusCover file name. — parse_auscover • envImport</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Parse AusCover file names. — parse_auscover" />
+<meta property="og:title" content="Parse an AusCover file name. — parse_auscover" />
 <meta property="og:description" content="See for example AusCover persistent green.
 filenaming convention." />
 
@@ -109,7 +109,7 @@ filenaming convention." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse AusCover file names.</h1>
+    <h1>Parse an AusCover file name.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/parse_auscover.R'><code>R/parse_auscover.R</code></a></small>
     <div class="hidden name"><code>parse_auscover.Rd</code></div>
     </div>
@@ -119,24 +119,20 @@ filenaming convention." />
 filenaming convention.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_auscover</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>parse_auscover</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Character. Path to search for rasters to parse.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Passed to <code><a href='http://fs.r-lib.org/reference/dir_ls.html'>fs::dir_info()</a></code>.</p></td>
+      <td><p>Character. Path to AusCover raster file.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe with columns</p><dl>
+    <p>Tibble with names</p><dl>
 <dt>satellite</dt><dd><p>satellite category.</p></dd>
 <dt>instrument</dt><dd><p>tm: thematic.</p></dd>
 <dt>product</dt><dd><p>re: reflective.</p></dd>
