@@ -7,7 +7,7 @@
 parse_auscover(path)
 }
 \arguments{
-\item{path(s)}{Character. Path to AusCover raster file.}
+\item{path}{Character. Path(s) to AusCover raster file(s).}
 }
 \value{
 Tibble with names

@@ -5,7 +5,7 @@
 #' See for example AusCover [persistent green](https://object-store.rc.nectar.org.au/v1/AUTH_05bca33fce34447ba7033b9305947f11/data_submission_tool_attachments/e60f5125-ed2f-47cb-99a7-c9a201e44d2f/seasonal_persistent_green_landsat_filenaming_conven_h5HG2vG.txt).
 #' filenaming convention.
 #'
-#' @param path(s) Character. Path to AusCover raster file.
+#' @param path Character. Path(s) to AusCover raster file(s).
 #'
 #' @return Tibble with names
 #' \describe{

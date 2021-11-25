@@ -61,7 +61,7 @@ summarise_rast_paths <- function(paths
                                                     )
                                    )
                   ) %>%
-    dplyr::left_join(tibble::tibble(func = method)
+    dplyr::left_join(tibble::tibble(func = methods)
                      , by = character()
                      ) %>%
     dplyr::mutate(out_file = fs::path(out_dir
