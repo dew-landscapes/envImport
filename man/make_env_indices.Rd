@@ -6,7 +6,7 @@
 \usage{
 make_env_indices(
   process = c("ndvi", "savi", "msavi", "ndmi", "nbr2"),
-  sum_func = c("mean"),
+  sum_func = "mean",
   sum_func_na_rm = TRUE,
   ...
 )

@@ -36,7 +36,6 @@ parse_env_tif <- function(path
     tidyr::separate(name
                     , into = c("process", "layer", "method", "season", "epoch")
                     , sep = "_"
-                    ) %>%
-    dplyr::mutate(layer = as.numeric(layer))
+                    )
 
 }

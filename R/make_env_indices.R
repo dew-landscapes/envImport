@@ -17,18 +17,15 @@
 #'
 #' @examples
 make_env_indices <- function(process = c("ndvi"
-                                       , "savi"
-                                       , "msavi"
-                                       , "ndmi"
-                                       , "nbr2"
+                                         , "savi"
+                                         , "msavi"
+                                         , "ndmi"
+                                         , "nbr2"
                                        )
-                             , sum_func = c("mean")
+                             , sum_func = "mean"
                              , sum_func_na_rm = TRUE
                              , ...
                              ) {
-
-  sum_func <- tibble::tibble(sum_func_name = sum_func) %>%
-    dplyr::mutate(sum_func = purrr::map(sum_func_name, get))
 
   tibble::tibble(process = process) %>%
     dplyr::mutate(value = purrr::map(process
@@ -37,17 +34,13 @@ make_env_indices <- function(process = c("ndvi"
                                                                         )
                                      , ...
                                      )
+                  , value = purrr::map_dbl(value
+                                           , ~R.utils::doCall(sum_func
+                                                              , .
+                                                              , args = list(na.rm = sum_func_na_rm)
+                                                              )
+                                           )
                   ) %>%
-    dplyr::left_join(sum_func
-                     , by = character()
-                     ) %>%
-    dplyr::mutate(value = purrr::map2_dbl(value
-                                          , sum_func
-                                          , ~.y(.x
-                                               , na.rm = sum_func_na_rm
-                                               )
-                                          )
-                  ) %>%
-    dplyr::select(process, method = sum_func_name, value)
+    dplyr::pull(value)
 
 }
