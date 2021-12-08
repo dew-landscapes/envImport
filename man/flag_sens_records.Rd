@@ -7,24 +7,24 @@
 flag_sens_records(recs_df, nsx_col = NULL, surv_col = NULL)
 }
 \arguments{
-\item{recs_df}{Dataframe of taxa records with \code{taxa_col} and \code{surv_col}.}
+\item{recs_df}{Dataframe of taxa records with \code{nsx_col} and \code{surv_col}.}
 
-\item{nsx_col}{Character. Name of column containing the \href{https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls}{taxa}
-\code{NSXCODE} to check for sensitivity.}
+\item{nsx_col}{Character. Name of column containing BDBSA \code{NSXCODE} to check
+for
+\href{https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls}{sensitivity}.}
 
 \item{surv_nr}{Character. Name of column containing BDBSA
-\href{https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain}{SURVEYNR}
-to check for sensitivity. Must match a column name in both \code{recs_df} and
-\href{https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain}{SURVEYNR}}
+\verb{Survey Number} to check for
+\href{https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain}{sensitivity}.}
 }
 \value{
-Dataframe with extra column(s) \code{sens_surv} and \code{sens_taxa} (logical).
+\code{recs_df} with extra column(s) \code{sens_surv} and \code{sens_taxa} (logical).
 }
 \description{
 This will flag records from both taxa and surveys identified as sensitive by
 the Biological Databases of South Australia
 (\href{https://www.environment.sa.gov.au/topics/Science/Information_data/Biological_databases_of_South_Australia}{BDBSA}).
-Survey matches will only be done by \code{SURVEYNR} (although it can be named
+Survey matches will only be done by \verb{Survey Number} (although it can be named
 something else, as specified in \code{surv_nr}). Likewise, taxa matches will only
 be done by \code{NSXCODE} (which can also be named something else, as specified in
 \code{nsx_col}).

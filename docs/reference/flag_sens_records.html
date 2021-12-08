@@ -43,7 +43,7 @@
 <meta property="og:description" content="This will flag records from both taxa and surveys identified as sensitive by
 the Biological Databases of South Australia
 (BDBSA).
-Survey matches will only be done by SURVEYNR (although it can be named
+Survey matches will only be done by Survey Number (although it can be named
 something else, as specified in surv_nr). Likewise, taxa matches will only
 be done by NSXCODE (which can also be named something else, as specified in
 nsx_col)." />
@@ -123,7 +123,7 @@ nsx_col)." />
     <p>This will flag records from both taxa and surveys identified as sensitive by
 the Biological Databases of South Australia
 (<a href='https://www.environment.sa.gov.au/topics/Science/Information_data/Biological_databases_of_South_Australia'>BDBSA</a>).
-Survey matches will only be done by <code>SURVEYNR</code> (although it can be named
+Survey matches will only be done by <code>Survey Number</code> (although it can be named
 something else, as specified in <code>surv_nr</code>). Likewise, taxa matches will only
 be done by <code>NSXCODE</code> (which can also be named something else, as specified in
 <code>nsx_col</code>).</p>
@@ -136,25 +136,25 @@ be done by <code>NSXCODE</code> (which can also be named something else, as spec
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>recs_df</th>
-      <td><p>Dataframe of taxa records with <code>taxa_col</code> and <code>surv_col</code>.</p></td>
+      <td><p>Dataframe of taxa records with <code>nsx_col</code> and <code>surv_col</code>.</p></td>
     </tr>
     <tr>
       <th>nsx_col</th>
-      <td><p>Character. Name of column containing the <a href='https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls'>taxa</a>
-<code>NSXCODE</code> to check for sensitivity.</p></td>
+      <td><p>Character. Name of column containing BDBSA <code>NSXCODE</code> to check
+for
+<a href='https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls'>sensitivity</a>.</p></td>
     </tr>
     <tr>
       <th>surv_nr</th>
       <td><p>Character. Name of column containing BDBSA
-<a href='https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain'>SURVEYNR</a>
-to check for sensitivity. Must match a column name in both <code>recs_df</code> and
-<a href='https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain'>SURVEYNR</a></p></td>
+<code>Survey Number</code> to check for
+<a href='https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain'>sensitivity</a>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe with extra column(s) <code>sens_surv</code> and <code>sens_taxa</code> (logical).</p>
+    <p><code>recs_df</code> with extra column(s) <code>sens_surv</code> and <code>sens_taxa</code> (logical).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
