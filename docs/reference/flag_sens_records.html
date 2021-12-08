@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • envImport</title>
+<title>Flag sensitive records according to BDBSA — flag_sens_records • envImport</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,14 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Flag sensitive records according to BDBSA — flag_sens_records" />
+<meta property="og:description" content="This will flag records from both taxa and surveys identified as sensitive by
+the Biological Databases of South Australia
+(BDBSA).
+Survey matches will only be done by SURVEYNR (although it can be named
+something else, as specified in surv_nr). Likewise, taxa matches will only
+be done by NSXCODE (which can also be named something else, as specified in
+nsx_col)." />
 
 
 
@@ -58,7 +65,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,96 +112,51 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Flag sensitive records according to BDBSA</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/flag_sens_records.R'><code>R/flag_sens_records.R</code></a></small>
+    <div class="hidden name"><code>flag_sens_records.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This will flag records from both taxa and surveys identified as sensitive by
+the Biological Databases of South Australia
+(<a href='https://www.environment.sa.gov.au/topics/Science/Information_data/Biological_databases_of_South_Australia'>BDBSA</a>).
+Survey matches will only be done by <code>SURVEYNR</code> (although it can be named
+something else, as specified in <code>surv_nr</code>). Likewise, taxa matches will only
+be done by <code>NSXCODE</code> (which can also be named something else, as specified in
+<code>nsx_col</code>).</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>flag_sens_records</span><span class='op'>(</span><span class='va'>recs_df</span>, nsx_col <span class='op'>=</span> <span class='cn'>NULL</span>, surv_col <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="access_query_32.html">access_query_32()</a></code> </p>
-        </td>
-        <td><p>Get data from MS Access</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="days_since_update.html">days_since_update()</a></code> </p>
-        </td>
-        <td><p>How many days since the data source was queried?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="flag_sens_records.html">flag_sens_records()</a></code> </p>
-        </td>
-        <td><p>Flag sensitive records according to BDBSA</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_data.html">get_data()</a></code> </p>
-        </td>
-        <td><p>Get data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_aoi.html">make_aoi()</a></code> </p>
-        </td>
-        <td><p>Create an 'area of interest'</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raster_prep.html">raster_prep()</a></code> </p>
-        </td>
-        <td><p>Collect rasters from raster folder into named list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="remap_data_names.html">remap_data_names()</a></code> </p>
-        </td>
-        <td><p>Use a data map to combine several data sources into one data frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reproject_align_raster.html">reproject_align_raster()</a></code> </p>
-        </td>
-        <td><p>Reprojects/resamples and aligns a raster</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="test_intersection.html">test_intersection()</a></code> </p>
-        </td>
-        <td><p>Test for intersection of two rasters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="unite_data_sources.html">unite_data_sources()</a></code> </p>
-        </td>
-        <td><p>Unify multiple data sources into one data frame</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>recs_df</th>
+      <td><p>Dataframe of taxa records with <code>taxa_col</code> and <code>surv_col</code>.</p></td>
+    </tr>
+    <tr>
+      <th>nsx_col</th>
+      <td><p>Character. Name of column containing the <a href='https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls'>taxa</a>
+<code>NSXCODE</code> to check for sensitivity.</p></td>
+    </tr>
+    <tr>
+      <th>surv_nr</th>
+      <td><p>Character. Name of column containing BDBSA
+<a href='https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain'>SURVEYNR</a>
+to check for sensitivity. Must match a column name in both <code>recs_df</code> and
+<a href='https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain'>SURVEYNR</a></p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Dataframe with extra column(s) <code>sens_surv</code> and <code>sens_taxa</code> (logical).</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

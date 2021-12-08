@@ -3,6 +3,7 @@
 export("%>%")
 export(access_query_32)
 export(days_since_update)
+export(flag_sens_records)
 export(get_data)
 export(make_aoi)
 export(raster_prep)
