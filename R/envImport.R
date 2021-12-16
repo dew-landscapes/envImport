@@ -410,7 +410,7 @@ reproject_align_raster<- function(rast
 
     } else {
 
-      temp <- data.table::fread(ds_file)
+      temp <- rio::import(ds_file)
 
     }
 
