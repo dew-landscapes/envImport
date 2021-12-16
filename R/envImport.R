@@ -302,8 +302,8 @@ reproject_align_raster<- function(rast
 
     res <- df %>%
       dplyr::select(all_of(old_names)) %>%
-      stats::setNames(new_names) %>%
-      tibble::as_tibble()
+      tibble::as_tibble() %>%
+      stats::setNames(new_names)
 
     has_date <- "date" %in% names(res)
 
