@@ -1,5 +1,0 @@
-
-if (!file.exists('data-raw/rs/samples.rds')) {
-  download.file('https://biogeo.ucdavis.edu/data/rspatial/rsdata.zip', dest = 'data-raw/rsdata.zip')
-  unzip('data-raw/rsdata.zip', exdir='data-raw')
-}

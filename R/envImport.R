@@ -395,7 +395,7 @@ reproject_align_raster<- function(rast
 
     .data_map = data_map
 
-    ds_file <- base::file.path("out","ds",paste0(data_name,".feather"))
+    ds_file <- base::file.path("out","ds",paste0(data_name,".csv"))
 
     if(lgl) {
 
@@ -410,7 +410,7 @@ reproject_align_raster<- function(rast
 
     } else {
 
-      temp <- rio::import(ds_file)
+      temp <- data.table::fread(ds_file)
 
     }
 
