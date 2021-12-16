@@ -351,7 +351,7 @@ reproject_align_raster<- function(rast
 #'
   days_since_update <- function(data_name) {
 
-    ds_file <- base::file.path("out","ds",paste0(data_name,".feather"))
+    ds_file <- base::file.path("out","ds",paste0(data_name,".csv"))
 
     if(file.exists(ds_file)) {
 
@@ -372,7 +372,7 @@ reproject_align_raster<- function(rast
 #' Import data, running 'get_dataname' to requery original data source,
 #' if 'lgl'. Optionally times the query, if timeR exists and is specified. Data
 #' is saved to (and imported from)
-#' file.path("out","ds","paste0(dataname,".feather"))
+#' `file.path("out","ds","paste0(data_name,".csv"))`
 #'
 #' @param data_name Character. Name of home data source. e.g. 'BDBSA' or 'GBIF'.
 #' This is used to generate file location.
@@ -380,8 +380,8 @@ reproject_align_raster<- function(rast
 #' @param timer Character. timeR object name, if one exists.
 #' @inheritParams unite_data_sources
 #'
-#' @return Data from out/ds/dataname.feather. If new data is queried,
-#' out/ds/dataname.feather will be created, overwriting if necessary.
+#' @return Data from `out/ds/data_name.csv`. If new data is queried,
+#' `out/ds/data_name.csv` will be created, overwriting if necessary.
 #' @family Help with combining data sources
 #' @export
 #'

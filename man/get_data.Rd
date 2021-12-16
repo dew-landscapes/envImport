@@ -20,14 +20,14 @@ source that should map to the current column name.}
 \item{timer}{Character. timeR object name, if one exists.}
 }
 \value{
-Data from out/ds/dataname.feather. If new data is queried,
-out/ds/dataname.feather will be created, overwriting if necessary.
+Data from \code{out/ds/data_name.csv}. If new data is queried,
+\code{out/ds/data_name.csv} will be created, overwriting if necessary.
 }
 \description{
 Import data, running 'get_dataname' to requery original data source,
 if 'lgl'. Optionally times the query, if timeR exists and is specified. Data
 is saved to (and imported from)
-file.path("out","ds","paste0(dataname,".feather"))
+\verb{file.path("out","ds","paste0(data_name,".csv"))}
 }
 \seealso{
 Other Help with combining data sources: 

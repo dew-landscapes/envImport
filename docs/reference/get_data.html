@@ -43,7 +43,7 @@
 <meta property="og:description" content="Import data, running 'get_dataname' to requery original data source,
 if 'lgl'. Optionally times the query, if timeR exists and is specified. Data
 is saved to (and imported from)
-file.path(&quot;out&quot;,&quot;ds&quot;,&quot;paste0(dataname,&quot;.feather&quot;))" />
+file.path(&quot;out&quot;,&quot;ds&quot;,&quot;paste0(data_name,&quot;.csv&quot;))" />
 
 
 
@@ -120,7 +120,7 @@ file.path(&quot;out&quot;,&quot;ds&quot;,&quot;paste0(dataname,&quot;.feather&qu
     <p>Import data, running 'get_dataname' to requery original data source,
 if 'lgl'. Optionally times the query, if timeR exists and is specified. Data
 is saved to (and imported from)
-file.path("out","ds","paste0(dataname,".feather"))</p>
+<code>file.path("out","ds","paste0(data_name,".csv"))</code></p>
     </div>
 
     <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>data_name</span>, <span class='va'>lgl</span>, <span class='va'>data_map</span>, timer <span class='op'>=</span> <span class='st'>"extractTimer"</span><span class='op'>)</span></pre>
@@ -152,8 +152,8 @@ source that should map to the current column name.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data from out/ds/dataname.feather. If new data is queried,
-out/ds/dataname.feather will be created, overwriting if necessary.</p>
+    <p>Data from <code>out/ds/data_name.csv</code>. If new data is queried,
+<code>out/ds/data_name.csv</code> will be created, overwriting if necessary.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Help with combining data sources: 
