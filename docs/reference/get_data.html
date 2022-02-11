@@ -123,7 +123,7 @@ is saved to (and imported from)
 <code>file.path("out","ds","paste0(data_name,".csv"))</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>data_name</span>, <span class='va'>lgl</span>, <span class='va'>data_map</span>, timer <span class='op'>=</span> <span class='st'>"extractTimer"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>data_name</span>, <span class='va'>lgl</span>, <span class='va'>data_map</span>, timer <span class='op'>=</span> <span class='st'>"extractTimer"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,6 +147,10 @@ source that should map to the current column name.</p></td>
     <tr>
       <th>timer</th>
       <td><p>Character. timeR object name, if one exists.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Passed to <code>get_data()</code>.</p></td>
     </tr>
     </table>
 

@@ -390,6 +390,7 @@ reproject_align_raster<- function(rast
                        , lgl
                        , data_map
                        , timer = "extractTimer"
+                       , ...
                        ) {
 
 
@@ -404,6 +405,7 @@ reproject_align_raster<- function(rast
       temp <- R.utils::doCall(paste0("get_",data_name)
                               , out_file = ds_file
                               , data_map = .data_map
+                              , args = ...
                               )
 
       if(exists(timer)) get(timer)$stop(data_name,comment = paste0(nrow(temp)," records"))

@@ -4,7 +4,7 @@
 \alias{get_data}
 \title{Get data}
 \usage{
-get_data(data_name, lgl, data_map, timer = "extractTimer")
+get_data(data_name, lgl, data_map, timer = "extractTimer", ...)
 }
 \arguments{
 \item{data_name}{Character. Name of home data source. e.g. 'BDBSA' or 'GBIF'.
@@ -18,6 +18,8 @@ against each \code{data_name} contain the name of the column in the original dat
 source that should map to the current column name.}
 
 \item{timer}{Character. timeR object name, if one exists.}
+
+\item{...}{Passed to \code{\link[=get_data]{get_data()}}.}
 }
 \value{
 Data from \code{out/ds/data_name.csv}. If new data is queried,
