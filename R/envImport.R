@@ -13,15 +13,15 @@ test_intersection <- function(a, b){
   ext_a <- terra::ext(a) %>%
     terra::as.polygons()
 
-  crs(ext_a) <- crs(a)
+  terra::crs(ext_a) <- terra::crs(a)
 
   ext_b <- terra::ext(b) %>%
     terra::as.polygons()
 
-  crs(ext_b) <- crs(b)
+  terra::crs(ext_b) <- terra::crs(b)
 
   ext_b <- ext_b %>%
-    terra::project(y = crs(a))
+    terra::project(y = terra::crs(a))
 
   int <- terra::intersect(ext_a, ext_b)
 
