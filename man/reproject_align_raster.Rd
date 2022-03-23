@@ -37,5 +37,7 @@ Modified from a \href{https://github.com/ailich/mytools/blob/1c910f77e4d36e09655
 found on Github by \href{https://github.com/ailich}{Alex}.
 }
 \details{
+Deprecated. Use \code{\link[terra:project]{terra::project()}}.
+
 Reprojects/resamples and aligns a raster by matching a raster a raster to a specified origin, resolution, and coordinate reference system, or that of a reference raster. Useful for preparing adjacent areas before using raster::merge or raster::mosaic. Also, see documentation for mytools::combine_rasters.
 }

@@ -1,40 +1,11 @@
 
-#' Test for intersection of two rasters
-#'
-#' @param a 1st raster
-#' @param b 2nd raster
-#'
-#' @return Logical
-#' @export
-#'
-#' @examples
-test_intersection <- function(a, b){
-
-  ext_a <- terra::ext(a) %>%
-    terra::as.polygons()
-
-  terra::crs(ext_a) <- terra::crs(a)
-
-  ext_b <- terra::ext(b) %>%
-    terra::as.polygons()
-
-  terra::crs(ext_b) <- terra::crs(b)
-
-  ext_b <- ext_b %>%
-    terra::project(y = terra::crs(a))
-
-  int <- terra::intersect(ext_a, ext_b)
-
-  ratio <- terra::expanse(ext_a) / terra::expanse(int)
-
-  if(isTRUE(ratio > 0)) TRUE else FALSE
-
-}
 
 #' Reprojects/resamples and aligns a raster
 #'
 #' Modified from a [function](https://github.com/ailich/mytools/blob/1c910f77e4d36e0965528975b13a02e77dcabe25/R/reproject_align_raster.R)
 #' found on Github by [Alex](https://github.com/ailich).
+#'
+#' Deprecated. Use [terra::project()].
 #'
 #' Reprojects/resamples and aligns a raster by matching a raster a raster to a specified origin, resolution, and coordinate reference system, or that of a reference raster. Useful for preparing adjacent areas before using raster::merge or raster::mosaic. Also, see documentation for mytools::combine_rasters.
 #' @param rast raster to be reprojected or resampled
@@ -168,93 +139,6 @@ reproject_align_raster<- function(rast
 }
 
 
-#' Create an 'area of interest'
-#'
-#' @param polygons sf.
-#' @param filterpolys character. Used to filter filterpolyscol.
-#' @param filterpolyscol character. Which column to filter on.
-#' @param buffer numeric. Create a buffer around the area of interest of
-#' buffer metres.
-#' @param domask logical. If FALSE, just use extent of polyBuffer.
-#' @param usecrs numeric. [EPSG](https://epsg.io/) code giving coordinate
-#' system to use in output sf.
-#'
-#' @return sf.
-#' @export
-#'
-#' @examples
-  make_aoi <- function(polygons
-                       , filterpolys = FALSE
-                       , filterpolyscol = NULL
-                       , buffer
-                       , domask = TRUE
-                       , usecrs = 3577
-                       ) {
-
-    if(!isFALSE(filterpolys)) {
-
-      keepRows <- polygons %>%
-        sf::st_set_geometry(NULL) %>%
-        dplyr::pull(!!ensym(filterpolyscol)) %>%
-        grep(paste0(filterpolys,collapse = "|"),.)
-
-      polygons <- polygons %>%
-        dplyr::slice(keepRows)
-
-      }
-
-    polygons <- if(domask) {
-
-      polygons %>%
-        dplyr::mutate(dissolve = 1) %>%
-        dplyr::summarise(Include = n()) %>%
-        sf::st_cast() %>%
-        sf::st_buffer(buffer)
-
-    } else {
-
-      polygons %>%
-        dplyr::mutate(dissolve = 1) %>%
-        dplyr::summarise(Include = n()) %>%
-        sf::st_cast() %>%
-        sf::st_buffer(buffer) %>%
-        sf::st_bbox() %>%
-        sf::st_as_sfc() %>%
-        sf::st_sf() %>%
-        dplyr::mutate(Include = 1)
-
-    }
-
-    polygons <- polygons %>%
-      sf::st_transform(crs = usecrs)
-
-  }
-
-#' Collect rasters from raster folder into named list
-#'
-#' @param rasterfolder Character. Path to folder containing rasters
-#' @param greptype Character. What type of rasters (e.g. 'tif')
-#' @param pattern Character. Optional. Further pattern to filter resulting list
-#' of rasters.
-#'
-#' @return List. Named list of rasters (name is from file name)
-#' @export
-#'
-#' @examples
-  raster_prep <- function(rasterfolder, greptype = c("tif","grd"), pattern = NULL) {
-
-    rastersall <- tibble::tibble(path = fs::dir_ls(rasterfolder)) %>%
-      dplyr::filter(grepl(paste0(greptype,"$",collapse = "|"),path)) %>%
-      {if(!is.null(pattern)) (.) %>% dplyr::filter(grepl(paste0(pattern,collapse = "|"),path)) else (.)} %>%
-      dplyr::mutate(file = purrr::map_chr(path,fs::path_file)
-                    , name = purrr::map_chr(file,~gsub("\\.tif","",.))
-                    , ras = purrr::map(path,raster::raster)
-                    )
-
-    rastersall$ras %>%
-      stats::setNames(rastersall$name)
-
-  }
 
 
 #' Use a data map to combine several data sources into one data frame
