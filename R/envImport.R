@@ -344,7 +344,7 @@ reproject_align_raster<- function(rast
       })
 
       # start socket server to transfer data to 32 bit session
-      svSocket::startSocketServer(port=sock_port, server.name="access_query_32", local=TRUE)
+      svSocket::startSocketServer(port=sock_port, server_name="access_query_32", local=TRUE)
 
       # build expression to pass to 32 bit R session
       expr <- "library(svSocket)"
