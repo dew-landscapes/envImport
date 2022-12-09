@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Get occurrence records from BDBSA — get_BDBSA" />
-<meta property="og:description" content="Requires an existing dsn &quot;BDBSA Production&quot; (so probably only works on
-Windows)" />
+<meta property="og:description" content="Requires an existing dsn &quot;BDBSA Production&quot; as well as BDBSA logon and
+password." />
 
 
 
@@ -115,18 +115,23 @@ Windows)" />
     </div>
 
     <div class="ref-description">
-    <p>Requires an existing dsn "BDBSA Production" (so probably only works on
-Windows)</p>
+    <p>Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
+password.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_BDBSA</span><span class='op'>(</span><span class='va'>out_file</span>, <span class='va'>data_map</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_BDBSA</span><span class='op'>(</span>
+  <span class='va'>out_file</span>,
+  <span class='va'>data_map</span>,
+  bdbsa_user <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"BDBSA_PRD_user"</span><span class='op'>)</span>,
+  bdbsa_pwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"BDBSA_PRD_pwd"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>out_file</th>
-      <td><p>Character. Full path to save output data.</p></td>
+      <td><p>Character. Path to save output data.</p></td>
     </tr>
     <tr>
       <th>data_map</th>

@@ -1,10 +1,10 @@
 
 #' Get occurrence records from BDBSA
 #'
-#' Requires an existing dsn "BDBSA Production" (so probably only works on
-#' Windows)
+#' Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
+#' password.
 #'
-#' @param out_file Character. Full path to save output data.
+#' @param out_file Character. Path to save output data.
 #' @param data_map Dataframe. Mapping of BDBSA fields to retrieve and their new
 #' names
 #'
@@ -14,6 +14,8 @@
 #' @examples
   get_BDBSA <- function(out_file
                         , data_map
+                        , bdbsa_user = Sys.getenv("BDBSA_PRD_user")
+                        , bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd")
                         ) {
 
     lurelBDBSA <- tribble(
@@ -50,8 +52,8 @@
     con <- dbConnect(odbc::odbc()
                      , "BDBSA Production"
                      , database = "BDBSA Production’"
-                     , uid = Sys.getenv("BDBSA_PRD_user")
-                     , pwd = Sys.getenv("BDBSA_PRD_pwd")
+                     , uid = bdbsa_user
+                     , pwd = bdbsa_pwd
                      )
 
     # Link to each table

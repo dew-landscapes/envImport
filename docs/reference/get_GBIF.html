@@ -155,7 +155,7 @@ argument.</p></td>
     </tr>
     <tr>
       <th>out_file</th>
-      <td><p>Character. Full path to save output data.</p></td>
+      <td><p>Character. Path to save output data.</p></td>
     </tr>
     <tr>
       <th>data_map</th>
@@ -166,11 +166,11 @@ names</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>if(!is.null(out_file)) dataframe, <code>rio::export(results, out_file)</code>,
-and <code>gbif_data_ref.bib</code> (in the same directory as <code>out_file</code>) else dataframe.</p>
+    <p>If <code>out_file</code> is supplied: dataframe, <code>rio::export(results, out_file)</code>,
+and <code>gbif_data_ref.bib</code> (in the same directory as <code>out_file</code>); else dataframe.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Uses various <code>[rgbif](https://docs.ropensci.org/rgbif/index.html)</code> functions
+    <p>Uses various <a href='https://docs.ropensci.org/rgbif/index.html'><code>rgbif</code></a> functions
 to return a dataframe of occurence records. Requires
 <a href='https://docs.ropensci.org/rgbif/articles/gbif_credentials.html'>gbif credentials</a>.
 If<code>out_file</code> is provided will save the dataframe there with the full results

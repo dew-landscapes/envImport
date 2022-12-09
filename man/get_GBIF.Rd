@@ -28,21 +28,21 @@ to WKT using}
 \item{poly_buf}{Numeric. Distance to buffer \code{poly} via \code{sf::st_buffer} \code{dist}
 argument.}
 
-\item{out_file}{Character. Full path to save output data.}
+\item{out_file}{Character. Path to save output data.}
 
 \item{data_map}{Dataframe. Mapping of GBIF fields to retrieve and their new
 names}
 }
 \value{
-if(!is.null(out_file)) dataframe, \code{rio::export(results, out_file)},
-and \code{gbif_data_ref.bib} (in the same directory as \code{out_file}) else dataframe.
+If \code{out_file} is supplied: dataframe, \code{rio::export(results, out_file)},
+and \code{gbif_data_ref.bib} (in the same directory as \code{out_file}); else dataframe.
 }
 \description{
 GBIF is the
 \href{https://www.gbif.org/}{Global Biodiversity Information Facility}.
 }
 \details{
-Uses various \verb{[rgbif](https://docs.ropensci.org/rgbif/index.html)} functions
+Uses various \href{https://docs.ropensci.org/rgbif/index.html}{\code{rgbif}} functions
 to return a dataframe of occurence records. Requires
 \href{https://docs.ropensci.org/rgbif/articles/gbif_credentials.html}{gbif credentials}.
 If\code{out_file} is provided will save the dataframe there with the full results

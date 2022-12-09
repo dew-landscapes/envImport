@@ -4,7 +4,7 @@
 #' GBIF is the
 #' [Global Biodiversity Information Facility](https://www.gbif.org/).
 #'
-#' Uses various `[rgbif](https://docs.ropensci.org/rgbif/index.html)` functions
+#' Uses various [`rgbif`](https://docs.ropensci.org/rgbif/index.html) functions
 #' to return a dataframe of occurence records. Requires
 #' [gbif credentials](https://docs.ropensci.org/rgbif/articles/gbif_credentials.html).
 #' If`out_file` is provided will save the dataframe there with the full results
@@ -22,12 +22,12 @@
 #' to WKT using
 #' @param poly_buf Numeric. Distance to buffer `poly` via `sf::st_buffer` `dist`
 #' argument.
-#' @param out_file Character. Full path to save output data.
+#' @param out_file Character. Path to save output data.
 #' @param data_map Dataframe. Mapping of GBIF fields to retrieve and their new
 #' names
 #'
-#' @return if(!is.null(out_file)) dataframe, `rio::export(results, out_file)`,
-#' and `gbif_data_ref.bib` (in the same directory as `out_file`) else dataframe.
+#' @return If `out_file` is supplied: dataframe, `rio::export(results, out_file)`,
+#' and `gbif_data_ref.bib` (in the same directory as `out_file`); else dataframe.
 #' @export
 #'
 #' @examples

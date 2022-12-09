@@ -7,7 +7,7 @@
 get_TERN(out_file = NULL, data_map = NULL, poly, poly_buf, make_muir = TRUE)
 }
 \arguments{
-\item{out_file}{Character. Full path to save output data.}
+\item{out_file}{Character. Path to save output data.}
 
 \item{data_map}{Dataframe. Mapping of GBIF fields to retrieve and their new
 names}

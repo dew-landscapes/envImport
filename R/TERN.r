@@ -9,7 +9,7 @@
 #' within a visit. Optionally adds
 #' [Muir](https://museum.wa.gov.au/sites/default/files/2.%20Muir_5.pdf) codes.
 #'
-#' @param out_file Character. Full path to save output data.
+#' @param out_file Character. Path to save output data.
 #' @param data_map Dataframe. Mapping of GBIF fields to retrieve and their new
 #' names
 #' @param poly sf. Polygon defining area of interest for retrieving data.

@@ -4,10 +4,15 @@
 \alias{get_BDBSA}
 \title{Get occurrence records from BDBSA}
 \usage{
-get_BDBSA(out_file, data_map)
+get_BDBSA(
+  out_file,
+  data_map,
+  bdbsa_user = Sys.getenv("BDBSA_PRD_user"),
+  bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd")
+)
 }
 \arguments{
-\item{out_file}{Character. Full path to save output data.}
+\item{out_file}{Character. Path to save output data.}
 
 \item{data_map}{Dataframe. Mapping of BDBSA fields to retrieve and their new
 names}
@@ -16,6 +21,6 @@ names}
 Dataframe and \code{rio::export(results, out_file)}
 }
 \description{
-Requires an existing dsn "BDBSA Production" (so probably only works on
-Windows)
+Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
+password.
 }
