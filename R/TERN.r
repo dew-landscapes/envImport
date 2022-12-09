@@ -5,10 +5,12 @@
 #' TERN is the
 #' [Terrestrial Ecosystem Research Network](https://www.tern.org.au/).
 #'
+#'
 #' @details
 #' Built on the `ausplotsR::get_ausplots` function. Summarises taxa cover data
 #' within a visit. Optionally adds
 #' [Muir](https://museum.wa.gov.au/sites/default/files/2.%20Muir_5.pdf) codes.
+#'
 #'
 #' @param out_file Character. Path to save output data.
 #' @param data_map Dataframe. Mapping of GBIF fields to retrieve and their new
@@ -20,7 +22,8 @@
 #' @param make_muir Logical. If true Muir codes a column `MUIRCODE` is added to
 #' the dataframe.
 #'
-#' @return Dataframe.
+#' @return If `out_file` is supplied: dataframe, `rio::export(results, out_file)`,
+#' and `gbif_data_ref.bib` (in the same directory as `out_file`); else dataframe.
 #' @export
 #'
 #' @examples

@@ -22,7 +22,8 @@ argument.}
 the dataframe.}
 }
 \value{
-Dataframe.
+If \code{out_file} is supplied: dataframe, \code{rio::export(results, out_file)},
+and \code{gbif_data_ref.bib} (in the same directory as \code{out_file}); else dataframe.
 }
 \description{
 TERN is the
