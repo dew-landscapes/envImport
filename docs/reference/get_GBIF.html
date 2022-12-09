@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unify multiple data sources into one data frame — unite_data_sources • envImport</title>
+<title>Get occurrence records from GBIF — get_GBIF • envImport</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Unify multiple data sources into one data frame — unite_data_sources" />
-<meta property="og:description" content="Unify multiple data sources into one data frame
-Unite multiple data sources into one data frame" />
+<meta property="og:title" content="Get occurrence records from GBIF — get_GBIF" />
+<meta property="og:description" content="GBIF is the
+Global Biodiversity Information Facility." />
 
 
 
@@ -109,60 +109,82 @@ Unite multiple data sources into one data frame" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unify multiple data sources into one data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/reproject_align_raster.R'><code>R/reproject_align_raster.R</code></a>, <a href='https://github.com/Acanthiza/envImport/blob/master/R/unite_data_sources.R'><code>R/unite_data_sources.R</code></a></small>
-    <div class="hidden name"><code>unite_data_sources.Rd</code></div>
+    <h1>Get occurrence records from GBIF</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/GBIF.r'><code>R/GBIF.r</code></a></small>
+    <div class="hidden name"><code>get_GBIF.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Unify multiple data sources into one data frame</p>
-<p>Unite multiple data sources into one data frame</p>
+    <p>GBIF is the
+<a href='https://www.gbif.org/'>Global Biodiversity Information Facility</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>unite_data_sources</span><span class='op'>(</span>
-  <span class='va'>data_map</span>,
-  override_days <span class='op'>=</span> <span class='cn'>NULL</span>,
-  exclude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data_name"</span>, <span class='st'>"order"</span>, <span class='st'>"days"</span>, <span class='st'>"desc"</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>unite_data_sources</span><span class='op'>(</span>
-  <span class='va'>data_map</span>,
-  override_days <span class='op'>=</span> <span class='cn'>NULL</span>,
-  exclude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data_name"</span>, <span class='st'>"order"</span>, <span class='st'>"days"</span>, <span class='st'>"desc"</span><span class='op'>)</span>,
-  <span class='va'>...</span>
+    <pre class="usage"><span class='fu'>get_GBIF</span><span class='op'>(</span>
+  taxon_key <span class='op'>=</span> <span class='fl'>1</span>,
+  <span class='va'>...</span>,
+  poly <span class='op'>=</span> <span class='cn'>NULL</span>,
+  poly_buf <span class='op'>=</span> <span class='fl'>1e+05</span>,
+  out_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data_map <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data_map</th>
-      <td><p>Dataframe. Needs to contain columns <code>data_name</code> and <code>days</code>.
-Other columns are the column names in the unified data frame. Values
-against each <code>data_name</code> contain the name of the column in the original data
-source that should map to the current column name.</p></td>
-    </tr>
-    <tr>
-      <th>override_days</th>
-      <td><p>Logical over-ride of <code>get_new</code> output.</p></td>
-    </tr>
-    <tr>
-      <th>exclude</th>
-      <td><p>Passed to <code><a href='remap_data_names.html'>envImport::remap_data_names</a></code> argument
-<code>exclude_names</code>.</p></td>
+      <th>taxon_key</th>
+      <td><p>Numeric The primary id number used in GBIF to id a species
+(or some higher group). These are the id numbers found in the GBIF backbone
+taxonomy. See
+<a href='https://discourse.gbif.org/t/understanding-gbif-taxonomic-keys-usagekey-taxonkey-specieskey/3045'>understanding GBIF taxonomic keys</a></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Passed to <code><a href='get_data.html'>envImport::get_data</a></code></p></td>
+      <td><p>Other arguments passed to <code><a href='https://docs.ropensci.org/rgbif/reference/occ_download.html'>rgbif::occ_download</a></code></p></td>
+    </tr>
+    <tr>
+      <th>poly</th>
+      <td><p>sf. Polygon defining area of interest for retrieving data.
+Acutally turned into <code>sf::st_bbox(poly)</code> before any <code>poly_buf</code> and converting
+to WKT using</p></td>
+    </tr>
+    <tr>
+      <th>poly_buf</th>
+      <td><p>Numeric. Distance to buffer <code>poly</code> via <code><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>sf::st_buffer</a></code> <code>dist</code>
+argument.</p></td>
+    </tr>
+    <tr>
+      <th>out_file</th>
+      <td><p>Character. Full path to save output data.</p></td>
+    </tr>
+    <tr>
+      <th>data_map</th>
+      <td><p>Dataframe. Mapping of GBIF fields to retrieve and their new
+names</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>single data frame unifying the data from the input <code>data_name</code>s</p>
-<p>single data frame unifying the data from the input <code>data_name</code>s</p>
+    <p>if(!is.null(out_file)) dataframe, <code>rio::export(results, out_file)</code>,
+and <code>gbif_data_ref.bib</code> (in the same directory as <code>out_file</code>) else dataframe.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>Uses various <code>[rgbif](https://docs.ropensci.org/rgbif/index.html)</code> functions
+to return a dataframe of occurence records. Requires
+<a href='https://docs.ropensci.org/rgbif/articles/gbif_credentials.html'>gbif credentials</a>.
+If<code>out_file</code> is provided will save the dataframe there with the full results
+in <code>fs::path(dirname(out_file), "GBIF")</code>. If a data_map is provided, only
+fields specified in the data_map are returned. Otherwise all fields are
+returned.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># Australian Bustard Ardeotis australis with year == 1901. Returns 7 records</span></span>
+<span class='r-in'><span class='co'># but can take a while to run depending on GBIF waiting times.</span></span>
+<span class='r-in'><span class='fu'>get_GBIF</span><span class='op'>(</span>taxon_key <span class='op'>=</span> <span class='fl'>2474903</span>, <span class='fu'>rgbif</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/rgbif/reference/download_predicate_dsl.html'>pred</a></span><span class='op'>(</span><span class='st'>"year"</span>, <span class='fl'>1901</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

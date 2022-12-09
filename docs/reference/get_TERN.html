@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unify multiple data sources into one data frame — unite_data_sources • envImport</title>
+<title>Get occurrence records from TERN — get_TERN • envImport</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Unify multiple data sources into one data frame — unite_data_sources" />
-<meta property="og:description" content="Unify multiple data sources into one data frame
-Unite multiple data sources into one data frame" />
+<meta property="og:title" content="Get occurrence records from TERN — get_TERN" />
+<meta property="og:description" content="TERN is the
+Terrestrial Ecosystem Research Network." />
 
 
 
@@ -109,59 +109,55 @@ Unite multiple data sources into one data frame" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unify multiple data sources into one data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/reproject_align_raster.R'><code>R/reproject_align_raster.R</code></a>, <a href='https://github.com/Acanthiza/envImport/blob/master/R/unite_data_sources.R'><code>R/unite_data_sources.R</code></a></small>
-    <div class="hidden name"><code>unite_data_sources.Rd</code></div>
+    <h1>Get occurrence records from TERN</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/TERN.r'><code>R/TERN.r</code></a></small>
+    <div class="hidden name"><code>get_TERN.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Unify multiple data sources into one data frame</p>
-<p>Unite multiple data sources into one data frame</p>
+    <p>TERN is the
+<a href='https://www.tern.org.au/'>Terrestrial Ecosystem Research Network</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>unite_data_sources</span><span class='op'>(</span>
-  <span class='va'>data_map</span>,
-  override_days <span class='op'>=</span> <span class='cn'>NULL</span>,
-  exclude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data_name"</span>, <span class='st'>"order"</span>, <span class='st'>"days"</span>, <span class='st'>"desc"</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>unite_data_sources</span><span class='op'>(</span>
-  <span class='va'>data_map</span>,
-  override_days <span class='op'>=</span> <span class='cn'>NULL</span>,
-  exclude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data_name"</span>, <span class='st'>"order"</span>, <span class='st'>"days"</span>, <span class='st'>"desc"</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_TERN</span><span class='op'>(</span>out_file <span class='op'>=</span> <span class='cn'>NULL</span>, data_map <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>poly</span>, <span class='va'>poly_buf</span>, make_muir <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>out_file</th>
+      <td><p>Character. Full path to save output data.</p></td>
+    </tr>
+    <tr>
       <th>data_map</th>
-      <td><p>Dataframe. Needs to contain columns <code>data_name</code> and <code>days</code>.
-Other columns are the column names in the unified data frame. Values
-against each <code>data_name</code> contain the name of the column in the original data
-source that should map to the current column name.</p></td>
+      <td><p>Dataframe. Mapping of GBIF fields to retrieve and their new
+names</p></td>
     </tr>
     <tr>
-      <th>override_days</th>
-      <td><p>Logical over-ride of <code>get_new</code> output.</p></td>
+      <th>poly</th>
+      <td><p>sf. Polygon defining area of interest for retrieving data.
+Acutally turned into <code>sf::st_bbox(poly)</code> before any <code>poly_buf</code>.</p></td>
     </tr>
     <tr>
-      <th>exclude</th>
-      <td><p>Passed to <code><a href='remap_data_names.html'>envImport::remap_data_names</a></code> argument
-<code>exclude_names</code>.</p></td>
+      <th>poly_buf</th>
+      <td><p>Numeric. Distance to buffer <code>poly</code> via <code><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>sf::st_buffer</a></code> <code>dist</code>
+argument.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Passed to <code><a href='get_data.html'>envImport::get_data</a></code></p></td>
+      <th>make_muir</th>
+      <td><p>Logical. If true Muir codes a column <code>MUIRCODE</code> is added to
+the dataframe.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>single data frame unifying the data from the input <code>data_name</code>s</p>
-<p>single data frame unifying the data from the input <code>data_name</code>s</p>
+    <p>Dataframe.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
