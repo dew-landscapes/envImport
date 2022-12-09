@@ -5,6 +5,7 @@
 #' TERN is the
 #' [Terrestrial Ecosystem Research Network](https://www.tern.org.au/).
 #'
+#' @details
 #' Built on the `ausplotsR::get_ausplots` function. Summarises taxa cover data
 #' within a visit. Optionally adds
 #' [Muir](https://museum.wa.gov.au/sites/default/files/2.%20Muir_5.pdf) codes.
