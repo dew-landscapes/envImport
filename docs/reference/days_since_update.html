@@ -40,8 +40,7 @@
 
 
 <meta property="og:title" content="How many days since the data source was queried? — days_since_update" />
-<meta property="og:description" content="If file exits, time since file was created, else Inf.
-If file exits, time since file was created, else NA" />
+<meta property="og:description" content="If file exits, time since file was created, else Inf." />
 
 
 
@@ -110,18 +109,15 @@ If file exits, time since file was created, else NA" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>How many days since the data source was queried?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/days_since_update.R'><code>R/days_since_update.R</code></a>, <a href='https://github.com/Acanthiza/envImport/blob/master/R/reproject_align_raster.R'><code>R/reproject_align_raster.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/days_since_update.R'><code>R/days_since_update.R</code></a></small>
     <div class="hidden name"><code>days_since_update.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>If file exits, time since file was created, else <code>Inf</code>.</p>
-<p>If file exits, time since file was created, else NA</p>
     </div>
 
-    <pre class="usage"><span class='fu'>days_since_update</span><span class='op'>(</span><span class='va'>data_name</span><span class='op'>)</span>
-
-<span class='fu'>days_since_update</span><span class='op'>(</span><span class='va'>data_name</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>days_since_update</span><span class='op'>(</span><span class='va'>data_name</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,21 +132,14 @@ This is used to generate file location.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Numeric. Days since last update.</p>
-<p>Numeric. Days since last update.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Help with combining data sources: 
-<code><a href='get_data.html'>get_data</a>()</code>,
-<code><a href='remap_data_names.html'>remap_data_names</a>()</code></p>
-<p>Other Help with combining data sources: 
 <code><a href='get_data.html'>get_data</a>()</code>,
 <code><a href='remap_data_names.html'>remap_data_names</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='fu'>days_since_update</span><span class='op'>(</span><span class='st'>"BDBSA"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] Inf</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='fu'>days_since_update</span><span class='op'>(</span><span class='st'>"BDBSA"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] Inf</span>
 <span class='r-in'></span>
 </pre>
