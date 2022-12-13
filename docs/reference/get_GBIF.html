@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get occurrence records from GBIF — get_GBIF • envImport</title>
+<title>Get new occurrence record set from GBIF — get_GBIF • envImport</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Get occurrence records from GBIF — get_GBIF" />
+<meta property="og:title" content="Get new occurrence record set from GBIF — get_GBIF" />
 <meta property="og:description" content="GBIF is the
 Global Biodiversity Information Facility." />
 
@@ -109,7 +109,7 @@ Global Biodiversity Information Facility." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get occurrence records from GBIF</h1>
+    <h1>Get new occurrence record set from GBIF</h1>
     <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/GBIF.r'><code>R/GBIF.r</code></a></small>
     <div class="hidden name"><code>get_GBIF.Rd</code></div>
     </div>
@@ -120,12 +120,13 @@ Global Biodiversity Information Facility." />
     </div>
 
     <pre class="usage"><span class='fu'>get_GBIF</span><span class='op'>(</span>
-  taxon_key <span class='op'>=</span> <span class='fl'>1</span>,
+  <span class='va'>taxon_key</span>,
   <span class='va'>...</span>,
   poly <span class='op'>=</span> <span class='cn'>NULL</span>,
   poly_buf <span class='op'>=</span> <span class='fl'>1e+05</span>,
   out_file <span class='op'>=</span> <span class='cn'>NULL</span>,
-  data_map <span class='op'>=</span> <span class='cn'>NULL</span>
+  data_map <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wait_time <span class='op'>=</span> <span class='fl'>10</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -161,6 +162,11 @@ argument.</p></td>
       <th>data_map</th>
       <td><p>Dataframe. Mapping of GBIF fields to retrieve and their new
 names</p></td>
+    </tr>
+    <tr>
+      <th>wait_time</th>
+      <td><p>Time to wait between running <code><a href='https://docs.ropensci.org/rgbif/reference/occ_download_meta.html'>rgbif::occ_download_meta</a></code> to
+check status. Will keep trying while status == "RUNNING".</p></td>
     </tr>
     </table>
 

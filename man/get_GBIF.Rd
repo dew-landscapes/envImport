@@ -2,15 +2,16 @@
 % Please edit documentation in R/GBIF.r
 \name{get_GBIF}
 \alias{get_GBIF}
-\title{Get occurrence records from GBIF}
+\title{Get new occurrence record set from GBIF}
 \usage{
 get_GBIF(
-  taxon_key = 1,
+  taxon_key,
   ...,
   poly = NULL,
   poly_buf = 1e+05,
   out_file = NULL,
-  data_map = NULL
+  data_map = NULL,
+  wait_time = 10
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ argument.}
 
 \item{data_map}{Dataframe. Mapping of GBIF fields to retrieve and their new
 names}
+
+\item{wait_time}{Time to wait between running \code{rgbif::occ_download_meta} to
+check status. Will keep trying while status == "RUNNING".}
 }
 \value{
 If \code{out_file} is supplied: dataframe, \code{rio::export(results, out_file)},
