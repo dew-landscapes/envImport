@@ -150,6 +150,8 @@
                       , created == max(created)
                       )
 
+      meta <- rgbif::occ_download_meta(info$key[[1]])
+
     }
 
     #------bib-------

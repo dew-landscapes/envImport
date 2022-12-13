@@ -8,7 +8,8 @@ get_BDBSA(
   out_file,
   data_map,
   bdbsa_user = Sys.getenv("BDBSA_PRD_user"),
-  bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd")
+  bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd"),
+  flora = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,12 @@ get_BDBSA(
 
 \item{data_map}{Dataframe. Mapping of BDBSA fields to retrieve and their new
 names}
+
+\item{bdbsa_user}{Character}
+
+\item{bdbsa_pwd}{Character}
+
+\item{flora}{Logical. Return flora or fauna records.}
 }
 \value{
 Dataframe and \code{rio::export(results, out_file)}
