@@ -5,18 +5,19 @@
 \title{Get occurrence records from BDBSA}
 \usage{
 get_BDBSA(
-  out_file,
-  data_map,
+  out_file = NULL,
+  data_map = NULL,
   bdbsa_user = Sys.getenv("BDBSA_PRD_user"),
   bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd"),
   flora = TRUE
 )
 }
 \arguments{
-\item{out_file}{Character. Path to save output data.}
+\item{out_file}{Character or NULL. Path to save output data. If NULL, no file
+saved.}
 
-\item{data_map}{Dataframe. Mapping of BDBSA fields to retrieve and their new
-names}
+\item{data_map}{Dataframe or NULL. Mapping of BDBSA fields to retrieve and
+their new names. If NULL, all columns returned.}
 
 \item{bdbsa_user}{Character}
 

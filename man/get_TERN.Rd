@@ -7,10 +7,11 @@
 get_TERN(out_file = NULL, data_map = NULL, poly, poly_buf, make_muir = TRUE)
 }
 \arguments{
-\item{out_file}{Character. Path to save output data.}
+\item{out_file}{Character or NULL. Path to save output data. If NULL, no file
+saved.}
 
-\item{data_map}{Dataframe. Mapping of GBIF fields to retrieve and their new
-names}
+\item{data_map}{Dataframe or NULL. Mapping of TERN fields to retrieve and
+their new names. If NULL, all columns returned.}
 
 \item{poly}{sf. Polygon defining area of interest for retrieving data.
 Acutally turned into \code{sf::st_bbox(poly)} before any \code{poly_buf}.}

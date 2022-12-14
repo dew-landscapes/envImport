@@ -22,9 +22,10 @@
 #' to WKT using
 #' @param poly_buf Numeric. Distance to buffer `poly` via `sf::st_buffer` `dist`
 #' argument.
-#' @param out_file Character. Path to save output data.
-#' @param data_map Dataframe. Mapping of GBIF fields to retrieve and their new
-#' names
+#' @param out_file Character or NULL. Path to save output data. If NULL, no file
+#' saved (but GBIF download always saved at link shown in console).
+#' @param data_map Dataframe or NULL. Mapping of GBIF fields to retrieve and
+#' their new names. If NULL, all columns returned.
 #' @param wait_time Time to wait between running `rgbif::occ_download_meta` to
 #' check status. Will keep trying while status == "RUNNING".
 #'
@@ -182,7 +183,7 @@
                                     )
                  )
 
-    rawGBIF <- data.table::fread(fs::path(save_loc
+    temp <- data.table::fread(fs::path(save_loc
                                           , meta$key[[1]]
                                           , "occurrence.txt"
                                           )
@@ -197,8 +198,8 @@
     # What names to grab before writing results?
     if(is.null(data_map)) {
 
-      data_map <- data.frame(t(c("GBIF", names(rawGBIF)))) %>%
-        stats::setNames(c("data_name", names(rawGBIF)))
+      data_map <- data.frame(t(c("GBIF", names(temp)))) %>%
+        stats::setNames(c("data_name", names(temp)))
 
     }
 
@@ -207,7 +208,7 @@
       unlist(., use.names=FALSE) %>%
       stats::na.omit()
 
-    dat <- rawGBIF %>%
+    temp <- temp %>%
       dplyr::select(tidyselect::any_of(selectNames)) %>%
       dplyr::filter(!is.na(eventDate)
                     , !is.na(decimalLatitude)
@@ -218,13 +219,13 @@
 
     if(!is.null(out_file)) {
 
-      rio::export(dat
+      rio::export(temp
                   , out_file
                   )
 
     }
 
-    return(dat)
+    return(temp)
 
   }
 

@@ -126,12 +126,13 @@ Terrestrial Ecosystem Research Network." />
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>out_file</th>
-      <td><p>Character. Path to save output data.</p></td>
+      <td><p>Character or NULL. Path to save output data. If NULL, no file
+saved.</p></td>
     </tr>
     <tr>
       <th>data_map</th>
-      <td><p>Dataframe. Mapping of GBIF fields to retrieve and their new
-names</p></td>
+      <td><p>Dataframe or NULL. Mapping of TERN fields to retrieve and
+their new names. If NULL, all columns returned.</p></td>
     </tr>
     <tr>
       <th>poly</th>

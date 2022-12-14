@@ -4,9 +4,10 @@
 #' Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
 #' password.
 #'
-#' @param out_file Character. Path to save output data.
-#' @param data_map Dataframe. Mapping of BDBSA fields to retrieve and their new
-#' names
+#' @param out_file Character or NULL. Path to save output data. If NULL, no file
+#' saved.
+#' @param data_map Dataframe or NULL. Mapping of BDBSA fields to retrieve and
+#' their new names. If NULL, all columns returned.
 #' @param bdbsa_user Character
 #' @param bdbsa_pwd Character
 #' @param flora Logical. Return flora or fauna records.
@@ -15,8 +16,8 @@
 #' @export
 #'
 #' @examples
-  get_BDBSA <- function(out_file
-                        , data_map
+  get_BDBSA <- function(out_file = NULL
+                        , data_map = NULL
                         , bdbsa_user = Sys.getenv("BDBSA_PRD_user")
                         , bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd")
                         , flora = TRUE
@@ -82,14 +83,6 @@
       dplyr::select(!tidyselect::any_of(excludeVars))
 
 
-    # What names to grab before collect()?
-
-    selectNames <- data_map %>%
-      dplyr::filter(data_name == "BDBSA") %>%
-      unlist(., use.names=FALSE) %>%
-      stats::na.omit()
-
-
     # Get all records
 
     temp <- sur %>%
@@ -97,19 +90,37 @@
       dplyr::left_join(vis, by = "PATCHID") %>%
       dplyr::left_join(spp, by = "VISITNR") %>%
       dplyr::left_join(luFlor, by = "NSXCODE") %>%
-      dplyr::collect() %>%
-      dplyr::left_join(envImport::lurelBDBSA) %>%
-      dplyr::select(tidyselect::any_of(selectNames)) %>%
-      dplyr::filter(!is.na(SPECIES))
+      dplyr::collect()
+
+
+    # What names to grab before writing results?
+    if(is.null(data_map)) {
+
+      data_map <- data.frame(t(c("BDBSA", names(temp)))) %>%
+        stats::setNames(c("data_name", names(temp)))
+
+    }
+
+    selectNames <- data_map %>%
+      dplyr::filter(data_name == "BDBSA") %>%
+      unlist(., use.names=FALSE) %>%
+      stats::na.omit()
+
+    temp <- temp %>%
+      dplyr::select(tidyselect::any_of(selectNames))
 
     dbDisconnect(con)
 
 
     # Export records
 
-    rio::export(temp
-                , out_file
-                )
+    if(!is.null(out_file)) {
+
+      rio::export(temp
+                  , out_file
+                  )
+
+    }
 
 
     # Return results

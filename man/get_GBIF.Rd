@@ -29,10 +29,11 @@ to WKT using}
 \item{poly_buf}{Numeric. Distance to buffer \code{poly} via \code{sf::st_buffer} \code{dist}
 argument.}
 
-\item{out_file}{Character. Path to save output data.}
+\item{out_file}{Character or NULL. Path to save output data. If NULL, no file
+saved (but GBIF download always saved at link shown in console).}
 
-\item{data_map}{Dataframe. Mapping of GBIF fields to retrieve and their new
-names}
+\item{data_map}{Dataframe or NULL. Mapping of GBIF fields to retrieve and
+their new names. If NULL, all columns returned.}
 
 \item{wait_time}{Time to wait between running \code{rgbif::occ_download_meta} to
 check status. Will keep trying while status == "RUNNING".}

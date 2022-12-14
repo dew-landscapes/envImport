@@ -9,9 +9,10 @@
 #' within a visit. Optionally adds
 #' [Muir](https://museum.wa.gov.au/sites/default/files/2.%20Muir_5.pdf) codes.
 #'
-#' @param out_file Character. Path to save output data.
-#' @param data_map Dataframe. Mapping of GBIF fields to retrieve and their new
-#' names
+#' @param out_file Character or NULL. Path to save output data. If NULL, no file
+#' saved.
+#' @param data_map Dataframe or NULL. Mapping of TERN fields to retrieve and
+#' their new names. If NULL, all columns returned.
 #' @param poly sf. Polygon defining area of interest for retrieving data.
 #' Acutally turned into `sf::st_bbox(poly)` before any `poly_buf`.
 #' @param poly_buf Numeric. Distance to buffer `poly` via `sf::st_buffer` `dist`
@@ -39,6 +40,7 @@
       sf::st_transform(crs = 4326) %>%
       sf::st_bbox()
 
+
     # run query
 
     plots <- ausplotsR::get_ausplots(bounding_box = bb[c("xmin"
@@ -51,43 +53,17 @@
 
     # initial data mung
 
-    temp <- plots$site.info %>%
+    qry <- plots$site.info %>%
       tibble::as_tibble() %>%
       dplyr::inner_join(tibble::as_tibble(plots$veg.PI) %>%
                           dplyr::filter(!is.na(herbarium_determination)) %>%
                           dplyr::add_count(site_unique, name = "points")
                         )
 
-    # What names to grab before writing results?
-
-    if(is.null(data_map)) {
-
-      data_map <- data.frame(t(c("TERN"
-                                 , names(temp)[grepl("site|date|herbarium"
-                                                     , names(temp)
-                                                     )
-                                               ]
-                                 )
-                               )
-                             ) %>%
-        stats::setNames(c("data_name"
-                          , names(temp)[grepl("site|date|herbarium"
-                                              , names(temp)
-                                              )
-                                        ]
-                          )
-                        )
-
-    }
-
-    selectNames <- data_map %>%
-      dplyr::filter(data_name == "TERN") %>%
-      unlist(., use.names = FALSE) %>%
-      stats::na.omit()
-
 
     # pull results together
-    res <- temp %>%
+
+    temp <- qry %>%
       tidyr::nest(data = -c(tidyselect::any_of(na.omit(selectNames))
                             , points
                             , plot_dimensions
@@ -147,7 +123,7 @@
         , "Vine", "V"
       )
 
-      res <- res %>%
+      temp <- temp %>%
         dplyr::left_join(luGF) %>%
         dplyr::mutate( MUIRCODE = LifeForm_Type
                       , MUIRCODE = dplyr::if_else(MUIRCODE == "S"
@@ -203,6 +179,28 @@
                       )
 
     }
+
+    # What names to grab before writing results?
+    if(is.null(data_map)) {
+
+      data_map <- data.frame(t(c("TERN", names(temp)))) %>%
+        stats::setNames(c("data_name", names(temp)))
+
+    }
+
+    selectNames <- data_map %>%
+      dplyr::filter(data_name == "TERN") %>%
+      unlist(., use.names=FALSE) %>%
+      stats::na.omit()
+
+    temp <- temp %>%
+      dplyr::select(tidyselect::any_of(selectNames)) %>%
+      dplyr::filter(!is.na(eventDate)
+                    , !is.na(decimalLatitude)
+                    , !is.na(decimalLongitude)
+                    , !is.na(species)
+                    , species != ""
+                    )
 
     if(!is.null(out_file)) {
 
