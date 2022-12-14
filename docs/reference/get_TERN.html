@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Get occurrence records from TERN — get_TERN" />
 <meta property="og:description" content="TERN is the
-Terrestrial Ecosystem Research Network." />
+Terrestrial Ecosystem Research Network. Built on
+the ausplotsR::get_ausplots function." />
 
 
 
@@ -110,29 +111,26 @@ Terrestrial Ecosystem Research Network." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get occurrence records from TERN</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/TERN.r'><code>R/TERN.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/get_TERN.r'><code>R/get_TERN.r</code></a></small>
     <div class="hidden name"><code>get_TERN.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>TERN is the
-<a href='https://www.tern.org.au/'>Terrestrial Ecosystem Research Network</a>.</p>
+<a href='https://www.tern.org.au/'>Terrestrial Ecosystem Research Network</a>. Built on
+the <code><a href='https://rdrr.io/pkg/ausplotsR/man/get_ausplots.html'>ausplotsR::get_ausplots</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_TERN</span><span class='op'>(</span>out_file <span class='op'>=</span> <span class='cn'>NULL</span>, data_map <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>poly</span>, <span class='va'>poly_buf</span>, make_muir <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_TERN</span><span class='op'>(</span>save_file <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>poly</span>, <span class='va'>poly_buf</span>, get_new <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>out_file</th>
-      <td><p>Character or NULL. Path to save output data. If NULL, no file
-saved.</p></td>
-    </tr>
-    <tr>
-      <th>data_map</th>
-      <td><p>Dataframe or NULL. Mapping of TERN fields to retrieve and
-their new names. If NULL, all columns returned.</p></td>
+      <th>save_file</th>
+      <td><p>Character. File path into which to save outputs. If <code>null</code>
+results will be saved to <code>fs::path("out", "ds", "name", "name_raw.rds")</code>
+where <code>name</code> is the data source name.</p></td>
     </tr>
     <tr>
       <th>poly</th>
@@ -145,21 +143,15 @@ Acutally turned into <code>sf::st_bbox(poly)</code> before any <code>poly_buf</c
 argument.</p></td>
     </tr>
     <tr>
-      <th>make_muir</th>
-      <td><p>Logical. If true Muir codes a column <code>MUIRCODE</code> is added to
-the dataframe.</p></td>
+      <th>get_new</th>
+      <td><p>Logical. If FALSE, will attempt to load from existing
+<code>save_file</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If <code>out_file</code> is supplied: dataframe, <code>rio::export(results, out_file)</code>,
-and <code>gbif_data_ref.bib</code> (in the same directory as <code>out_file</code>); else dataframe.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-
-
+    <p>Object and <code>save_file</code></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
