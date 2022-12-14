@@ -33,10 +33,10 @@
     temp <- obj %>%
       dplyr::select(tidyselect::any_of(select_names))
 
-    if(!is.null(out_file)) {
+    if(!is.null(save_file)) {
 
       rio::export(temp
-                  , out_file
+                  , save_file
                   )
 
     }

@@ -18,7 +18,7 @@
 #' data frame.
 #' @export
 #'
-#' @return dataframe and if out_file is not null, `TERN.rds`.
+#' @return dataframe and if save_file is not null, `TERN.rds`.
   make_TERN <- function(obj
                         , save_file = NULL
                         , data_map = NULL
@@ -175,10 +175,10 @@
     temp <- temp %>%
       dplyr::select(tidyselect::any_of(select_names))
 
-    if(!is.null(out_file)) {
+    if(!is.null(save_file)) {
 
       rio::export(temp
-                  , out_file
+                  , save_file
                   )
 
     }

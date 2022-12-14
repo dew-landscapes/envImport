@@ -30,7 +30,7 @@ mean \code{ht} are returned, along with the percentage of visit \code{point}s, f
 returned.}
 }
 \value{
-dataframe and if out_file is not null, \code{TERN.rds}.
+dataframe and if save_file is not null, \code{TERN.rds}.
 }
 \description{
 
