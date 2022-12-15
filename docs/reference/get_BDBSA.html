@@ -41,6 +41,8 @@
 
 <meta property="og:title" content="Get occurrence records from BDBSA — get_BDBSA" />
 <meta property="og:description" content="Requires an existing dsn &quot;BDBSA Production&quot; as well as BDBSA logon and
+password.
+Requires an existing dsn &quot;BDBSA Production&quot; as well as BDBSA logon and
 password." />
 
 
@@ -110,17 +112,27 @@ password." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get occurrence records from BDBSA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/BDBSA.r'><code>R/BDBSA.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/get_BDBSA.r'><code>R/get_BDBSA.r</code></a>, <a href='https://github.com/Acanthiza/envImport/blob/master/R/make_BDBSA.r'><code>R/make_BDBSA.r</code></a></small>
     <div class="hidden name"><code>get_BDBSA.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
 password.</p>
+<p>Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
+password.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_BDBSA</span><span class='op'>(</span>
-  out_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  save_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data_map <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bdbsa_user <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"BDBSA_PRD_user"</span><span class='op'>)</span>,
+  bdbsa_pwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"BDBSA_PRD_pwd"</span><span class='op'>)</span>,
+  flora <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='fu'>get_BDBSA</span><span class='op'>(</span>
+  save_file <span class='op'>=</span> <span class='cn'>NULL</span>,
   data_map <span class='op'>=</span> <span class='cn'>NULL</span>,
   bdbsa_user <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"BDBSA_PRD_user"</span><span class='op'>)</span>,
   bdbsa_pwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"BDBSA_PRD_pwd"</span><span class='op'>)</span>,
@@ -131,7 +143,7 @@ password.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>out_file</th>
+      <th>save_file</th>
       <td><p>Character or NULL. Path to save output data. If NULL, no file
 saved.</p></td>
     </tr>
@@ -152,11 +164,16 @@ their new names. If NULL, all columns returned.</p></td>
       <th>flora</th>
       <td><p>Logical. Return flora or fauna records.</p></td>
     </tr>
+    <tr>
+      <th>get_new</th>
+      <td><p>Logical. If FALSE, will attempt to load from existing</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe and <code>rio::export(results, out_file)</code></p>
+    <p>Dataframe and <code>rio::export(results, save_file)</code></p>
+<p>Dataframe and <code>rio::export(results, save_file)</code></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

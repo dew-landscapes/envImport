@@ -30,9 +30,9 @@
 
     # initial data mung
 
-    if(summarise_visits) {
+    vis <- if(summarise_visits) {
 
-      vis <- tibble::as_tibble(obj$veg.PI) %>%
+      tibble::as_tibble(obj$veg.PI) %>%
         dplyr::filter(!is.na(herbarium_determination)) %>%
         dplyr::add_count(site_unique, name = "vis_points") %>%
         dplyr::add_count(site_location_visit_id
@@ -66,19 +66,18 @@
                     , quadX = as.numeric(gsub("\\s"
                                               , ""
                                               , stringr::str_extract(plot_dimensions
-                                                                     , "\\d{2,4} "
+                                                                     , "\\d{1,4} "
                                                                      )
                                               )
                                          )
                     , quadY = as.numeric(gsub("\\s"
                                               , ""
                                               , stringr::str_extract(plot_dimensions
-                                                                     , " \\d{2,4}"
+                                                                     , " \\d{1,4}"
                                                                      )
                                               )
                                          )
-                    ) %>%
-      dplyr::select(where(Negate(is.list)))
+                    )
 
     if(make_muir) {
 

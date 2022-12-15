@@ -4,7 +4,7 @@
 #' Requires an existing dsn "BDBSA Production" as well as BDBSA logon and
 #' password.
 #'
-#' @param out_file Character or NULL. Path to save output data. If NULL, no file
+#' @param save_file Character or NULL. Path to save output data. If NULL, no file
 #' saved.
 #' @param data_map Dataframe or NULL. Mapping of BDBSA fields to retrieve and
 #' their new names. If NULL, all columns returned.
@@ -12,11 +12,11 @@
 #' @param bdbsa_pwd Character
 #' @param flora Logical. Return flora or fauna records.
 #'
-#' @return Dataframe and `rio::export(results, out_file)`
+#' @return Dataframe and `rio::export(results, save_file)`
 #' @export
 #'
 #' @examples
-  get_BDBSA <- function(out_file = NULL
+  get_BDBSA <- function(save_file = NULL
                         , data_map = NULL
                         , bdbsa_user = Sys.getenv("BDBSA_PRD_user")
                         , bdbsa_pwd = Sys.getenv("BDBSA_PRD_pwd")
@@ -114,10 +114,10 @@
 
     # Export records
 
-    if(!is.null(out_file)) {
+    if(!is.null(save_file)) {
 
       rio::export(temp
-                  , out_file
+                  , save_file
                   )
 
     }
