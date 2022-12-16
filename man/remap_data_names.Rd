@@ -25,7 +25,9 @@ combined data}
 Tibble with select and renamed columns
 }
 \description{
-Use a data map to combine several data sources into one data frame
+Includes code from the \href{https://stackoverflow.com/}{stack exchange network}
+\href{https://stackoverflow.com/a/48186249}{post}
+by \href{https://stackoverflow.com/users/4777122/dan}{Dan}.
 }
 \seealso{
 Other Help with combining data sources: 

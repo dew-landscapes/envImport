@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • envImport</title>
+<title>Mung raw BDBSA data — make_BDBSA • envImport</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Mung raw BDBSA data — make_BDBSA" />
+<meta property="og:description" content="Mung raw BDBSA data" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,120 +106,47 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Mung raw BDBSA data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envImport/blob/master/R/make_BDBSA.r'><code>R/make_BDBSA.r</code></a></small>
+    <div class="hidden name"><code>make_BDBSA.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Mung raw BDBSA data</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>make_BDBSA</span><span class='op'>(</span><span class='va'>obj</span>, save_file <span class='op'>=</span> <span class='cn'>NULL</span>, data_map <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="access_query_32.html">access_query_32()</a></code> </p>
-        </td>
-        <td><p>Get data from MS Access</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="days_since_update.html">days_since_update()</a></code> </p>
-        </td>
-        <td><p>How many days since the data source was queried?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="flag_sens_records.html">flag_sens_records()</a></code> </p>
-        </td>
-        <td><p>Flag sensitive records according to BDBSA</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_BDBSA.html">get_BDBSA()</a></code> </p>
-        </td>
-        <td><p>Get occurrence records from BDBSA</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_data.html">get_data()</a></code> </p>
-        </td>
-        <td><p>Get data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_GBIF.html">get_GBIF()</a></code> </p>
-        </td>
-        <td><p>Get new occurrence record set from GBIF and save as <code>.rds</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_TERN.html">get_TERN()</a></code> </p>
-        </td>
-        <td><p>Get occurrence records from TERN</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lurelBDBSA.html">lurelBDBSA</a></code> </p>
-        </td>
-        <td><p>Lookup the maximum reliability distance for <code>RELIBANR</code> field</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_BDBSA.html">make_BDBSA()</a></code> </p>
-        </td>
-        <td><p>Mung raw BDBSA data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_GBIF.html">make_GBIF()</a></code> </p>
-        </td>
-        <td><p>Mung raw GBIF data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_TERN.html">make_TERN()</a></code> </p>
-        </td>
-        <td><p>Mung raw TERN data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="remap_data_names.html">remap_data_names()</a></code> </p>
-        </td>
-        <td><p>Use a data map to combine several data sources into one data frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reproject_align_raster.html">reproject_align_raster()</a></code> </p>
-        </td>
-        <td><p>Reprojects/resamples and aligns a raster</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="unite_data_sources.html">unite_data_sources()</a></code> </p>
-        </td>
-        <td><p>Unite multiple data sources into one data frame</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>obj</th>
+      <td><p>Result from <code>get_TERN</code>.</p></td>
+    </tr>
+    <tr>
+      <th>save_file</th>
+      <td><p>Character or NULL. Path to save output data. If NULL, no
+file saved.</p></td>
+    </tr>
+    <tr>
+      <th>data_map</th>
+      <td><p>Dataframe or NULL. Mapping of TERN fields to retrieve. If
+NULL, all columns returned.</p></td>
+    </tr>
+    <tr>
+      <th>flora</th>
+      <td><p>Logical. Return flora or fauna records.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>dataframe and if save_file is not null, <code>save_file</code> is written.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

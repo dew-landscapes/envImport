@@ -1,5 +1,9 @@
 #' Use a data map to combine several data sources into one data frame
 #'
+#' Includes code from the [stack exchange network](https://stackoverflow.com/)
+#' [post](https://stackoverflow.com/a/48186249)
+#' by [Dan](https://stackoverflow.com/users/4777122/dan).
+#'
 #' @param this_name Character. Name of the data source.
 #' @param df Dataframe containing the columns to select and (potentially) rename
 #' @param names_map Dataframe mapping old names to new names
@@ -41,35 +45,58 @@
       janitor::remove_empty("cols") %>%
       names()
 
-    res <- df %>%
-      dplyr::select(all_of(old_names)) %>%
-      tibble::as_tibble() %>%
-      stats::setNames(new_names)
+    # SO code...
+    # https://stackoverflow.com/a/48186249
+    stopifnot(length(old_names) == length(new_names))
 
-    has_date <- "date" %in% names(res)
+    # pull out the names that are actually in df
+    old_nms <- old_names[old_names %in% names(df)]
+    new_nms <- new_names[old_names %in% names(df)]
+
+    # call out the column names that don't exist
+    not_nms <- setdiff(old_names, old_nms)
+
+    if(length(not_nms) > 0) {
+
+      msg <- paste(paste(not_nms
+                         , collapse = ", "
+                         )
+                   , "are not columns in the dataframe, so won't be renamed."
+                   )
+
+      warning(msg)
+
+    }
+
+    # rename
+    names(df)[names(df) %in% old_nms] <- new_nms
+    # end SO code
+
+    # dates
+    has_date <- "date" %in% names(df)
 
     if(has_date) {
 
-      date_done <- lubridate::is.Date(res$date)
+      date_done <- lubridate::is.Date(df$date)
 
       if(!date_done) {
 
-        res$date <- lubridate::as_date(res$date)
+        df$date <- lubridate::as_date(df$date)
 
       }
 
-      res <- res %>%
+      df <- df %>%
         dplyr::filter(!is.na(date))
 
     }
 
-    if("site" %in% names(res)) {
+    if("site" %in% names(df)) {
 
-      res$site = as.character(res$site)
+      df$site = as.character(df$site)
 
     }
 
-    res <- res  %>%
+    df <- df  %>%
       dplyr::filter(!is.na(lat)
                     , !is.na(long)
                     )
