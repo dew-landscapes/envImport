@@ -159,7 +159,10 @@
       # Make a reference for the download
 
       bib_file <- fs::path(save_loc
-                           , "gbif_data_ref.bib"
+                           , paste0("gbif_data_ref_"
+                                    , taxon_key
+                                    , ".bib"
+                                    )
                            )
 
 
@@ -170,7 +173,12 @@
 
 
       ref <- readr::read_lines(bib_file)
-      ref[1] <- paste0("@misc{GBIFRef,")
+
+      ref[1] <- paste0("@misc{GBIFRef_"
+                       , taxon_key
+                       , ","
+                       )
+
       readr::write_lines(ref, bib_file)
 
     } else {

@@ -73,32 +73,71 @@
     # end SO code
 
     # dates
-    has_date <- "date" %in% names(df)
-
-    if(has_date) {
-
-      date_done <- lubridate::is.Date(df$date)
-
-      if(!date_done) {
-
-        df$date <- lubridate::as_date(df$date)
-
-      }
+    if(any(grepl("date", names(df), ignore.case = TRUE))) {
 
       df <- df %>%
-        dplyr::filter(!is.na(date))
+        dplyr::mutate(dplyr::across(tidyselect::matches("date")
+                                    , lubridate::as_date
+                                    )
+                      )
+
+      df <- df %>%
+        dplyr::filter(dplyr::if_any(tidyselect::matches("date")
+                                    , ~!is.na(.x)
+                                    )
+                      ) %>%
+        dplyr::filter(dplyr::if_any(tidyselect::matches("date")
+                                    , ~ .x > "1600-01-01"
+                                    )
+                      )
 
     }
 
-    if("site" %in% names(df)) {
+    if(any(grepl("site", names(df), ignore.case = TRUE))) {
 
-      df$site = as.character(df$site)
+      df <- df %>%
+        dplyr::mutate(dplyr::across(tidyselect::matches("site")
+                                    , as.character
+                                    )
+                      )
 
     }
 
-    df <- df  %>%
-      dplyr::filter(!is.na(lat)
-                    , !is.na(long)
-                    )
+    if(any(grepl("ind", names(df), ignore.case = TRUE))) {
+
+      df <- df %>%
+        dplyr::mutate(dplyr::across(tidyselect::matches("ind")
+                                    , ~dplyr::case_when(grepl("\\*|introduced|Introduced", .x) ~ "N"
+                                                        , grepl("^Y$|native|Native", .x) ~ "Y"
+                                                        , TRUE ~ "U"
+                                                        )
+                                    )
+                      )
+
+    }
+
+    if(any(grepl("lat|long", names(df), ignore.case = TRUE))) {
+
+      df <- df %>%
+        dplyr::mutate(dplyr::across(tidyselect::matches("lat")
+                                    , as.numeric
+                                    )
+                      ) %>%
+        dplyr::mutate(dplyr::across(tidyselect::matches("long")
+                                    , as.numeric
+                                    )
+                      )
+
+      df <- df  %>%
+        dplyr::filter(dplyr::if_any(tidyselect::matches("lat")
+                                    , ~!is.na(.x)
+                                    )
+                      ) %>%
+        dplyr::filter(dplyr::if_any(tidyselect::matches("long")
+                                    , ~!is.na(.x)
+                                    )
+                      )
+
+    }
 
   }
