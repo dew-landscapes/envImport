@@ -36,25 +36,17 @@
                          )
                     )
 
-    old_names <- these_names %>%
-      unlist(., use.names=FALSE) %>%
-      stats::na.omit() %>%
-      unname()
-
-    new_names <- these_names %>%
-      janitor::remove_empty("cols") %>%
-      names()
-
-    # SO code...
-    # https://stackoverflow.com/a/48186249
-    stopifnot(length(old_names) == length(new_names))
-
-    # pull out the names that are actually in df
-    old_nms <- old_names[old_names %in% names(df)]
-    new_nms <- new_names[old_names %in% names(df)]
+    new_old_names <- tibble::tibble(old = these_names %>%
+                                  unlist(., use.names=FALSE) %>%
+                                  stats::na.omit() %>%
+                                  unname()
+                                , new = these_names %>%
+                                  janitor::remove_empty("cols") %>%
+                                  names()
+                                )
 
     # call out the column names that don't exist
-    not_nms <- setdiff(old_names, old_nms)
+    not_nms <- setdiff(new_old_names$old, names(df))
 
     if(length(not_nms) > 0) {
 
@@ -69,19 +61,34 @@
     }
 
     # rename
-    names(df)[names(df) %in% old_nms] <- new_nms
-    # end SO code
+    rdf <- df %>%
+      dplyr::select(tidyselect::any_of(new_old_names$old)) %>%
+      stats::setNames(new_old_names$new[match(new_old_names$old, names(.))])
 
     # dates
-    if(any(grepl("date", names(df), ignore.case = TRUE))) {
+    if(any(grepl("date", names(rdf), ignore.case = TRUE))) {
 
-      df <- df %>%
+      rdf <- rdf %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("date")
-                                    , lubridate::as_date
+                                    , ~if(is.character(.x)) {lubridate::parse_date_time(.x
+                                                                                        , orders = c("dmy"
+                                                                                                     , "dmy HMS"
+                                                                                                     , "dmy HM"
+                                                                                                     )
+                                                                                        )
+
+                                    } else {
+
+                                      .x
+
+                                      }
                                     )
+                      , dplyr::across(tidyselect::matches("date")
+                                      , lubridate::as_date
+                                      )
                       )
 
-      df <- df %>%
+      rdf <- rdf %>%
         dplyr::filter(dplyr::if_any(tidyselect::matches("date")
                                     , ~!is.na(.x)
                                     )
@@ -93,9 +100,9 @@
 
     }
 
-    if(any(grepl("site", names(df), ignore.case = TRUE))) {
+    if(any(grepl("site", names(rdf), ignore.case = TRUE))) {
 
-      df <- df %>%
+      rdf <- rdf %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("site")
                                     , as.character
                                     )
@@ -103,9 +110,9 @@
 
     }
 
-    if(any(grepl("ind", names(df), ignore.case = TRUE))) {
+    if(any(grepl("ind", names(rdf), ignore.case = TRUE))) {
 
-      df <- df %>%
+      rdf <- rdf %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("ind")
                                     , ~dplyr::case_when(grepl("\\*|introduced|Introduced", .x) ~ "N"
                                                         , grepl("^Y$|native|Native", .x) ~ "Y"
@@ -116,9 +123,9 @@
 
     }
 
-    if(any(grepl("lat|long", names(df), ignore.case = TRUE))) {
+    if(any(grepl("lat|long", names(rdf), ignore.case = TRUE))) {
 
-      df <- df %>%
+      rdf <- rdf %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("lat")
                                     , as.numeric
                                     )
@@ -128,7 +135,7 @@
                                     )
                       )
 
-      df <- df  %>%
+      rdf <- rdf  %>%
         dplyr::filter(dplyr::if_any(tidyselect::matches("lat")
                                     , ~!is.na(.x)
                                     )
@@ -139,5 +146,7 @@
                       )
 
     }
+
+    return(rdf)
 
   }
