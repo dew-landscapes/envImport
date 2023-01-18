@@ -19,7 +19,7 @@
     desc = c("Arid lands information systems"
              , "Bushland condition monitoring"
              , "Biological databases of South Australia"
-             , "Flora 'Supertable' from the environmental databases of South Australia"
+             , "'Supertable' from the environmental databases of South Australia"
              , "DEW Native Vegetation Branch"
              , "Paddock tree project"
              , "Terrestrial ecosystem network"
