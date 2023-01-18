@@ -113,7 +113,8 @@
         dplyr::left_join(vis, by = "PATCHID") %>%
         dplyr::left_join(spp, by = "VISITNR") %>%
         dplyr::left_join(luFlor, by = "NSXCODE") %>%
-        dplyr::collect()
+        dplyr::collect() %>%
+        dplyr::left_join(lurelBDBSA)
 
 
       dbDisconnect(con)

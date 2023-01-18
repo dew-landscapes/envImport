@@ -1,5 +1,5 @@
 lurelBDBSA <- tibble::tribble(
-  ~RELIABNR, ~max_dist,
+  ~RELIABNR, ~rel_metres,
   0, 5,
   1, 50,
   2, 100,
