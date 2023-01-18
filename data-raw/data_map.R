@@ -27,5 +27,9 @@
              , "BirdLife Australia"
              )
     ) %>%
-    dplyr::mutate(data_name = forcats::fct_reorder(data_name, order)) %>%
+    dplyr::mutate(data_name = forcats::fct_reorder(data_name, order)
+                  , rel_metres = dplyr::case_when(rel_nr == "RELIABNR" ~ "rel_metres"
+                                                  , TRUE ~ rel_metres
+                                                  )
+                  ) %>%
     dplyr::arrange(order)
