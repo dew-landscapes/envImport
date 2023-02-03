@@ -47,7 +47,7 @@
       fs::dir_create(dirname(save_file))
 
       # connect to BDBSA
-      con <- dbConnect(odbc::odbc()
+      con <- DBI::dbConnect(odbc::odbc()
                        , "BDBSA Production"
                        , database = "BDBSA Production’"
                        , uid = bdbsa_user
@@ -62,19 +62,27 @@
                        )
 
       # Survey
-      sur <- dplyr::tbl(con,"LUSURVEYNAME") %>%
+      sur <- dplyr::tbl(con
+                        , "LUSURVEYNAME"
+                        ) %>%
         dplyr::select(!tidyselect::any_of(excludeVars))
 
       # Patch
-      pat <- dplyr::tbl(con,"SUPATCH") %>%
+      pat <- dplyr::tbl(con
+                        , "SUPATCH"
+                        ) %>%
         dplyr::select(!tidyselect::any_of(excludeVars))
 
       # Visit
-      vis <- dplyr::tbl(con,"SUVISIT") %>%
+      vis <- dplyr::tbl(con
+                        , "SUVISIT"
+                        ) %>%
         dplyr::select(!tidyselect::any_of(excludeVars))
 
       # Species
-      spp <- dplyr::tbl(con,"SUSPECIES") %>%
+      spp <- dplyr::tbl(con
+                        , "SUSPECIES"
+                        ) %>%
         dplyr::filter(if(flora) SPECIESTYPE == "P" else SPECIESTYPE != "P"
                       , DATEACCURACY != "C"
                       , DATEACCURACY != "T"
@@ -92,8 +100,12 @@
       nonsynnotren <- if(flora) "FLVNONSYNNOTREN" else "VSVNONSYNNOTREN"
 
 
-      luFlor <- dplyr::tbl(con, nonsynnotren) %>%
-        dplyr::left_join(dplyr::tbl(con,"FLSP") %>%
+      luFlor <- dplyr::tbl(con
+                           , nonsynnotren
+                           ) %>%
+        dplyr::left_join(dplyr::tbl(con
+                                    , "FLSP"
+                                    ) %>%
                            dplyr::select(SPECIESNR
                                          , NSXCODE
                                          , LIFESPAN
@@ -109,15 +121,23 @@
       # Get all records
 
       temp <- sur %>%
-        dplyr::left_join(pat, by = "SURVEYNR") %>%
-        dplyr::left_join(vis, by = "PATCHID") %>%
-        dplyr::left_join(spp, by = "VISITNR") %>%
-        dplyr::left_join(luFlor, by = "NSXCODE") %>%
+        dplyr::left_join(pat
+                         , by = "SURVEYNR"
+                         ) %>%
+        dplyr::left_join(vis
+                         , by = "PATCHID"
+                         ) %>%
+        dplyr::left_join(spp
+                         , by = "VISITNR"
+                         ) %>%
+        dplyr::left_join(luFlor
+                         , by = "NSXCODE"
+                         ) %>%
         dplyr::collect() %>%
         dplyr::left_join(lurelBDBSA)
 
 
-      dbDisconnect(con)
+      DBI::dbDisconnect(con)
 
 
       # Export records
