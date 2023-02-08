@@ -5,7 +5,7 @@
 \alias{data_map}
 \title{Lookup for mapping fields from original data sources to common column names}
 \format{
-A data frame with 9 rows and 17
+A data frame with 9 rows and 22
 variables where column names provide the new name for columns in the original
 data sources:
 \describe{
@@ -21,11 +21,18 @@ and \code{make_}}
 \item{long}{Longitude}
 \item{original_name}{Name of column with taxa information}
 \item{nsx}{Name of column with taxa codes}
+\item{number}{Number observed}
 \item{surveynr}{Name of column with survey number (or code)}
 \item{survey}{Name of survey}
 \item{ind}{Flag for non-indigenous taxa}
 \item{rel_nr}{RELIABNR in \code{envClean::lurelBDBSA}}
 \item{rel_metres}{Spatial reliability in metres}
+\item{sens}{Sensitivity flag for EGIS data}
+\item{lifespan}{Muircode}
+\item{cover}{Cover value as proportion}
+\item{cover_code}{Cover value as modified Braun-Blanquet code}
+\item{quad_x}{Length of quadrat size in x direction}
+\item{quad_y}{Lenght of quadrat size in y direction}
 \item{desc}{Sentence description of \code{data_name}}
 ...
 }

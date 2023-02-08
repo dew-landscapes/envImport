@@ -1,4 +1,6 @@
 
+  library(magrittr)
+
   data_map <- tibble::tibble(
     data_name = c("ALIS", "BCM", "BDBSA", "EGIS", "NVB", "PTP", "TERN", "GBIF", "BA"),
     order = c(4L, 5L, 1L, 2L, 7L, 6L, 3L, 8L, 9L),
@@ -16,6 +18,11 @@
     rel_nr = c(NA, NA, "RELIABNR", "RELIABNR", NA, NA, NA, NA, "RELIABNR"),
     rel_metres = c(NA, NA, NA, NA, NA, NA, NA, "coordinateUncertaintyInMeters", NA),
     sens = c(NA, NA, NA, "DISTRIBNDESC", NA, NA, NA, NA, NA),
+    lifespan = c("Lifeform", NA, "MUIRCODE", NA, NA, "Life_form", "MUIRCODE", NA, NA),
+    cover = c("Cover", NA, "COVER", NA, NA, NA, "COVER", "organismQuantity", NA),
+    cover_code = c(NA, NA, "COVCODE", NA, NA, "COVCODE", NA, NA, NA),
+    quad_x = c(NA, "X_DIM", "VEGQUADSIZE1", NA, NA, NA, "quadX", NA, NA),
+    quad_y = c(NA, "Y_DIM", "VEGQUADSIZE2", NA, NA, NA, "quadY", NA, NA),
     desc = c("Arid lands information systems"
              , "Bushland condition monitoring"
              , "Biological databases of South Australia"
