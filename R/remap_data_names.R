@@ -63,7 +63,7 @@
     # rename
     rdf <- df %>%
       dplyr::select(tidyselect::any_of(new_old_names$old)) %>%
-      stats::setNames(new_old_names$new[match(new_old_names$old, names(.))])
+      stats::setNames(new_old_names$new[match(names(.), new_old_names$old)])
 
     # dates
     if(any(grepl("date", names(rdf), ignore.case = TRUE))) {
