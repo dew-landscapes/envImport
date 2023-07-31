@@ -6,11 +6,11 @@
 \usage{
 get_GBIF(
   taxon_key,
+  aoi = NULL,
+  aoi_buf = NULL,
+  min_year = NULL,
   ...,
-  poly = NULL,
-  poly_buf = 1e+05,
   save_file = NULL,
-  wait_time = 10,
   get_new = FALSE
 )
 }
@@ -20,21 +20,17 @@ get_GBIF(
 taxonomy. See
 \href{https://discourse.gbif.org/t/understanding-gbif-taxonomic-keys-usagekey-taxonkey-specieskey/3045}{understanding GBIF taxonomic keys}}
 
-\item{...}{Other arguments passed to \code{rgbif::occ_download}}
+\item{aoi}{sf defining area of interest}
 
-\item{poly}{sf. Polygon defining area of interest for retrieving data.
-Acutally turned into \code{sf::st_bbox(poly)} before any \code{poly_buf} and converting
-to WKT using}
-
-\item{poly_buf}{Numeric. Distance to buffer \code{poly} via \code{sf::st_buffer} \code{dist}
+\item{aoi_buf}{Numeric. Distance to buffer \code{aoi} via \code{sf::st_buffer} \code{dist}
 argument.}
 
-\item{save_file}{Character. File path into which to save outputs. If \code{null}
-results will be saved to \code{fs::path("out", "ds", "name", "name_raw.rds")}
-where \code{name} is the data source name.}
+\item{min_year}{Numeric. gbif data will be filtered to >= min_year}
 
-\item{wait_time}{Time to wait between running \code{rgbif::occ_download_meta} to
-check status. Will keep trying while status == "RUNNING".}
+\item{...}{Other arguments passed to \code{rgbif::occ_download}}
+
+\item{save_file}{Character. File path into which to save outputs. If \code{null}
+results will be saved to \verb{fs::path("out", "ds", "gbif", paste0(t"gbif_raw.rds")}.}
 
 \item{get_new}{Logical. If \code{FALSE} will attempt to load data from previously
 saved results.}

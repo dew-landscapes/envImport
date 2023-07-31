@@ -33,5 +33,6 @@ returned.}
 dataframe and if save_file is not null, \code{TERN.rds}.
 }
 \description{
-
+Summarises within a visit. Optionally adds
+\href{https://museum.wa.gov.au/sites/default/files/2.\%20Muir_5.pdf}{Muir} codes.
 }
