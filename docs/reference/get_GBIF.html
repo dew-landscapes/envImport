@@ -55,7 +55,6 @@ Global Biodiversity Information Facility."><!-- mathjax --><script src="https://
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_GBIF</span><span class="op">(</span></span>
 <span>  <span class="va">taxon_key</span>,</span>
 <span>  aoi <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  aoi_buf <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  min_year <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  save_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -74,12 +73,7 @@ taxonomy. See
 
 
 <dt>aoi</dt>
-<dd><p>sf defining area of interest</p></dd>
-
-
-<dt>aoi_buf</dt>
-<dd><p>Numeric. Distance to buffer <code>aoi</code> via <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">sf::st_buffer</a></code> <code>dist</code>
-argument.</p></dd>
+<dd><p>sf defining area of interest. Will be converted to bounding box.</p></dd>
 
 
 <dt>min_year</dt>

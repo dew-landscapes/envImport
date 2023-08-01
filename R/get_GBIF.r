@@ -13,9 +13,7 @@
 #' (or some higher group). These are the id numbers found in the GBIF backbone
 #' taxonomy. See
 #' [understanding GBIF taxonomic keys](https://discourse.gbif.org/t/understanding-gbif-taxonomic-keys-usagekey-taxonkey-specieskey/3045)
-#' @param aoi sf defining area of interest
-#' @param aoi_buf Numeric. Distance to buffer `aoi` via `sf::st_buffer` `dist`
-#' argument.
+#' @param aoi sf defining area of interest. Will be converted to bounding box.
 #' @param min_year Numeric. gbif data will be filtered to >= min_year
 #' @param ... Other arguments passed to `rgbif::occ_download`
 #' @param save_file Character. File path into which to save outputs. If `null`
@@ -40,7 +38,6 @@
 #'}
   get_GBIF <- function(taxon_key
                        , aoi = NULL
-                       , aoi_buf = NULL
                        , min_year = NULL
                        , ...
                        , save_file = NULL
@@ -83,7 +80,6 @@
       if(!is.null(aoi)) {
 
         aoiWKT <- aoi %>%
-          sf::st_buffer(aoi_buf) %>%
           sf::st_bbox() %>%
           sf::st_as_sfc() %>%
           sf::st_geometry() %>%

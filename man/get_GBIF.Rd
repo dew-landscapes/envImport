@@ -7,7 +7,6 @@
 get_GBIF(
   taxon_key,
   aoi = NULL,
-  aoi_buf = NULL,
   min_year = NULL,
   ...,
   save_file = NULL,
@@ -21,10 +20,7 @@ get_GBIF(
 taxonomy. See
 \href{https://discourse.gbif.org/t/understanding-gbif-taxonomic-keys-usagekey-taxonkey-specieskey/3045}{understanding GBIF taxonomic keys}}
 
-\item{aoi}{sf defining area of interest}
-
-\item{aoi_buf}{Numeric. Distance to buffer \code{aoi} via \code{sf::st_buffer} \code{dist}
-argument.}
+\item{aoi}{sf defining area of interest. Will be converted to bounding box.}
 
 \item{min_year}{Numeric. gbif data will be filtered to >= min_year}
 
