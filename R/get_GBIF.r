@@ -22,6 +22,11 @@
 #' results will be saved to `fs::path("out", "ds", "gbif", paste0(t"gbif_raw.rds")`.
 #' @param get_new Logical. If `FALSE` will attempt to load data from previously
 #' saved results.
+#' @param request_wait Integer. Time in seconds to wait between
+#' `rgbif::occ_download_meta()` requests. Used by `rgbif::occ_download_wait()`
+#' `status_ping` argument.
+#' @param return_results Logical. If true, results will be returned as a tibble
+#' (as well as written to file). If false, results are only written to file.
 #'
 #' @return Dataframe, `save_file` with occurence records, `gbif_data_ref.bib`
 #' (in the same directory as `save_file`) and full GBIF download.
@@ -40,7 +45,11 @@
                        , ...
                        , save_file = NULL
                        , get_new = FALSE
+                       , request_wait = 20
                        ) {
+
+    # Increase the time allowed to access URLs
+    RCurl::curlSetOpt(timeout = 100000)
 
     aoi_name <- deparse(substitute(aoi))
 
@@ -105,6 +114,7 @@
                             , min_year
                             )
           , rgbif::pred_within(aoiWKT)
+          , ...
           )
 
       } else {
@@ -132,11 +142,14 @@
           , rgbif::pred_gte("year"
                             , min_year
                             )
+          , ...
           )
 
       }
 
-      rgbif::occ_download_wait(gbif_download)
+      rgbif::occ_download_wait(gbif_download
+                               , status_ping = request_wait
+                               )
 
       meta <- rgbif::occ_download_meta(gbif_download)
 

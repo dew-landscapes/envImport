@@ -59,7 +59,8 @@ Global Biodiversity Information Facility."><!-- mathjax --><script src="https://
 <span>  min_year <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  save_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  get_new <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  get_new <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  request_wait <span class="op">=</span> <span class="fl">20</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -97,6 +98,17 @@ results will be saved to <code>fs::path("out", "ds", "gbif", paste0(t"gbif_raw.r
 <dt>get_new</dt>
 <dd><p>Logical. If <code>FALSE</code> will attempt to load data from previously
 saved results.</p></dd>
+
+
+<dt>request_wait</dt>
+<dd><p>Integer. Time in seconds to wait between
+<code><a href="https://docs.ropensci.org/rgbif/reference/occ_download_meta.html" class="external-link">rgbif::occ_download_meta()</a></code> requests. Used by <code><a href="https://docs.ropensci.org/rgbif/reference/occ_download_wait.html" class="external-link">rgbif::occ_download_wait()</a></code>
+<code>status_ping</code> argument.</p></dd>
+
+
+<dt>return_results</dt>
+<dd><p>Logical. If true, results will be returned as a tibble
+(as well as written to file). If false, results are only written to file.</p></dd>
 
 </dl></div>
     <div id="value">

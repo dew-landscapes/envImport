@@ -11,7 +11,8 @@ get_GBIF(
   min_year = NULL,
   ...,
   save_file = NULL,
-  get_new = FALSE
+  get_new = FALSE,
+  request_wait = 20
 )
 }
 \arguments{
@@ -34,6 +35,13 @@ results will be saved to \verb{fs::path("out", "ds", "gbif", paste0(t"gbif_raw.r
 
 \item{get_new}{Logical. If \code{FALSE} will attempt to load data from previously
 saved results.}
+
+\item{request_wait}{Integer. Time in seconds to wait between
+\code{rgbif::occ_download_meta()} requests. Used by \code{rgbif::occ_download_wait()}
+\code{status_ping} argument.}
+
+\item{return_results}{Logical. If true, results will be returned as a tibble
+(as well as written to file). If false, results are only written to file.}
 }
 \value{
 Dataframe, \code{save_file} with occurence records, \code{gbif_data_ref.bib}
