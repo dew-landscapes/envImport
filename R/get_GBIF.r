@@ -60,9 +60,6 @@
                                      , if(!is.null(aoi)) paste0("_"
                                                                 , aoi_name
                                                                 )
-                                     , if(!is.null(aoi_buf)) paste0("_"
-                                                                    , aoi_buf
-                                                                    )
                                      , "_raw.rds"
                                      )
                             )
