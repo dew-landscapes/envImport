@@ -9,21 +9,20 @@
 #' @param save_file Character. File path into which to save outputs. If `null`
 #' results will be saved to `fs::path("out", "ds", "name", "name_raw.rds")`
 #' where `name` is the data source name.
-#' @param poly sf. Polygon defining area of interest for retrieving data.
-#' Acutally turned into `sf::st_bbox(poly)` before any `poly_buf`.
-#' @param poly_buf Numeric. Distance to buffer `poly` via `sf::st_buffer` `dist`
-#' argument.
+#' @param aoi sf. Polygon defining area of interest for retrieving data.
+#' Used as `sf::st_bbox(aoi)`.
 #' @param get_new Logical. If FALSE, will attempt to load from existing
 #' `save_file`.
+#' @param ... Passed to `ausplotsR::get_ausplots()`.
 #'
 #' @return Object and `save_file`
 #' @export
 #'
 #' @examples
   get_TERN <- function(save_file = NULL
-                       , poly
-                       , poly_buf
+                       , aoi
                        , get_new = FALSE
+                       , ...
                        ) {
 
     name <- "TERN"
@@ -48,8 +47,7 @@
       fs::dir_create(dirname(save_file))
 
       # Define area to query
-      bb <- poly %>%
-        sf::st_buffer(poly_buf) %>%
+      bb <- aoi %>%
         sf::st_transform(crs = 4326) %>%
         sf::st_bbox()
 
@@ -59,6 +57,7 @@
                                                            , "ymax"
                                                            )
                                                          ]
+                                      , ...
                                        )
 
       rio::export(temp
