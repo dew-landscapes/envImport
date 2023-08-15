@@ -32,11 +32,29 @@ knitr::opts_chunk$set(
 
 ```
 
-```{r get}
+```{r gbif}
 
-  get_GBIF(212 # birds
-           , aoi = aoi_buffer
-           , min_year = 2000
-           )
+  gbif_raw <- get_GBIF(212 # birds
+                       , aoi = aoi_buffer
+                       , min_year = 2000
+                       )
 
+  gbif <- make_GBIF(gbif_raw
+                    , data_map = envImport::data_map
+                    )
 
+```
+
+```{r tern}
+
+  tern_raw <- get_TERN(aoi = aoi_buffer
+                       , get_new = TRUE # while testing
+                       , veg.PI = TRUE
+                       )
+
+  tern <- make_TERN(tern_raw
+                    , data_map = envImport::data_map
+                    , 
+                    )
+
+```

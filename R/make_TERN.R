@@ -2,23 +2,17 @@
 
 #' Mung raw TERN data
 #'
-#' Summarises within a visit. Optionally adds
-#' [Muir](https://museum.wa.gov.au/sites/default/files/2.%20Muir_5.pdf) codes.
+#' Now uses `ausplotsR::species_table()` to mung the raw TERN data.
 #'
 #' @param obj Result from `get_TERN`.
 #' @param save_file Character or NULL. Path to save output data. If NULL, no
 #' file saved.
 #' @param data_map Dataframe or NULL. Mapping of TERN fields to retrieve. If
 #' NULL, all columns returned.
-#' @param summarise_visits Logical. If true, the most frequent `growth_form` and
-#' mean `ht` are returned, along with the percentage of visit `point`s, for each
-#' `herbarium_determination` and visit. Otherwise all site `point`s are
-#' returned.
-#' @param make_muir Logical. If true muir codes are appended to the returned
-#' data frame.
+#'
 #' @export
 #'
-#' @return dataframe and if save_file is not null, `TERN.rds`.
+#' @return dataframe and if save_file is not null, `tern.rds`.
   make_TERN <- function(obj
                         , save_file = NULL
                         , data_map = NULL
@@ -26,35 +20,15 @@
                         , summarise_visits = FALSE
                         ) {
 
-    name <- "TERN"
+    name <- "tern"
 
     # initial data mung
 
-    vis <- if(summarise_visits) {
+    qry <- ausplotsR::species_table(obj$veg.PI
+                                    , ...
+                                    )
 
-      tibble::as_tibble(obj$veg.PI) %>%
-        dplyr::filter(!is.na(herbarium_determination)) %>%
-        dplyr::add_count(site_unique, name = "vis_points") %>%
-        dplyr::add_count(site_location_visit_id
-                         , herbarium_determination
-                         , name = "points"
-                         ) %>%
-        dplyr::group_by(dplyr::across(tidyselect::matches("site"))
-                        , dplyr::across(tidyselect::matches("visit"))
-                        , herbarium_determination
-                        ) %>%
-        dplyr::summarise(growth_form = names(which.max(table(growth_form)))
-                         , ht = mean(height, na.rm = TRUE)
-                         , COVER = 100 * points / vis_points
-                         ) %>%
-        dplyr::ungroup() %>%
-        dplyr::distinct()
 
-    } else obj$veg.PI
-
-    qry <- obj$site.info %>%
-      tibble::as_tibble() %>%
-      dplyr::inner_join(vis)
 
 
     # pull results together

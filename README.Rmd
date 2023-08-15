@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of envImport is to obtain, and assemble, environmental data from disparate data sources, for a geographic area of interest. As little filtering as possible occurs when obtaining data and envImport does _not_ aim to clean, filter or tidy the data (see [envClean](https://acanthiza.github.io/envClean/) for help there).
+The goal of envImport is to obtain, and assemble, environmental data from disparate data sources, for a geographic area of interest. As little filtering as possible occurs when obtaining data and envImport does _not_ aim to clean, filter or tidy the data (see [envClean](https://acanthiza.github.io/envClean/) for help there). Usually the end result of an envImport workflow is a single object that contains all records from all the data sources. Sourcing and assembling environmental rasters for the area of interest is also in scope, but poorly implemented / documented currently.
 
 ## Installation
 
