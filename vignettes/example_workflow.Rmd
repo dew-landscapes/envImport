@@ -1,0 +1,42 @@
+---
+title: "example_workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example_workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+  
+  library(tidyverse)
+  library(envImport)
+
+```
+
+```{r aoi}
+
+  aoi <- sf::st_read(here::here("inst", "shp", "Bakara_smaller.shp"))
+
+  aoi_buffer <- aoi %>%
+    sf::st_buffer(50000) %>%
+    sf::st_transform(crs = 4283) %>%
+    sf::st_make_valid()
+
+```
+
+```{r get}
+
+  get_GBIF(212 # birds
+           , aoi = aoi_buffer
+           , min_year = 2000
+           )
+
+
