@@ -38,8 +38,6 @@
                        , save_dir = NULL
                        , get_new = FALSE
                        , ...
-                       , taxon_key = NULL
-                       , min_year = NULL
                        , request_wait = 20
                        ) {
 
