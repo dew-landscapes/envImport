@@ -6,7 +6,7 @@
     order = c(5L, 6L, 2L, 3L, 8L, 7L, 4L, 9L, 1L),
     days = c(60, 60, 700, 700, 1000, 700, 60, 90, 1000),
     site = c("SITENUMBER", "SITE_ID", "PATCHID", "EGISCODE", "path", "PlantDataID", "site_unique", "gbifID", NA),
-    date = c("SurveyDate", "ASSESSMENT_DATE", "VISITDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_date", "eventDate", "SIGHTINGDATE"),
+    date = c("SurveyDate", "ASSESSMENT_DATE", "VISITDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_start_date", "eventDate", "SIGHTINGDATE"),
     lat = c("LATITUDE", "LATITUDE", "LATITUDE", "LATITUDE", "lat", "LATITUDE", "latitude", "decimalLatitude", "LATITUDE"),
     long = c("LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
     original_name = c("LegacyName", "Species", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "species", "species", "SPECIES"),

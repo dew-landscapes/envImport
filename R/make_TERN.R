@@ -81,9 +81,9 @@
                                        )
                        ) %>%
       dplyr::mutate(cover = cover / 100
-                    , visit_start_date = as.POSIXct(visit_date
-                                                  , format = "%Y-%m-%d"
-                                                  )
+                    , visit_start_date = as.POSIXct(visit_start_date
+                                              , format = "%Y-%m-%d"
+                                              )
                     , quadX = as.numeric(gsub("\\s"
                                               , ""
                                               , stringr::str_extract(plot_dimensions

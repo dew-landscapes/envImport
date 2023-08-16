@@ -91,6 +91,6 @@
 
     }
 
-    return(combine)
+    return(tibble::as_tibble(combine))
 
   }
