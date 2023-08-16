@@ -47,6 +47,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/example_workflow.html">example_workflow</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -67,12 +79,437 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Tools to help with data preparation for varied environmental
-    analyses. General workflow is `get_`, `make_` then unite. `get_` functions
-    retrieve data from external data sources, always saving results to file and
-    with an absolute minimum of changes to raw data. `make_` functions mung the
-    results from `get_`. Data source specific munging options are in here.
-    Finally `unite_data_sources` using a data map.
+
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envReport" class="external-link">envReport</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envImport" class="external-link">envImport</a></span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level1">
+<div class="page-header"><h1 id="envimport">envImport<a class="anchor" aria-label="anchor" href="#envimport"></a>
+</h1></div>
+<!-- badges: start -->
+<!-- badges: end -->
+<p>The goal of envImport is to obtain, and assemble, environmental data from disparate data sources, for a geographic area of interest. As little filtering as possible occurs when obtaining data and envImport does <em>not</em> aim to clean, filter or tidy the data (see <a href="https://acanthiza.github.io/envClean/" class="external-link">envClean</a> for help there). Usually the end result of an envImport workflow is a single object that contains all records from all the data sources. Sourcing and assembling environmental rasters for the area of interest is also in scope, but poorly implemented / documented currently.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of envImport from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Acanthiza/envImport"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="supported-data-sources">Supported data sources<a class="anchor" aria-label="anchor" href="#supported-data-sources"></a>
+</h2>
+<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>) or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). The 9 data sources currently supported or with plans for development are (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
+<ul>
+<li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring</li>
+<li>bdbsa: Biological databases of South Australia</li>
+<li>egis: Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</li>
+<li>tern: Terrestrial ecosystem network</li>
+<li>alis: Arid lands information systems</li>
+<li>bcm: Bushland condition monitoring</li>
+<li>ptp: Paddock tree project</li>
+<li>nvb: DEW Native Vegetation Branch</li>
+<li>gbif: Global biodiversity information facility</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="general-workflow">General workflow<a class="anchor" aria-label="anchor" href="#general-workflow"></a>
+</h2>
+<div class="section level3">
+<h3 id="data_map">
+<code>data_map</code><a class="anchor" aria-label="anchor" href="#data_map"></a>
+</h3>
+<p>The data_map (see table @ref(tab:dataMap)) provides a mapping from original data sources to the desired columns in the assembled data set.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">data_map</span></span>
+<span>               , caption <span class="op">=</span> <span class="st">"Data map of desired columns in the assembled data (columns) and names of columns in the original data (rows)"</span></span>
+<span>               <span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Data map of desired columns in the assembled data (columns) and names of columns in the original data (rows)</caption>
+<colgroup>
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="4%">
+<col width="2%">
+<col width="1%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="4%">
+<col width="5%">
+<col width="3%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="32%">
+<col width="2%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">data_name</th>
+<th align="right">order</th>
+<th align="right">days</th>
+<th align="left">site</th>
+<th align="left">date</th>
+<th align="left">lat</th>
+<th align="left">long</th>
+<th align="left">original_name</th>
+<th align="left">nsx</th>
+<th align="left">occ</th>
+<th align="left">occ_derivation</th>
+<th align="left">survey_nr</th>
+<th align="left">survey</th>
+<th align="left">ind</th>
+<th align="left">ind_derivation</th>
+<th align="left">rel_metres</th>
+<th align="left">rel_metres_derivation</th>
+<th align="left">sens</th>
+<th align="left">lifeform</th>
+<th align="left">lifespan</th>
+<th align="left">cover</th>
+<th align="left">cover_code</th>
+<th align="left">quad_x</th>
+<th align="left">quad_y</th>
+<th align="left">epbc_status</th>
+<th align="left">npw_staus</th>
+<th align="left">method</th>
+<th align="left">desc</th>
+<th align="left">data_name_use</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">other</td>
+<td align="right">1</td>
+<td align="right">1000</td>
+<td align="left">NA</td>
+<td align="left">SIGHTINGDATE</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">SPECIES</td>
+<td align="left">NA</td>
+<td align="left">Present</td>
+<td align="left">NA</td>
+<td align="left">SURVEYNR</td>
+<td align="left">SURVEYNAME</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">maxDist</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">METHODDESC</td>
+<td align="left">Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring</td>
+<td align="left">OTHER</td>
+</tr>
+<tr class="even">
+<td align="left">bdbsa</td>
+<td align="right">2</td>
+<td align="right">700</td>
+<td align="left">PATCHID</td>
+<td align="left">VISITDATE</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">SPECIES</td>
+<td align="left">NSXCODE</td>
+<td align="left">occ</td>
+<td align="left">NUMOBSERVED</td>
+<td align="left">SURVEYNR</td>
+<td align="left">SURVEYNAME</td>
+<td align="left">ind</td>
+<td align="left">ISINDIGENOUSFLAG</td>
+<td align="left">rel_metres</td>
+<td align="left">RELIABNR</td>
+<td align="left">NA</td>
+<td align="left">MUIRCODE</td>
+<td align="left">LIFESPAN</td>
+<td align="left">COVER</td>
+<td align="left">COVCODE</td>
+<td align="left">VEGQUADSIZE1</td>
+<td align="left">VEGQUADSIZE2</td>
+<td align="left">ESACTSTATUSCODE</td>
+<td align="left">NPWACTSTATUSCODE</td>
+<td align="left">METHODDESC</td>
+<td align="left">Biological databases of South Australia</td>
+<td align="left">BDBSA</td>
+</tr>
+<tr class="odd">
+<td align="left">egis</td>
+<td align="right">3</td>
+<td align="right">700</td>
+<td align="left">EGISCODE</td>
+<td align="left">SIGHTINGDATE</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">SPECIES</td>
+<td align="left">NSXCODE</td>
+<td align="left">occ</td>
+<td align="left">NUMOBSERVED</td>
+<td align="left">SURVEYNR</td>
+<td align="left">SURVEYNAME</td>
+<td align="left">ind</td>
+<td align="left">ISINDIGENOUSFLAG</td>
+<td align="left">rel_metres</td>
+<td align="left">RELIABNR</td>
+<td align="left">DISTRIBNDESC</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ESACTSTATUSCODE</td>
+<td align="left">NPWACTSTATUSCODE</td>
+<td align="left">METHODDESC</td>
+<td align="left">Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</td>
+<td align="left">EGIS</td>
+</tr>
+<tr class="even">
+<td align="left">tern</td>
+<td align="right">4</td>
+<td align="right">60</td>
+<td align="left">site_unique</td>
+<td align="left">visit_date</td>
+<td align="left">latitude</td>
+<td align="left">longitude</td>
+<td align="left">species</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">lifeform</td>
+<td align="left">NA</td>
+<td align="left">cover</td>
+<td align="left">NA</td>
+<td align="left">quadX</td>
+<td align="left">quadY</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Terrestrial ecosystem network</td>
+<td align="left">TERN</td>
+</tr>
+<tr class="odd">
+<td align="left">alis</td>
+<td align="right">5</td>
+<td align="right">60</td>
+<td align="left">SITENUMBER</td>
+<td align="left">SurveyDate</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">LegacyName</td>
+<td align="left">NSXCode</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Lifeform</td>
+<td align="left">LIFESPAN</td>
+<td align="left">Cover</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Arid lands information systems</td>
+<td align="left">ALIS</td>
+</tr>
+<tr class="even">
+<td align="left">bcm</td>
+<td align="right">6</td>
+<td align="right">60</td>
+<td align="left">SITE_ID</td>
+<td align="left">ASSESSMENT_DATE</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">Species</td>
+<td align="left">Old_NSX_Code</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ind</td>
+<td align="left">isIndigenous</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">X_DIM</td>
+<td align="left">Y_DIM</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Bushland condition monitoring</td>
+<td align="left">BCM</td>
+</tr>
+<tr class="odd">
+<td align="left">ptp</td>
+<td align="right">7</td>
+<td align="right">700</td>
+<td align="left">PlantDataID</td>
+<td align="left">Obs_Date</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">Scientific_name_original</td>
+<td align="left">NSXCODE</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">ind</td>
+<td align="left">Native_Introduced_original</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Life_form</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">COVCODE</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Paddock tree project</td>
+<td align="left">PTP</td>
+</tr>
+<tr class="even">
+<td align="left">nvb</td>
+<td align="right">8</td>
+<td align="right">1000</td>
+<td align="left">path</td>
+<td align="left">date</td>
+<td align="left">lat</td>
+<td align="left">lon</td>
+<td align="left">Spp</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">DEW Native Vegetation Branch</td>
+<td align="left">NVB</td>
+</tr>
+<tr class="odd">
+<td align="left">gbif</td>
+<td align="right">9</td>
+<td align="right">90</td>
+<td align="left">gbifID</td>
+<td align="left">eventDate</td>
+<td align="left">decimalLatitude</td>
+<td align="left">decimalLongitude</td>
+<td align="left">species</td>
+<td align="left">organismID</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">coordinateUncertaintyInMeters</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">organismQuantity</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">samplingProtocol</td>
+<td align="left">Global biodiversity information facility</td>
+<td align="left">GBIF</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="get_x">
+<code>get_x</code><a class="anchor" aria-label="anchor" href="#get_x"></a>
+</h3>
+<p><code>get_x</code> functions get data from the data source <code>x</code>. Results are always saved to disk (as getting data can be slow). When run again, they load from the saved file by default. If available, <code>get_x</code> functions use any R packages and functions provided by the data source (e.g. GBIF provides <code>rgbif</code> [@R-rgbif;@rgbif2017] and TERN provides <code>ausplotsR</code> [@R-ausplotsR]). The first arguments to <code>get_x</code> functions are always:</p>
+<ul>
+<li>
+<code>aoi</code>: an area of interest, provided as simple feature. <code>get_x</code> will turn any <code>aoi</code> into a bounding box and convert to coordinates appropriate for data source <code>x</code>. [Ed: is <code>aoi</code> always required?]</li>
+<li>
+<code>save_dir</code>: a directory to save the results to. The default (<code>NULL</code>) leads to the file <code>here::here("out", "ds", "x.rds")</code> being created and used as <code>save_file</code>. <code>ds</code> is for ‘data source’. While the saved file is usually <code>x.rds</code>, in some instances it follows the format and naming of the download from <code>x</code> (e.g. GBIF data comes in a <code>.zip</code> file named by the corresponding download key).</li>
+<li>
+<code>get_new</code>: an override to force <code>get_x</code> to requery the data source, even if save_file already exists</li>
+<li>
+<code>...</code>: the dots are passed to any underlying ‘native’ function, such as <code><a href="https://docs.ropensci.org/rgbif/reference/occ_download.html" class="external-link">rgbif::occ_download()</a></code> or <code><a href="https://rdrr.io/pkg/ausplotsR/man/get_ausplots.html" class="external-link">ausplotsR::get_ausplots()</a></code>
+</li>
+</ul>
+<p>Many of the <code>get_x</code> functions will only work within <code>DEW</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="make_x">
+<code>make_x</code><a class="anchor" aria-label="anchor" href="#make_x"></a>
+</h3>
+<p><code>make_x</code> functions take the results from <code>get_x</code> functions and prepare them for assembly. This usually involves:</p>
+<ul>
+<li>selecting columns (this is really just aesthetic and helps with debugging when there are tens of columns returned)</li>
+<li>munging a column or two to align with the data_map. For example, the raw TERN plant data obtained via get_tern is point intercept data. The <code>make_tern</code> function transforms the raw data into projected foliage cover data (making use of the <code><a href="https://rdrr.io/pkg/ausplotsR/man/species_table.html" class="external-link">ausplotsR::species_table()</a></code> function)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="assemble">Assemble<a class="anchor" aria-label="anchor" href="#assemble"></a>
+</h3>
+</div>
+</div>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -19,6 +19,8 @@ knitr::opts_chunk$set(
   library(tidyverse)
   library(envImport)
 
+  out_dir <- here::here("inst", "out", "ds") # ds for data source
+
 ```
 
 ```{r aoi}
@@ -34,12 +36,15 @@ knitr::opts_chunk$set(
 
 ```{r gbif}
 
-  gbif_raw <- get_GBIF(212 # birds
-                       , aoi = aoi_buffer
-                       , min_year = 2000
+  gbif_dir <- here::here("inst", "out", "ds", "gbif")
+
+  gbif_raw <- get_gbif(aoi = aoi_buffer
+                       , save_dir = gbif_dir
+                       , get_new = FALSE
+                       , rgbif::pred_gte("year", 2022)
                        )
 
-  gbif <- make_GBIF(gbif_raw
+  gbif <- make_gbif(gbif_raw
                     , data_map = envImport::data_map
                     )
 
@@ -47,14 +52,22 @@ knitr::opts_chunk$set(
 
 ```{r tern}
 
-  tern_raw <- get_TERN(aoi = aoi_buffer
-                       , get_new = TRUE # while testing
+  tern_raw <- get_tern(aoi = aoi_buffer
+                       , get_new = FALSE # while testing
                        , veg.PI = TRUE
                        )
 
-  tern <- make_TERN(tern_raw
-                    , data_map = envImport::data_map
-                    , 
+  tern <- make_tern(tern_raw
+                    , data_map = data_map
                     )
+
+```
+
+```{r assemble}
+
+  bio_all <- assemble(data_map
+                      , get_new = TRUE
+                      , out_file = here::here("inst", "out", "ds", "bio_all.parquet")
+                      )
 
 ```

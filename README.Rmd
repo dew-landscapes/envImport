@@ -39,7 +39,7 @@ devtools::install_github("Acanthiza/envImport")
 
 ## Supported data sources
 
-`data_name` = 'data source'. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility ([GBIF](https://www.gbif.org/)) or Terrestrial Ecosystems Network ([TERN](https://www.tern.org.au/)). The `r nrow(envImport::data_map)` data sources currently supported are (also see `envImport::data_map`):
+`data_name` = 'data source'. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility ([GBIF](https://www.gbif.org/)) or Terrestrial Ecosystems Network ([TERN](https://www.tern.org.au/)). The `r nrow(envImport::data_map)` data sources currently supported or with plans for development are (also see `envImport::data_map`):
 
 * `r paste0(data_map$data_name, ": ", data_map$desc, collapse = "\n* ")`
 
@@ -63,11 +63,11 @@ The data_map (see table @ref(tab:dataMap)) provides a mapping from original data
 `get_x` functions get data from the data source `x`. Results are always saved to disk (as getting data can be slow). When run again, they load from the saved file by default. If available, `get_x` functions use any R packages and functions provided by the data source (e.g. GBIF provides `rgbif` `r cite_package("rgbif")` and TERN provides `ausplotsR` `r cite_package("ausplotsR")`). The first arguments to `get_x` functions are always:
 
 * `aoi`: an area of interest, provided as simple feature. `get_x` will turn any `aoi` into a bounding box and convert to coordinates appropriate for data source `x`. [Ed: is `aoi` always required?]
-* `save_file`: a path to save the results to. The default (`NULL`) leads to the file `here::here("out", "ds", "x.rds")` being created and used as `save_file`. `ds` is for 'data source'. While the saved file is usually `x.rds`, in some instances it follows the format and naming of the download from `x` (e.g. GBIF data comes in a `.zip` file named by the corresponding download key).
+* `save_dir`: a directory to save the results to. The default (`NULL`) leads to the file `here::here("out", "ds", "x.rds")` being created and used as `save_file`. `ds` is for 'data source'. While the saved file is usually `x.rds`, in some instances it follows the format and naming of the download from `x` (e.g. GBIF data comes in a `.zip` file named by the corresponding download key).
 * `get_new`: an override to force `get_x` to requery the data source, even if save_file already exists
 * `...`: the dots are passed to any underlying 'native' function, such as `rgbif::occ_download()` or `ausplotsR::get_ausplots()`
 
-May of the `get_x` functions will only work within `DEW`.
+Many of the `get_x` functions will only work within `DEW`.
 
 ### `make_x`
 
@@ -75,5 +75,7 @@ May of the `get_x` functions will only work within `DEW`.
 
 * selecting columns (this is really just aesthetic and helps with debugging when there are tens of columns returned)
 * munging a column or two to align with the data_map. For example, the raw TERN plant data obtained via get_tern is point intercept data. The `make_tern` function transforms the raw data into projected foliage cover data (making use of the `ausplotsR::species_table()` function)
+
+### Assemble
 
 

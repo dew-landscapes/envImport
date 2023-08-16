@@ -2,46 +2,45 @@
   library(magrittr)
 
   data_map <- tibble::tibble(
-    data_name = c("ALIS", "BCM", "BDBSA", "EGIS", "NVB", "PTP", "TERN", "GBIF", "BA"),
-    order = c(4L, 5L, 1L, 2L, 7L, 6L, 3L, 8L, 9L),
-    days = c(60, 60, 700, 700, 1000, 700, 60, 90, 365),
-    site = c("SITENUMBER", "SITE_ID", "PATCHID", "EGISCODE", "path", "PlantDataID", "site_unique", "gbifID", "PATCHID"),
-    date = c("SurveyDate", "ASSESSMENT_DATE", "VISITDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_start_date", "eventDate", "SIGHTINGDATE"),
+    data_name = c("alis", "bcm", "bdbsa", "egis", "nvb", "ptp", "tern", "gbif", "other"),
+    order = c(5L, 6L, 2L, 3L, 8L, 7L, 4L, 9L, 1L),
+    days = c(60, 60, 700, 700, 1000, 700, 60, 90, 1000),
+    site = c("SITENUMBER", "SITE_ID", "PATCHID", "EGISCODE", "path", "PlantDataID", "site_unique", "gbifID", NA),
+    date = c("SurveyDate", "ASSESSMENT_DATE", "VISITDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_date", "eventDate", "SIGHTINGDATE"),
     lat = c("LATITUDE", "LATITUDE", "LATITUDE", "LATITUDE", "lat", "LATITUDE", "latitude", "decimalLatitude", "LATITUDE"),
     long = c("LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
-    original_name = c("LegacyName", "Species", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "herbarium_determination", "species", "SPECIES as supplied"),
-    nsx = c("NSXCode", "Old_NSX_Code", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", "NSXCODE"),
-    occ = c(NA, NA, "occ","occ", NA, NA, NA, NA, "occ"),
-    occ_derivation = c(NA, NA, "NUMOBSERVED","NUMOBSERVED", NA, NA, NA, NA, "NUMOBSERVED"),
+    original_name = c("LegacyName", "Species", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "species", "species", "SPECIES"),
+    nsx = c("NSXCode", "Old_NSX_Code", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
+    occ = c(NA, NA, "occ","occ", NA, NA, NA, NA, "Present"),
+    occ_derivation = c(NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, NA, NA),
     survey_nr = c(NA, NA, "SURVEYNR", "SURVEYNR", NA, NA, NA, NA, "SURVEYNR"),
     survey = c(NA, NA, "SURVEYNAME", "SURVEYNAME", NA, NA, NA, NA, "SURVEYNAME"),
     ind = c(NA, "ind", "ind", "ind", NA, "ind", NA, NA, NA),
     ind_derivation = c(NA, "isIndigenous", "ISINDIGENOUSFLAG", "ISINDIGENOUSFLAG", NA, "Native_Introduced_original", NA, NA, NA),
-    rel_metres = c(NA, NA, "rel_metres", "rel_metres", NA, NA, NA, "coordinateUncertaintyInMeters", "rel_metres"),
-    rel_metres_derivation = c(NA, NA, "RELIABNR", "RELIABNR", NA, NA, NA, NA, "RELIABNR"),
+    rel_metres = c(NA, NA, "rel_metres", "rel_metres", NA, NA, NA, "coordinateUncertaintyInMeters", "maxDist"),
+    rel_metres_derivation = c(NA, NA, "RELIABNR", "RELIABNR", NA, NA, NA, NA, NA),
     sens = c(NA, NA, NA, "DISTRIBNDESC", NA, NA, NA, NA, NA),
-    lifeform = c("Lifeform", NA, "MUIRCODE", NA, NA, "Life_form", "MUIRCODE", NA, NA),
+    lifeform = c("Lifeform", NA, "MUIRCODE", NA, NA, "Life_form", "lifeform", NA, NA),
     lifespan = c("LIFESPAN", NA, "LIFESPAN", NA, NA, NA, NA, NA, NA),
-    cover = c("Cover", NA, "COVER", NA, NA, NA, "COVER", "organismQuantity", NA),
+    cover = c("Cover", NA, "COVER", NA, NA, NA, "cover", "organismQuantity", NA),
     cover_code = c(NA, NA, "COVCODE", NA, NA, "COVCODE", NA, NA, NA),
-    quad_metres = c(NA, "X_DIM", "VEGQUADSIZE1", NA, NA, NA, "quadX", NA, NA),
+    quad_x = c(NA, "X_DIM", "VEGQUADSIZE1", NA, NA, NA, "quadX", NA, NA),
     quad_y = c(NA, "Y_DIM", "VEGQUADSIZE2", NA, NA, NA, "quadY", NA, NA),
     epbc_status = c(NA, NA, "ESACTSTATUSCODE", "ESACTSTATUSCODE", NA, NA, NA, NA, NA),
     npw_staus = c(NA, NA, "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", NA, NA, NA, NA, NA),
+    method = c(NA, NA, "METHODDESC", "METHODDESC", NA, NA, NA, "samplingProtocol", "METHODDESC"),
     desc = c("Arid lands information systems"
              , "Bushland condition monitoring"
              , "Biological databases of South Australia"
-             , "'Supertable' from the environmental databases of South Australia"
+             , "Occurrence datasets from the environmental databases of South Australia (e.g. supertables)"
              , "DEW Native Vegetation Branch"
              , "Paddock tree project"
              , "Terrestrial ecosystem network"
              , "Global biodiversity information facility"
-             , "BirdLife Australia"
+             , "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring"
              )
     ) %>%
     dplyr::mutate(data_name = forcats::fct_reorder(data_name, order)
-                  , rel_metres = dplyr::case_when(rel_nr == "RELIABNR" ~ "rel_metres"
-                                                  , TRUE ~ rel_metres
-                                                  )
+                  , data_name_use = toupper(data_name)
                   ) %>%
     dplyr::arrange(order)

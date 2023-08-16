@@ -5,7 +5,7 @@
 \alias{data_map}
 \title{Lookup for mapping fields from original data sources to common column names}
 \format{
-A data frame with 9 rows and 25
+A data frame with 9 rows and 29
 variables where column names provide the new name for columns in the original
 data sources:
 \describe{

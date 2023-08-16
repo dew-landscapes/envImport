@@ -2,7 +2,7 @@
 #' Mung raw GBIF data
 #'
 #'
-#' @param obj Result from `get_GBIF`.
+#' @param obj Result from `get_gbif`.
 #' @param save_file Character or NULL. Path to save output data. If NULL, no
 #' file saved.
 #' @param data_map Dataframe or NULL. Mapping of GBIF fields to retrieve. If
@@ -10,12 +10,12 @@
 #'
 #' @retrun Dataframe. If `save_file` is not `NULL` dataframe is saved there.
 #' @export
-  make_GBIF <- function(obj
+  make_gbif <- function(obj
                         , save_file = NULL
                         , data_map = NULL
                         ) {
 
-    name <- "GBIF"
+    name <- "gbif"
 
     # What names to grab before returning results?
     if(is.null(data_map)) {

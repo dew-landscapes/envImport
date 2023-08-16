@@ -4,6 +4,12 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/example_workflow.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -14,6 +20,9 @@
   </url>
   <url>
     <loc>/reference/access_query_32.html</loc>
+  </url>
+  <url>
+    <loc>/reference/assemble.html</loc>
   </url>
   <url>
     <loc>/reference/data_map.html</loc>
@@ -28,10 +37,10 @@
     <loc>/reference/get_data.html</loc>
   </url>
   <url>
-    <loc>/reference/get_GBIF.html</loc>
+    <loc>/reference/get_gbif.html</loc>
   </url>
   <url>
-    <loc>/reference/get_TERN.html</loc>
+    <loc>/reference/get_tern.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -40,10 +49,10 @@
     <loc>/reference/lurelBDBSA.html</loc>
   </url>
   <url>
-    <loc>/reference/make_GBIF.html</loc>
+    <loc>/reference/make_gbif.html</loc>
   </url>
   <url>
-    <loc>/reference/make_TERN.html</loc>
+    <loc>/reference/make_tern.html</loc>
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
