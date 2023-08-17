@@ -3,6 +3,7 @@
 
   data_map <- tibble::tibble(
     data_name = c("alis", "bcm", "bdbsa", "egis", "nvb", "ptp", "tern", "gbif", "other"),
+    epsg = c(4326, 4326, 7844, 7844, 4326, 4326, 4326, 4326, 4326),
     order = c(5L, 6L, 2L, 3L, 8L, 7L, 4L, 9L, 1L),
     days = c(60, 60, 700, 700, 1000, 700, 60, 90, 1000),
     site = c("SITENUMBER", "SITE_ID", "PATCHID", "EGISCODE", "path", "PlantDataID", "site_unique", "gbifID", NA),
@@ -10,15 +11,13 @@
     lat = c("LATITUDE", "LATITUDE", "LATITUDE", "LATITUDE", "lat", "LATITUDE", "latitude", "decimalLatitude", "LATITUDE"),
     long = c("LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
     original_name = c("LegacyName", "Species", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "species", "species", "SPECIES"),
+    common = c(NA, NA, "COMNAME", "COMNAME", NA, NA, NA, NA, NA),
     nsx = c("NSXCode", "Old_NSX_Code", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
-    occ = c(NA, NA, "occ","occ", NA, NA, NA, NA, "Present"),
-    occ_derivation = c(NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, NA, NA),
+    occ_derivation = c(NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "organismQuantity", "Present"),
     survey_nr = c(NA, NA, "SURVEYNR", "SURVEYNR", NA, NA, NA, NA, "SURVEYNR"),
     survey = c(NA, NA, "SURVEYNAME", "SURVEYNAME", NA, NA, NA, NA, "SURVEYNAME"),
-    ind = c(NA, "ind", "ind", "ind", NA, "ind", NA, NA, NA),
-    ind_derivation = c(NA, "isIndigenous", "ISINDIGENOUSFLAG", "ISINDIGENOUSFLAG", NA, "Native_Introduced_original", NA, NA, NA),
+    ind = c(NA, "isIndigenous", "ISINDIGENOUSFLAG", "ISINDIGENOUSFLAG", NA, "Native_Introduced_original", NA, NA, NA),
     rel_metres = c(NA, NA, "rel_metres", "rel_metres", NA, NA, NA, "coordinateUncertaintyInMeters", "maxDist"),
-    rel_metres_derivation = c(NA, NA, "RELIABNR", "RELIABNR", NA, NA, NA, NA, NA),
     sens = c(NA, NA, NA, "DISTRIBNDESC", NA, NA, NA, NA, NA),
     lifeform = c("Lifeform", NA, "MUIRCODE", NA, NA, "Life_form", "lifeform", NA, NA),
     lifespan = c("LIFESPAN", NA, "LIFESPAN", NA, NA, NA, NA, NA, NA),
@@ -40,7 +39,9 @@
              , "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring"
              )
     ) %>%
-    dplyr::mutate(data_name = forcats::fct_reorder(data_name, order)
+    dplyr::mutate(data_name = forcats::fct_reorder(data_name
+                                                   , order
+                                                   )
                   , data_name_use = toupper(data_name)
                   ) %>%
     dplyr::arrange(order)

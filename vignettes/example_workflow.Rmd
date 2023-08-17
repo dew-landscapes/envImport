@@ -68,7 +68,7 @@ knitr::opts_chunk$set(
 
 ```{r assemble}
 
-  bio_all <- assemble(data_map
+  bio_all <- unite_data(data_map
                       , get_new = TRUE
                       , out_file = here::here("inst", "out", "ds", "bio_all.parquet")
                       )

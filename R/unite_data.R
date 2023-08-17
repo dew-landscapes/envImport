@@ -11,6 +11,10 @@
 #' @param get_new Logical. If FALSE, will attempt to load from existing `out_file`
 #' @param add_month,add_year Logical. Add a year and/or month column to returned
 #' data frame (requires a `date` field to be specified by `data_map`)
+#' @param make_occ Logical. Make an `occ` column (occurrence) of 1 = detected, 0
+#' = not detected? Due to the plethora of ways original data sets record numbers
+#' and absences this should not be considered 100% reliable.
+#' @param absences Character. If `make_occ` what values are considered absences?
 #'
 #' @return Dataframe of united objects with columns named as per the columns of
 #' `data_map`, optionally with `month` and `year` columns too. `out_file` is
@@ -18,11 +22,17 @@
 #' @export
 #'
 #' @examples
-  assemble <- function(data_map
+  unite_data <- function(data_map
                        , out_file
                        , get_new = FALSE
                        , add_month = TRUE
                        , add_year = TRUE
+                       , make_occ = TRUE
+                       , absences = c("0"
+                                      , "none detected"
+                                      , "none observed"
+                                      , "None detected"
+                                      )
                        ) {
 
     get_new = if(!file.exists(out_file)) TRUE else get_new
@@ -78,6 +88,14 @@
         combine <- combine %>%
           dplyr::mutate(quad_metres = quad_x * quad_y) %>%
           dplyr::select(-quad_x, -quad_y)
+
+      }
+
+      if(make_occ) {
+
+        combine <- combine %>%
+          dplyr::mutate(occ = dplyr::if_else(occ_derivation %in% absences, 0, 1))
+
 
       }
 

@@ -75,6 +75,7 @@
                           , names_to = species_col
                           , values_to = "cover"
                           ) %>%
+      dplyr::filter(cover > 0) %>%
       dplyr::left_join(obj$site.info %>%
                          dplyr::select(tidyselect::any_of(all_names)
                                        , plot_dimensions
