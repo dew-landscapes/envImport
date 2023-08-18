@@ -1,6 +1,8 @@
 
 #' Unite multiple data sources into one data frame
 #'
+#' Failed (not currently working anyway) experiment
+#'
 #' @param data_map Dataframe. Needs to contain columns `data_name` and `days`.
 #' Other columns are the column names in the unified data frame. Values
 #' against each `data_name` contain the name of the column in the original data

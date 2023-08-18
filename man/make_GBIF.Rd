@@ -4,7 +4,7 @@
 \alias{make_gbif}
 \title{Mung raw GBIF data}
 \usage{
-make_gbif(obj, save_file = NULL, data_map = NULL)
+make_gbif(obj, save_file = NULL, data_map = NULL, occ_char = TRUE)
 }
 \arguments{
 \item{obj}{Result from \code{get_gbif}.}
@@ -14,6 +14,9 @@ file saved.}
 
 \item{data_map}{Dataframe or NULL. Mapping of GBIF fields to retrieve. If
 NULL, all columns returned.}
+
+\item{occ_char}{Logical. If true, occ_derivation will be coerced to character
+(to match other data sources).}
 }
 \description{
 Mung raw GBIF data

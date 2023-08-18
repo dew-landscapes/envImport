@@ -28,6 +28,6 @@ source that should map to the current column name.}
 single data frame unifying the data from the input \code{data_name}s
 }
 \description{
-Unite multiple data sources into one data frame
+Failed (not currently working anyway) experiment
 }
 \concept{functions to help with combining data sources}

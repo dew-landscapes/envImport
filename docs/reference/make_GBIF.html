@@ -60,7 +60,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_gbif</span><span class="op">(</span><span class="va">obj</span>, save_file <span class="op">=</span> <span class="cn">NULL</span>, data_map <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_gbif</span><span class="op">(</span><span class="va">obj</span>, save_file <span class="op">=</span> <span class="cn">NULL</span>, data_map <span class="op">=</span> <span class="cn">NULL</span>, occ_char <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -77,6 +77,11 @@ file saved.</p></dd>
 <dt>data_map</dt>
 <dd><p>Dataframe or NULL. Mapping of GBIF fields to retrieve. If
 NULL, all columns returned.</p></dd>
+
+
+<dt>occ_char</dt>
+<dd><p>Logical. If true, occ_derivation will be coerced to character
+(to match other data sources).</p></dd>
 
 </dl></div>
 
