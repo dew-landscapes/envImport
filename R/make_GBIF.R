@@ -15,6 +15,8 @@
   make_gbif <- function(obj
                         , save_file = NULL
                         , data_map = NULL
+                        , filter_inconsistent = TRUE
+                        , filter_NA_date = TRUE
                         , occ_char = TRUE
                         ) {
 
@@ -32,11 +34,34 @@
       dplyr::filter(data_name == name) %>%
       unlist(., use.names=FALSE) %>%
       stats::na.omit() %>%
-      unique()
+      unique() %>%
+      c(., "individualCount")
 
     temp <- obj %>%
       dplyr::select(tidyselect::any_of(select_names)) %>%
-      {if(occ_char) (.) %>% dplyr::mutate(organismQuantity = as.character(organismQuantity)) else (.)}
+      {if(filter_NA_date) (.) %>%
+          dplyr::filter(!is.na(eventDate)) else (.)
+        } %>%
+      {if(filter_inconsistent) (.) %>%
+          dplyr::filter(!(occurrenceStatus == "ABSENT" &
+                            !is.na(organismQuantity) &
+                            organismQuantity > 0
+                          )
+                        ) %>%
+          dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                            !is.na(individualCount) &
+                            individualCount == 0
+                          )
+                        ) %>%
+          dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                          !is.na(organismQuantity) &
+                          organismQuantity == 0
+                          )
+                        ) else (.)
+        } %>%
+      {if(occ_char) (.) %>%
+          dplyr::mutate(organismQuantity = as.character(organismQuantity)) else (.)
+        }
 
     if(!is.null(save_file)) {
 

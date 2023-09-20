@@ -4,7 +4,14 @@
 \alias{make_gbif}
 \title{Mung raw GBIF data}
 \usage{
-make_gbif(obj, save_file = NULL, data_map = NULL, occ_char = TRUE)
+make_gbif(
+  obj,
+  save_file = NULL,
+  data_map = NULL,
+  filter_inconsistent = TRUE,
+  filter_NA_date = TRUE,
+  occ_char = TRUE
+)
 }
 \arguments{
 \item{obj}{Result from \code{get_gbif}.}

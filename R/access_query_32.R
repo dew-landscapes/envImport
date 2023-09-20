@@ -55,14 +55,22 @@
       expr <- paste(expr, collapse=";")
 
       # launch 32 bit R session and run expressions
-      prog <- file.path(R.home(), "bin", "i386", "Rscript.exe")
+      i386_path <- fs::dir_info(dirname(R.home())
+                              , recurse = TRUE
+                              ) %>%
+        dplyr::filter(grepl("bin\\/i386", path)) %>%
+        dplyr::filter(type == "directory") %>%
+        dplyr::filter(modification_time == max(modification_time)) %>%
+        dplyr::pull(path)
+
+      prog <- file.path(i386_path, "Rscript.exe")
       system2(prog, args=c("-e", shQuote(expr)), stdout=NULL, wait=TRUE, invisible=TRUE)
 
       # stop socket server
       svSocket::stopSocketServer(port=sock_port)
 
       # display table fields
-      message("retrieved: ", table_out, " - ", paste(colnames(get(table_out)), collapse=", "))
+      message("retrieved: ", table_out, " - ", paste(colnames(get("table_out")), collapse=", "))
 
       } else {
 
