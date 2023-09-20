@@ -7,6 +7,11 @@
 #' file saved.
 #' @param data_map Dataframe or NULL. Mapping of GBIF fields to retrieve. If
 #' NULL, all columns returned.
+#' @filter_inconsistent Logical. If `TRUE` inconsistencies between the
+#' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
+#' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
+#' `individualCount == 1` would be filtered.
+#' @param filter_NA_date Logical. Filter if `is.na(eventDate)`.
 #' @param occ_char Logical. If true, occ_derivation will be coerced to character
 #' (to match other data sources).
 #'

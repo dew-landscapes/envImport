@@ -11,7 +11,7 @@ unite_data(
   add_month = TRUE,
   add_year = TRUE,
   make_occ = TRUE,
-  absences = c("0", "none detected", "none observed", "None detected")
+  absences = c("0", "none detected", "none observed", "None detected", "ABSENT")
 )
 }
 \arguments{

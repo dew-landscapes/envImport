@@ -32,6 +32,7 @@
                                       , "none detected"
                                       , "none observed"
                                       , "None detected"
+                                      , "ABSENT"
                                       )
                        ) {
 

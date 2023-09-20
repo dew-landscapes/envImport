@@ -22,6 +22,8 @@ file saved.}
 \item{data_map}{Dataframe or NULL. Mapping of GBIF fields to retrieve. If
 NULL, all columns returned.}
 
+\item{filter_NA_date}{Logical. Filter if \code{is.na(eventDate)}.}
+
 \item{occ_char}{Logical. If true, occ_derivation will be coerced to character
 (to match other data sources).}
 }
