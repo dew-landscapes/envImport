@@ -52,10 +52,10 @@ knitr::opts_chunk$set(
 
 ```{r tern}
 
-  gbif_dir <- here::here(out_dir, "tern")
+  tern_dir <- here::here(out_dir, "tern")
 
   tern_raw <- get_tern(aoi = aoi_buffer
-                       , save_dir = gbif_dir
+                       , save_dir = tern_dir
                        , get_new = FALSE # while testing
                        , veg.PI = TRUE
                        )
