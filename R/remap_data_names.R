@@ -115,8 +115,8 @@
 
       rdf <- rdf %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("ind")
-                                    , ~dplyr::case_when(grepl("\\*|introduced|Introduced", .x) ~ "N"
-                                                        , grepl("^Y$|native|Native", .x) ~ "Y"
+                                    , ~dplyr::case_when(grepl("\\*|^N$|^n$|introduced|Introduced", .x) ~ "N"
+                                                        , grepl("^Y$|^y$|native|Native", .x) ~ "Y"
                                                         , TRUE ~ "U"
                                                         )
                                     )
