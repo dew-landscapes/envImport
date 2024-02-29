@@ -6,7 +6,7 @@
     epsg = c(4326, 4326, 7844, 7844, 4326, 4326, 4326, 4326, 4326),
     order = c(5L, 6L, 2L, 3L, 8L, 7L, 4L, 9L, 1L),
     days = c(60, 60, 700, 700, 1000, 700, 60, 90, 1000),
-    site = c("SITENUMBER", "SITE_ID", "PATCHID", "EGISCODE", "path", "PlantDataID", "site_unique", "gbifID", NA),
+    site = c("SITENUMBER", "SITE_ID", "PATCHID", "EGISCODE", "path", "PlantDataID", "site_unique", "gbifID", "Site"),
     date = c("SurveyDate", "ASSESSMENT_DATE", "OBSDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_start_date", "eventDate", "SIGHTINGDATE"),
     lat = c("LATITUDE", "LATITUDE", "LATITUDE", "LATITUDE", "lat", "LATITUDE", "latitude", "decimalLatitude", "LATITUDE"),
     long = c("LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
