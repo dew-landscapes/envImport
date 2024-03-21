@@ -30,8 +30,8 @@
     # What names to grab before returning results?
     if(is.null(data_map)) {
 
-      data_map <- data.frame(t(c(name, names(temp)))) %>%
-        stats::setNames(c("data_name", names(temp)))
+      data_map <- data.frame(t(c(name, names(obj)))) %>%
+        stats::setNames(c("data_name", names(obj)))
 
     }
 
