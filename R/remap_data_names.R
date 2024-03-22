@@ -75,6 +75,10 @@
                                                                                         , orders = c("dmy"
                                                                                                      , "dmy HMS"
                                                                                                      , "dmy HM"
+                                                                                                     , "ymd HMS"
+                                                                                                     , "ymd"
+                                                                                                     , "ym"
+                                                                                                     , "y"
                                                                                                      )
                                                                                         )
 
