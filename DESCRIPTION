@@ -12,7 +12,7 @@ Description: Tools to help with data preparation for varied environmental
     with an absolute minimum of changes to raw data. `make_` functions mung the
     results from `get_`. Data source specific munging options are in here.
     Finally `unite_data_sources` using a data map.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

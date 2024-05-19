@@ -24,6 +24,7 @@
     lifespan = c(NA, "LIFESPAN", "LIFESPAN", NA, NA, NA, NA, NA, NA),
     cover = c("Cover", NA, "COVER", NA, NA, NA, "cover", "organismQuantity", NA),
     cover_code = c(NA, NA, "COVCODE", NA, NA, "Cover_abundance", NA, NA, NA),
+    height = c(NA, NA, NA, NA, NA, NA, "height", NA, NA),
     quad_x = c(NA, "X_DIM", "VEGQUADSIZE1", NA, NA, NA, "quadX", NA, NA),
     quad_y = c(NA, "Y_DIM", "VEGQUADSIZE2", NA, NA, NA, "quadY", NA, NA),
     epbc_status = c(NA, NA, "ESACTSTATUSCODE", "ESACTSTATUSCODE", NA, NA, NA, NA, NA),
