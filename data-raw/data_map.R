@@ -30,6 +30,7 @@
     epbc_status = c(NA, NA, "ESACTSTATUSCODE", "ESACTSTATUSCODE", NA, NA, NA, NA, NA),
     npw_status = c(NA, NA, "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", NA, NA, NA, NA, NA),
     method = c(NA, NA, "METHODDESC", "METHODDESC", NA, NA, NA, "samplingProtocol", "METHODDESC"),
+    obs = c("observer", "assessor", "observer", "OBSERVER", "assessor", "Observers", "observer_veg", "recordedBy", "observer"),
     desc = c("Arid lands information systems"
              , "Bushland condition monitoring"
              , "Biological databases of South Australia"
