@@ -99,6 +99,7 @@
                                                                      )
                                               )
                                          )
+                    , observer_veg = as.character(observer_veg)
                     )
 
     if(make_lifeform) {
