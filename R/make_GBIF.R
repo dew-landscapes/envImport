@@ -14,6 +14,12 @@
 #' @param filter_NA_date Logical. Filter if `is.na(eventDate)`.
 #' @param occ_char Logical. If true, occ_derivation will be coerced to character
 #' (to match other data sources).
+#' @param adj_spa_rel Logical. If true, an attempt will be made to check
+#' `coordinateUncertaintyInMetres` against information in `informationWithheld.` If
+#' `informationWithheld` contains "Coordinate uncertainty increased to",
+#' `readr::parse_number()` is used to retrieve that number, which is then used
+#' to replace any value in `coordinateUncertaintyInMetres.`
+#'
 #'
 #' @retrun Dataframe. If `save_file` is not `NULL` dataframe is saved there.
 #' @export
@@ -23,6 +29,7 @@
                         , filter_inconsistent = TRUE
                         , filter_NA_date = TRUE
                         , occ_char = TRUE
+                        , adj_spa_rel = TRUE
                         ) {
 
     name <- "gbif"
@@ -66,7 +73,17 @@
         } %>%
       {if(occ_char) (.) %>%
           dplyr::mutate(organismQuantity = as.character(organismQuantity)) else (.)
-        }
+        } %>%
+      {if(adj_spa_rel) (.) %>%
+          dplyr::mutate(coordinateUncertaintyInMeters = dplyr::case_when(grepl("Coordinate uncertainty increased to"
+                                                                               , informationWithheld
+                                                                               ) ~ readr::parse_number(informationWithheld)
+                                                                         , TRUE ~ coordinateUncertaintyInMeters
+                                                                         )
+          ) else (.)
+      }
+
+  }
 
     if(!is.null(save_file)) {
 

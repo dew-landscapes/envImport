@@ -30,6 +30,7 @@
     npw_status = c(NA, NA, NA, "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", NA, NA, NA, NA, NA),
     method = c("abundanceMethod", NA, NA, "METHODDESC", "METHODDESC", NA, NA, NA, "samplingProtocol", "METHODDESC"),
     obs = c("individualName", "observer", "assessor", "observer", "OBSERVER", "assessor", "Observers", "observer_veg", "recordedBy", "observer"),
+    denatured = c(NA, NA, NA, NA, NA, NA, NA, NA, "informationWithheld", NA),
     desc = c("Harmonised Australian Vegetation Plot dataset (HAVPlot)"
              , "Arid lands information systems"
              , "Bushland condition monitoring"
