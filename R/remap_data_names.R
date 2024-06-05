@@ -51,7 +51,9 @@
 
     if(length(not_nms) > 0) {
 
-      msg <- paste(paste(not_nms
+      msg <- paste(this_name
+                   , ": "
+                   , paste(not_nms
                          , collapse = ", "
                          )
                    , "are not columns in the dataframe, so won't be renamed."
