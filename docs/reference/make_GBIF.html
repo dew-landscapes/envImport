@@ -66,7 +66,8 @@
 <span>  data_map <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  filter_inconsistent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  filter_NA_date <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  occ_char <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  occ_char <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  adj_spa_rel <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -93,6 +94,14 @@ NULL, all columns returned.</p></dd>
 <dt>occ_char</dt>
 <dd><p>Logical. If true, occ_derivation will be coerced to character
 (to match other data sources).</p></dd>
+
+
+<dt>adj_spa_rel</dt>
+<dd><p>Logical. If true, an attempt will be made to check
+<code>coordinateUncertaintyInMetres</code> against information in <code>informationWithheld.</code> If
+<code>informationWithheld</code> contains "Coordinate uncertainty increased to",
+<code><a href="https://readr.tidyverse.org/reference/parse_number.html" class="external-link">readr::parse_number()</a></code> is used to retrieve that number, which is then used
+to replace any value in <code>coordinateUncertaintyInMetres.</code></p></dd>
 
 </dl></div>
 

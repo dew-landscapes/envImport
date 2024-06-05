@@ -10,7 +10,8 @@ make_gbif(
   data_map = NULL,
   filter_inconsistent = TRUE,
   filter_NA_date = TRUE,
-  occ_char = TRUE
+  occ_char = TRUE,
+  adj_spa_rel = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,12 @@ NULL, all columns returned.}
 
 \item{occ_char}{Logical. If true, occ_derivation will be coerced to character
 (to match other data sources).}
+
+\item{adj_spa_rel}{Logical. If true, an attempt will be made to check
+\code{coordinateUncertaintyInMetres} against information in \code{informationWithheld.} If
+\code{informationWithheld} contains "Coordinate uncertainty increased to",
+\code{readr::parse_number()} is used to retrieve that number, which is then used
+to replace any value in \code{coordinateUncertaintyInMetres.}}
 }
 \description{
 Mung raw GBIF data

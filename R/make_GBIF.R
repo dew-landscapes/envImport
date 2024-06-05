@@ -83,8 +83,6 @@
           ) else (.)
       }
 
-  }
-
     if(!is.null(save_file)) {
 
       rio::export(temp
