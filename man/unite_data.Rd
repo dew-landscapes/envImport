@@ -11,7 +11,10 @@ unite_data(
   add_month = TRUE,
   add_year = TRUE,
   make_occ = TRUE,
-  absences = c("0", "none detected", "none observed", "None detected", "ABSENT")
+  absences = c("0", "none detected", "none observed", "None detected", "ABSENT"),
+  previous = c("delete", "move"),
+  compare_previous = TRUE,
+  compare_cols = c("data_name", "survey")
 )
 }
 \arguments{
@@ -31,6 +34,17 @@ data frame (requires a \code{date} field to be specified by \code{data_map})}
 and absences this should not be considered 100\% reliable.}
 
 \item{absences}{Character. If \code{make_occ} what values are considered absences?}
+
+\item{previous}{Character. What to do with any previous \code{out_file}.
+Default is 'delete'. Alternative 'move' will rename to the same location as
+gsub("\\.parquet", paste0("moved__", format(now(), "\%Y\%m\%d_\%H\%M\%S"), ".parquet"), out_file)}
+
+\item{compare_previous}{Logical. If \code{TRUE} a comparison of records per
+\code{compare_cols} will be made between the new and previous out_file. Ignored
+unless \verb{previous == "move}}
+
+\item{compare_cols}{If \code{compare_previous} which columns to comapare. Default
+is \code{data_name} and \code{survey}.}
 }
 \value{
 Dataframe of united objects with columns named as per the columns of

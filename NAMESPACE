@@ -2,6 +2,7 @@
 
 export("%>%")
 export(access_query_32)
+export(connect_to_access_dbi)
 export(days_since_update)
 export(flag_sens_records)
 export(get_data)
