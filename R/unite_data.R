@@ -137,9 +137,11 @@ unite_data <- function(data_map
                                  , out_file
                                  )
 
-          fs::file_move(out_file
-                        , moved_out_file
-                        )
+          fs::dir_copy(out_file
+                       , moved_out_file
+                       )
+
+          fs::dir_delete(out_file)
 
           if(compare_previous) {
 
