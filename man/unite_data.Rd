@@ -18,7 +18,8 @@ unite_data(
 \item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
 \code{envImport::data_map}}
 
-\item{out_file}{Path to save results to}
+\item{out_file}{Path to save results to. Will always save .parquet
+irrespective of any file type implied by out_file.}
 
 \item{get_new}{Logical. If FALSE, will attempt to load from existing \code{out_file}}
 

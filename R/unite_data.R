@@ -101,14 +101,20 @@
 
       }
 
+      fs::dir_create(dirname(out_file))
+
+      fs::file_delete(out_file)
+
       arrow::write_dataset(dataset = combine %>%
                              dplyr::group_by(data_name) # for parquet partitions
+                           , existing_data_behavior = "overwrite"
                            , path = gsub("\\..*", ".parquet", out_file)
                            )
 
     } else {
 
-      combine <- rio::import(out_file)
+      combine <- arrow::open_dataset(out_file) %>%
+        dplyr::collect()
 
     }
 

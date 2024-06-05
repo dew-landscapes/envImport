@@ -102,16 +102,17 @@
 <div class="section level2">
 <h2 id="supported-data-sources">Supported data sources<a class="anchor" aria-label="anchor" href="#supported-data-sources"></a>
 </h2>
-<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>) or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). The 9 data sources currently supported or with plans for development are (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
+<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>) or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). The 10 data sources currently supported or with plans for development are (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
 <ul>
-<li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring</li>
 <li>bdbsa: Biological databases of South Australia</li>
 <li>egis: Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</li>
+<li>havplot: Harmonised Australian Vegetation Plot dataset (HAVPlot)</li>
 <li>tern: Terrestrial ecosystem network</li>
 <li>alis: Arid lands information systems</li>
-<li>bcm: Bushland condition monitoring</li>
-<li>ptp: Paddock tree project</li>
 <li>nvb: DEW Native Vegetation Branch</li>
+<li>bcm: Bushland condition monitoring</li>
+<li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring</li>
+<li>ptp: Paddock tree project</li>
 <li>gbif: Global biodiversity information facility</li>
 </ul>
 </div>
@@ -134,7 +135,6 @@
 <col width="1%">
 <col width="0%">
 <col width="0%">
-<col width="0%">
 <col width="1%">
 <col width="2%">
 <col width="2%">
@@ -160,14 +160,13 @@
 <col width="2%">
 <col width="2%">
 <col width="2%">
-<col width="30%">
+<col width="31%">
 <col width="2%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">data_name</th>
-<th align="right">epsg</th>
 <th align="right">order</th>
-<th align="right">days</th>
+<th align="right">epsg</th>
 <th align="left">site</th>
 <th align="left">date</th>
 <th align="left">lat</th>
@@ -198,43 +197,9 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">other</td>
-<td align="right">4326</td>
-<td align="right">1</td>
-<td align="right">1000</td>
-<td align="left">Site</td>
-<td align="left">SIGHTINGDATE</td>
-<td align="left">LATITUDE</td>
-<td align="left">LONGITUDE</td>
-<td align="left">SPECIES</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NUMOBSERVED</td>
-<td align="left">NUMOBSERVED</td>
-<td align="left">SURVEYNR</td>
-<td align="left">SURVEYNAME</td>
-<td align="left">NA</td>
-<td align="left">maxDist</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">METHODDESC</td>
-<td align="left">observer</td>
-<td align="left">Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring</td>
-<td align="left">OTHER</td>
-</tr>
-<tr class="even">
 <td align="left">bdbsa</td>
+<td align="right">1</td>
 <td align="right">7844</td>
-<td align="right">2</td>
-<td align="right">700</td>
 <td align="left">PATCHID</td>
 <td align="left">OBSDATE</td>
 <td align="left">LATITUDE</td>
@@ -263,11 +228,10 @@
 <td align="left">Biological databases of South Australia</td>
 <td align="left">BDBSA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">egis</td>
+<td align="right">2</td>
 <td align="right">7844</td>
-<td align="right">3</td>
-<td align="right">700</td>
 <td align="left">EGISCODE</td>
 <td align="left">SIGHTINGDATE</td>
 <td align="left">LATITUDE</td>
@@ -296,11 +260,42 @@
 <td align="left">Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</td>
 <td align="left">EGIS</td>
 </tr>
+<tr class="odd">
+<td align="left">havplot</td>
+<td align="right">3</td>
+<td align="right">4326</td>
+<td align="left">plotName</td>
+<td align="left">obsStartDate</td>
+<td align="left">decimalLatitude</td>
+<td align="left">decimalLongitude</td>
+<td align="left">scientificName</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">abundanceUnits</td>
+<td align="left">abundanceValue</td>
+<td align="left">NA</td>
+<td align="left">projectID</td>
+<td align="left">NA</td>
+<td align="left">coordinateUncertaintyInMeters</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">cover</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">length</td>
+<td align="left">width</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">abundanceMethod</td>
+<td align="left">individualName</td>
+<td align="left">Harmonised Australian Vegetation Plot dataset (HAVPlot)</td>
+<td align="left">HAVPLOT</td>
+</tr>
 <tr class="even">
 <td align="left">tern</td>
-<td align="right">4326</td>
 <td align="right">4</td>
-<td align="right">60</td>
+<td align="right">4326</td>
 <td align="left">site_unique</td>
 <td align="left">visit_start_date</td>
 <td align="left">latitude</td>
@@ -331,9 +326,8 @@
 </tr>
 <tr class="odd">
 <td align="left">alis</td>
-<td align="right">4326</td>
 <td align="right">5</td>
-<td align="right">60</td>
+<td align="right">4326</td>
 <td align="left">SITENUMBER</td>
 <td align="left">SurveyDate</td>
 <td align="left">LATITUDE</td>
@@ -363,76 +357,9 @@
 <td align="left">ALIS</td>
 </tr>
 <tr class="even">
-<td align="left">bcm</td>
-<td align="right">4326</td>
-<td align="right">6</td>
-<td align="right">60</td>
-<td align="left">SITE_ID</td>
-<td align="left">ASSESSMENT_DATE</td>
-<td align="left">LATITUDE</td>
-<td align="left">LONGITUDE</td>
-<td align="left">Species</td>
-<td align="left">Common1</td>
-<td align="left">Old_NSX_Code</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">isIndigenous</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">LIFESPAN</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">X_DIM</td>
-<td align="left">Y_DIM</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">assessor</td>
-<td align="left">Bushland condition monitoring</td>
-<td align="left">BCM</td>
-</tr>
-<tr class="odd">
-<td align="left">ptp</td>
-<td align="right">4326</td>
-<td align="right">7</td>
-<td align="right">700</td>
-<td align="left">PlantDataID</td>
-<td align="left">Obs_Date</td>
-<td align="left">LATITUDE</td>
-<td align="left">LONGITUDE</td>
-<td align="left">Scientific_name_original</td>
-<td align="left">Common_name_orig</td>
-<td align="left">NSXCODE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Native_Introduced_original</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Life_form</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Cover_abundance</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Observers</td>
-<td align="left">Paddock tree project</td>
-<td align="left">PTP</td>
-</tr>
-<tr class="even">
 <td align="left">nvb</td>
+<td align="right">5</td>
 <td align="right">4326</td>
-<td align="right">8</td>
-<td align="right">1000</td>
 <td align="left">path</td>
 <td align="left">date</td>
 <td align="left">lat</td>
@@ -462,10 +389,105 @@
 <td align="left">NVB</td>
 </tr>
 <tr class="odd">
-<td align="left">gbif</td>
+<td align="left">bcm</td>
+<td align="right">7</td>
 <td align="right">4326</td>
+<td align="left">SITE_ID</td>
+<td align="left">ASSESSMENT_DATE</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">Species</td>
+<td align="left">Common1</td>
+<td align="left">Old_NSX_Code</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">isIndigenous</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">LIFESPAN</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">X_DIM</td>
+<td align="left">Y_DIM</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">assessor</td>
+<td align="left">Bushland condition monitoring</td>
+<td align="left">BCM</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">8</td>
+<td align="right">4326</td>
+<td align="left">Site</td>
+<td align="left">SIGHTINGDATE</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">SPECIES</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NUMOBSERVED</td>
+<td align="left">NUMOBSERVED</td>
+<td align="left">SURVEYNR</td>
+<td align="left">SURVEYNAME</td>
+<td align="left">NA</td>
+<td align="left">maxDist</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">METHODDESC</td>
+<td align="left">observer</td>
+<td align="left">Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring</td>
+<td align="left">OTHER</td>
+</tr>
+<tr class="odd">
+<td align="left">ptp</td>
 <td align="right">9</td>
-<td align="right">90</td>
+<td align="right">4326</td>
+<td align="left">PlantDataID</td>
+<td align="left">Obs_Date</td>
+<td align="left">LATITUDE</td>
+<td align="left">LONGITUDE</td>
+<td align="left">Scientific_name_original</td>
+<td align="left">Common_name_orig</td>
+<td align="left">NSXCODE</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Native_Introduced_original</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Life_form</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Cover_abundance</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Observers</td>
+<td align="left">Paddock tree project</td>
+<td align="left">PTP</td>
+</tr>
+<tr class="even">
+<td align="left">gbif</td>
+<td align="right">10</td>
+<td align="right">4326</td>
 <td align="left">gbifID</td>
 <td align="left">eventDate</td>
 <td align="left">decimalLatitude</td>
