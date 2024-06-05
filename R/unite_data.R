@@ -7,7 +7,8 @@
 #'
 #' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
 #' `envImport::data_map`
-#' @param out_file Path to save results to
+#' @param out_file Path to save results to. Will always save .parquet
+#' irrespective of any file type implied by out_file.
 #' @param get_new Logical. If FALSE, will attempt to load from existing `out_file`
 #' @param add_month,add_year Logical. Add a year and/or month column to returned
 #' data frame (requires a `date` field to be specified by `data_map`)
@@ -100,9 +101,10 @@
 
       }
 
-      rio::export(combine
-                  , out_file
-                  )
+      arrow::write_dataset(dataset = combine %>%
+                             dplyr::group_by(data_name) # for parquet partitions
+                           , path = gsub("\\..*", ".parquet", out_file)
+                           )
 
     } else {
 
