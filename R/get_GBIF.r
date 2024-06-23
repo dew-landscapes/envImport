@@ -39,34 +39,17 @@
                        , get_new = FALSE
                        , ...
                        , request_wait = 20
+                       , name = "gbif"
                        ) {
 
-    name <- "gbif"
-
-    if(is.null(save_dir)) {
-
-      save_dir <- fs::path("out"
-                           , "ds"
-                           , name
-                           )
-
-    }
-
-    fs::dir_create(save_dir)
-
-    save_file <- fs::path(save_dir
-                          , paste0(name
-                                   , "_raw.rds"
-                                   )
-                          )
-
-
-    # Increase the time allowed to access URLs
-    RCurl::curlSetOpt(timeout = 100000)
+    save_file <- file_prep(save_dir, name)
 
     get_new <- if(!file.exists(save_file)) TRUE else get_new
 
     if(get_new) {
+
+      # Increase the time allowed to access URLs
+      RCurl::curlSetOpt(timeout = 100000)
 
       if(!is.null(aoi)) {
 
@@ -127,9 +110,7 @@
                                                , overwrite = TRUE
                                                )
 
-      temp <- rgbif::occ_download_import(gbif_download) %>%
-        tibble::as_tibble() %>%
-        dplyr::mutate(doi = meta$doi)
+      temp <- rgbif::occ_download_import(gbif_download)
 
       rio::export(temp
                   , save_file
@@ -138,32 +119,23 @@
       # Make a reference for the download
 
       bib_file <- fs::path(save_dir
-                           , paste0(meta$key
-                                    , ".bib"
-                                    )
+                           , "gbif.bib"
                            )
 
 
       ref <- RefManageR::GetBibEntryWithDOI(meta$doi
                                            , temp.file = bib_file
-                                           , delete.file = FALSE
-                                           )
+                                           , delete.file = TRUE
+                                           ) %>%
+        RefManageR::toBiblatex()
 
-
-      ref <- readr::read_lines(bib_file)
-
-      ref[1] <- paste0("@misc{"
-                       , meta$key
-                       , "}"
-                       )
+      ref[1] <- paste0("@misc{gbif}")
 
       readr::write_lines(ref, bib_file)
 
-    } else {
-
-      temp <- rio::import(save_file)
-
     }
+
+    temp <- rio::import(save_file)
 
     return(temp)
 

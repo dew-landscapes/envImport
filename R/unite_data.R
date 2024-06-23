@@ -5,6 +5,8 @@
 #' Looks for any object with the names given by `data_map$data_name` and attempts
 #' to unite them into one data frame (tibble).
 #'
+#' @param df Dataframe with (at least) columns `data_name` and a list column of
+#' results from `make_data_name`
 #' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
 #' `envImport::data_map`
 #' @param out_file Path to save results to. Will always save .parquet
@@ -31,7 +33,8 @@
 #' @export
 #'
 #' @examples
-unite_data <- function(data_map
+unite_data <- function(df
+                       , data_map
                        , out_file
                        , get_new = FALSE
                        , add_month = TRUE
@@ -59,24 +62,14 @@ unite_data <- function(data_map
       fs::dir_create(dirname(out_file))
 
       # combine -------
-      combine <- mget(as.character(data_map$data_name)
-                      , ifnotfound = rep(NA
-                                         , nrow(data_map)
-                                         )
-                      , inherits = TRUE
-                      ) %>%
-        tibble::enframe(name = "data_name") %>%
-        dplyr::filter(purrr::map_lgl(value
-                                     , ~ ! is.logical(.)
-                                     )
-                      ) %>%
-        dplyr::mutate(value = purrr::map2(data_name
-                                         , value
+      combine <- df %>%
+        dplyr::mutate(make = purrr::map2(data_name
+                                         , make
                                          , remap_data_names
                                          , names_map = data_map
                                          )
                       ) %>%
-        tidyr::unnest(cols = c(value))
+        tidyr::unnest(cols = c(make))
 
       # year and month ------
       if(any(add_year, add_month)) {

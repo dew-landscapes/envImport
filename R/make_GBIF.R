@@ -24,15 +24,14 @@
 #' @retrun Dataframe. If `save_file` is not `NULL` dataframe is saved there.
 #' @export
   make_gbif <- function(obj
-                        , save_file = NULL
+                        , name = "gbif"
                         , data_map = NULL
+                        , save_file = NULL
                         , filter_inconsistent = TRUE
                         , filter_NA_date = TRUE
                         , occ_char = TRUE
                         , adj_spa_rel = TRUE
                         ) {
-
-    name <- "gbif"
 
     # What names to grab before returning results?
     if(is.null(data_map)) {

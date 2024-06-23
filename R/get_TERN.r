@@ -22,27 +22,11 @@
   get_tern <- function(aoi
                        , save_dir = NULL
                        , get_new = FALSE
+                       , name = "tern"
                        , ...
                        ) {
 
-    name <- "tern"
-
-    if(is.null(save_dir)) {
-
-      save_dir <- fs::path("out"
-                           , "ds"
-                           , name
-                           )
-
-    }
-
-    fs::dir_create(save_dir)
-
-    save_file <- fs::path(save_dir
-                          , paste0(name
-                                   , "_raw.rds"
-                                   )
-                          )
+    save_file <- file_prep(save_dir, name)
 
     # run query
     get_new <- if(!file.exists(save_file)) TRUE else get_new

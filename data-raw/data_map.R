@@ -17,7 +17,7 @@
     survey_nr = c(NA, NA, NA, "SURVEYNR", "SURVEYNR", NA, NA, NA, NA, "SURVEYNR"),
     survey = c("projectID", "LandSystem", NA, "SURVEYNAME", "SURVEYNAME", NA, NA, NA, NA, "SURVEYNAME"),
     ind = c(NA, NA, "isIndigenous", "ISINDIGENOUS", "ISINDIGENOUSFLAG", NA, "Native_Introduced_original", NA, NA, NA),
-    rel_metres = c("coordinateUncertaintyInMeters", NA, NA, "rel_metres", "rel_metres", NA, NA, NA, "coordinateUncertaintyInMeters", "maxDist"),
+    rel_metres = c("coordinateUncertaintyInMetres", NA, NA, "rel_metres", "rel_metres", NA, NA, NA, "coordinateUncertaintyInMeters", "maxDist"),
     sens = c(NA, NA, NA, NA, "DISTRIBNDESC", NA, NA, NA, NA, NA),
     lifeform = c(NA, "Lifeform", NA, "MUIRCODE", NA, NA, "Life_form", "lifeform", NA, NA),
     lifespan = c(NA, NA, "LIFESPAN", "LIFESPAN", NA, NA, NA, NA, NA, NA),

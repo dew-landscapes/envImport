@@ -18,16 +18,15 @@
 #'
 #' @return dataframe and if save_file is not null, `tern.rds`.
   make_tern <- function(obj
-                        , save_file = NULL
+                        , name = "tern"
                         , data_map = NULL
+                        , save_file = NULL
                         , m_kind = "percent_cover"
                         , cover_type = "PFC"
                         , species_name = "SN"
                         , strip_bryophytes = FALSE
                         , make_lifeform = TRUE
                         ) {
-
-    name <- "tern"
 
     # What names to grab before returning results?
     if(is.null(data_map)) {
