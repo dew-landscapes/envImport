@@ -4,7 +4,14 @@
 \alias{get_gbif}
 \title{Get an occurrence record set from GBIF}
 \usage{
-get_gbif(aoi = NULL, save_dir = NULL, get_new = FALSE, ..., request_wait = 20)
+get_gbif(
+  aoi = NULL,
+  save_dir = NULL,
+  get_new = FALSE,
+  ...,
+  request_wait = 20,
+  name = "gbif"
+)
 }
 \arguments{
 \item{aoi}{sf defining area of interest.}

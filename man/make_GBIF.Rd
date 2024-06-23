@@ -6,8 +6,9 @@
 \usage{
 make_gbif(
   obj,
-  save_file = NULL,
+  name = "gbif",
   data_map = NULL,
+  save_file = NULL,
   filter_inconsistent = TRUE,
   filter_NA_date = TRUE,
   occ_char = TRUE,
@@ -17,11 +18,11 @@ make_gbif(
 \arguments{
 \item{obj}{Result from \code{get_gbif}.}
 
-\item{save_file}{Character or NULL. Path to save output data. If NULL, no
-file saved.}
-
 \item{data_map}{Dataframe or NULL. Mapping of GBIF fields to retrieve. If
 NULL, all columns returned.}
+
+\item{save_file}{Character or NULL. Path to save output data. If NULL, no
+file saved.}
 
 \item{filter_NA_date}{Logical. Filter if \code{is.na(eventDate)}.}
 

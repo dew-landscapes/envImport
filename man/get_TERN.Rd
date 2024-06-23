@@ -4,7 +4,7 @@
 \alias{get_tern}
 \title{Get occurrence records from TERN}
 \usage{
-get_tern(aoi, save_dir = NULL, get_new = FALSE, ...)
+get_tern(aoi, save_dir = NULL, get_new = FALSE, name = "tern", ...)
 }
 \arguments{
 \item{aoi}{sf. Polygon defining area of interest for retrieving data.

@@ -5,6 +5,7 @@
 \title{Unite (assemble) disparate data sources}
 \usage{
 unite_data(
+  df,
   data_map,
   out_file,
   get_new = FALSE,
@@ -18,6 +19,9 @@ unite_data(
 )
 }
 \arguments{
+\item{df}{Dataframe with (at least) columns \code{data_name} and a list column of
+results from \code{make_data_name}}
+
 \item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
 \code{envImport::data_map}}
 

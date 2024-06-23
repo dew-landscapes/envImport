@@ -63,6 +63,7 @@ to unite them into one data frame (tibble).</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">unite_data</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
 <span>  <span class="va">data_map</span>,</span>
 <span>  <span class="va">out_file</span>,</span>
 <span>  get_new <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -78,7 +79,12 @@ to unite them into one data frame (tibble).</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data_map</dt>
+    <dl><dt>df</dt>
+<dd><p>Dataframe with (at least) columns <code>data_name</code> and a list column of
+results from <code>make_data_name</code></p></dd>
+
+
+<dt>data_map</dt>
 <dd><p>Dataframe or NULL. Mapping of fields to retrieve. See example
 <code><a href="data_map.html">envImport::data_map</a></code></p></dd>
 

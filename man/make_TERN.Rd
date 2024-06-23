@@ -6,8 +6,9 @@
 \usage{
 make_tern(
   obj,
-  save_file = NULL,
+  name = "tern",
   data_map = NULL,
+  save_file = NULL,
   m_kind = "percent_cover",
   cover_type = "PFC",
   species_name = "SN",
@@ -18,11 +19,11 @@ make_tern(
 \arguments{
 \item{obj}{Result from \code{get_tern}.}
 
-\item{save_file}{Character or NULL. Path to save output data. If NULL, no
-file saved.}
-
 \item{data_map}{Dataframe or NULL. Mapping of TERN fields to retrieve. If
 NULL, all columns returned.}
+
+\item{save_file}{Character or NULL. Path to save output data. If NULL, no
+file saved.}
 
 \item{m_kind, cover_type, species_name, strip_bryophytes}{Arguments required by
 \code{ausplotsR::species_table()}}
