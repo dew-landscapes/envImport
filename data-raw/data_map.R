@@ -12,7 +12,7 @@
     original_name = c("scientificName", "LegacyName", "Species", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "species", "species", "SPECIES"),
     common = c(NA, NA, "Common1", "COMNAME1", "COMNAME", NA, "Common_name_orig", NA, NA, NA),
     nsx = c(NA, "NSXCode", "Old_NSX_Code", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
-    occ_derivation = c("abundanceUnits", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "occurrenceStatus", "NUMOBSERVED"),
+    occ_derivation = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "occurrenceStatus", "NUMOBSERVED"),
     quantity = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "organismQuantity", "NUMOBSERVED"),
     survey_nr = c(NA, NA, NA, "SURVEYNR", "SURVEYNR", NA, NA, NA, NA, "SURVEYNR"),
     survey = c("projectID", "LandSystem", NA, "SURVEYNAME", "SURVEYNAME", NA, NA, NA, NA, "SURVEYNAME"),

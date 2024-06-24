@@ -4,20 +4,36 @@
 \alias{get_tern}
 \title{Get occurrence records from TERN}
 \usage{
-get_tern(aoi, save_dir = NULL, get_new = FALSE, name = "tern", ...)
+get_tern(
+  aoi,
+  save_dir = NULL,
+  get_new = FALSE,
+  name = "tern",
+  data_map = NULL,
+  m_kind = "percent_cover",
+  cover_type = "PFC",
+  species_name = "SN",
+  strip_bryophytes = FALSE,
+  make_lifeform = TRUE
+)
 }
 \arguments{
 \item{aoi}{sf. Polygon defining area of interest for retrieving data.
 Used as \code{sf::st_bbox(aoi)}.}
 
 \item{save_dir}{Character. Path to directory into which to save outputs. If
-\code{null} results will be saved to \code{fs::path("out", "ds", "name")}. File will be
-named \code{name_raw.rds}. \code{name} is the data source name.}
+\code{null} results will be saved to \code{here::here("out", "ds", "tern")}. File will be
+named \code{tern_raw.parquet}}
 
 \item{get_new}{Logical. If FALSE, will attempt to load from existing
-\code{save_file}.}
+\code{save_dir}.}
 
-\item{...}{Passed to \code{ausplotsR::get_ausplots()}.}
+\item{m_kind, cover_type, species_name, strip_bryophytes}{Arguments required by
+\code{ausplotsR::species_table()}}
+
+\item{make_lifeform}{Logical. If true, the columns \code{growth_form} and
+\code{height} in \code{obj$veg.PI} are used to estimate a lifeform for each taxa within
+each unique site.}
 }
 \value{
 Object and tern_raw.rds in \code{save_dir}

@@ -4,7 +4,7 @@
 \alias{file_prep}
 \title{Prepare saving location in get functions}
 \usage{
-file_prep(save_dir, name)
+file_prep(save_dir, name, out_type = ".parquet")
 }
 \arguments{
 \item{name}{}

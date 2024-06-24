@@ -5,13 +5,14 @@
 \title{Unite (assemble) disparate data sources}
 \usage{
 unite_data(
-  df,
+  df_to_unite,
   data_map,
   out_file,
   get_new = FALSE,
   add_month = TRUE,
   add_year = TRUE,
   make_occ = TRUE,
+  occ_cols = c("occ_derivation", "quantity"),
   absences = c("0", "none detected", "none observed", "None detected", "ABSENT"),
   previous = c("delete", "move"),
   compare_previous = TRUE,
@@ -19,7 +20,7 @@ unite_data(
 )
 }
 \arguments{
-\item{df}{Dataframe with (at least) columns \code{data_name} and a list column of
+\item{df_to_unite}{Dataframe with (at least) columns \code{data_name} and a list column of
 results from \code{make_data_name}}
 
 \item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example

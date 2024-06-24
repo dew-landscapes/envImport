@@ -5,7 +5,7 @@
 #' by [Dan](https://stackoverflow.com/users/4777122/dan).
 #'
 #' @param this_name Character. Name of the data source.
-#' @param df Dataframe containing the columns to select and (potentially) rename
+#' @param df_to_remap Dataframe containing the columns to select and (potentially) rename
 #' @param names_map Dataframe mapping old names to new names
 #' @param exclude_names Character. column names in namesmap to exclude from the
 #' combined data
@@ -16,7 +16,7 @@
 #'
 #' @examples
   remap_data_names <- function(this_name
-                               , df
+                               , df_to_remap
                                , names_map
                                , exclude_names = c("data_name"
                                                    , "order"
@@ -47,7 +47,7 @@
                                 )
 
     # call out the column names that don't exist
-    not_nms <- setdiff(new_old_names$old, names(df))
+    not_nms <- setdiff(new_old_names$old, names(df_to_remap))
 
     if(length(not_nms) > 0) {
 
@@ -64,14 +64,14 @@
     }
 
     # rename
-    rdf <- df %>%
+    rdf_to_remap <- df_to_remap %>%
       dplyr::select(tidyselect::any_of(new_old_names$old)) %>%
       stats::setNames(new_old_names$new[match(names(.), new_old_names$old)])
 
     # dates
-    if(any(grepl("date", names(rdf), ignore.case = TRUE))) {
+    if(any(grepl("date", names(rdf_to_remap), ignore.case = TRUE))) {
 
-      rdf <- rdf %>%
+      rdf_to_remap <- rdf_to_remap %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("date")
                                     , ~if(is.character(.x)) {lubridate::parse_date_time(.x
                                                                                         , orders = c("dmy"
@@ -95,7 +95,7 @@
                                       )
                       )
 
-      rdf <- rdf %>%
+      rdf_to_remap <- rdf_to_remap %>%
         dplyr::filter(dplyr::if_any(tidyselect::matches("date")
                                     , ~!is.na(.x)
                                     )
@@ -107,9 +107,9 @@
 
     }
 
-    if(any(grepl("site", names(rdf), ignore.case = TRUE))) {
+    if(any(grepl("site", names(rdf_to_remap), ignore.case = TRUE))) {
 
-      rdf <- rdf %>%
+      rdf_to_remap <- rdf_to_remap %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("site")
                                     , as.character
                                     )
@@ -117,9 +117,9 @@
 
     }
 
-    if(any(grepl("ind", names(rdf), ignore.case = TRUE))) {
+    if(any(grepl("ind", names(rdf_to_remap), ignore.case = TRUE))) {
 
-      rdf <- rdf %>%
+      rdf_to_remap <- rdf_to_remap %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("ind")
                                     , ~dplyr::case_when(grepl("\\*|^N$|^n$|introduced|Introduced", .x) ~ "N"
                                                         , grepl("^Y$|^y$|native|Native", .x) ~ "Y"
@@ -130,9 +130,9 @@
 
     }
 
-    if(any(grepl("lat|long", names(rdf), ignore.case = TRUE))) {
+    if(any(grepl("lat|long", names(rdf_to_remap), ignore.case = TRUE))) {
 
-      rdf <- rdf %>%
+      rdf_to_remap <- rdf_to_remap %>%
         dplyr::mutate(dplyr::across(tidyselect::matches("lat")
                                     , as.numeric
                                     )
@@ -142,7 +142,7 @@
                                     )
                       )
 
-      rdf <- rdf  %>%
+      rdf_to_remap <- rdf_to_remap  %>%
         dplyr::filter(dplyr::if_any(tidyselect::matches("lat")
                                     , ~!is.na(.x)
                                     )
@@ -154,6 +154,6 @@
 
     }
 
-    return(rdf)
+    return(rdf_to_remap)
 
   }

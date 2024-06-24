@@ -5,7 +5,7 @@
 #' Looks for any object with the names given by `data_map$data_name` and attempts
 #' to unite them into one data frame (tibble).
 #'
-#' @param df Dataframe with (at least) columns `data_name` and a list column of
+#' @param df_to_unite Dataframe with (at least) columns `data_name` and a list column of
 #' results from `make_data_name`
 #' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
 #' `envImport::data_map`
@@ -33,13 +33,14 @@
 #' @export
 #'
 #' @examples
-unite_data <- function(df
+unite_data <- function(df_to_unite
                        , data_map
                        , out_file
                        , get_new = FALSE
                        , add_month = TRUE
                        , add_year = TRUE
                        , make_occ = TRUE
+                       , occ_cols = c("occ_derivation", "quantity")
                        , absences = c("0"
                                       , "none detected"
                                       , "none observed"
@@ -51,7 +52,8 @@ unite_data <- function(df
                        , compare_cols = c("data_name", "survey")
                        ) {
 
-    out_file <- gsub("\\..*", ".parquet", out_file)
+    out_file <- gsub("\\..*", "", out_file)
+    out_file <- paste0(out_file, ".parquet")
 
     get_new = if(!file.exists(out_file)) TRUE else get_new
 
@@ -61,12 +63,14 @@ unite_data <- function(df
 
       fs::dir_create(dirname(out_file))
 
-      # combine -------
-      combine <- df %>%
+      # united -------
+      united <- df_to_unite %>%
         dplyr::mutate(make = purrr::map2(data_name
-                                         , make
-                                         , remap_data_names
-                                         , names_map = data_map
+                                         , obj
+                                         , \(x, y) remap_data_names(this_name = x
+                                                                    , df = y
+                                                                    , names_map = data_map
+                                                                    )
                                          )
                       ) %>%
         tidyr::unnest(cols = c(make))
@@ -74,7 +78,7 @@ unite_data <- function(df
       # year and month ------
       if(any(add_year, add_month)) {
 
-        dates <- combine %>%
+        dates <- united %>%
           dplyr::distinct(date)
 
         if(add_year) {
@@ -91,16 +95,16 @@ unite_data <- function(df
 
         }
 
-        combine <- combine %>%
+        united <- united %>%
           {if(add_year) (.) %>% dplyr::left_join(years) else (.)} %>%
           {if(add_month) (.) %>% dplyr::left_join(months) else (.)}
 
       }
 
       # quad_metres-------
-      if(exists("quad_x", combine)) {
+      if(exists("quad_x", united)) {
 
-        combine <- combine %>%
+        united <- united %>%
           dplyr::mutate(quad_metres = quad_x * quad_y) %>%
           dplyr::select(-quad_x, -quad_y)
 
@@ -109,11 +113,30 @@ unite_data <- function(df
       # occ -------
       if(make_occ) {
 
-        combine <- combine %>%
-          dplyr::mutate(occ = dplyr::if_else(occ_derivation %in% absences, 0, 1))
+        united$occ <- 1L
 
+        for(i in 1:length(occ_cols)) {
+
+          if(occ_cols[i] %in% names(united)) {
+
+            this_col <- occ_cols[i]
+
+            united <- united %>%
+              dplyr::mutate(occ = dplyr::if_else(!!rlang::ensym(this_col) %in% absences
+                                                 , 0
+                                                 , occ
+                                                 )
+                            )
+
+          }
+
+        }
 
       }
+
+      # clean up -----
+      united <- united %>%
+        dplyr::select(tidyselect::any_of(names(data_map)))
 
       # previous------
 
@@ -144,7 +167,7 @@ unite_data <- function(df
                            ) %>%
               dplyr::collect()
 
-            new <- combine %>%
+            new <- united %>%
               dplyr::count(dplyr::across(tidyselect::any_of(compare_cols))
                            , name = "new_n"
                            )
@@ -169,19 +192,14 @@ unite_data <- function(df
       }
 
       # save ------
-      arrow::write_dataset(dataset = combine %>%
+      arrow::write_dataset(dataset = united %>%
                              dplyr::group_by(data_name) # for parquet partitions
                            , existing_data_behavior = "overwrite"
                            , path = out_file
                            )
 
-    } else {
-
-      combine <- arrow::open_dataset(out_file) %>%
-        dplyr::collect()
-
     }
 
-    return(tibble::as_tibble(combine) %>% dplyr::ungroup())
+    return(invisible(NULL))
 
   }

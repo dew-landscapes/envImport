@@ -10,7 +10,13 @@ get_gbif(
   get_new = FALSE,
   ...,
   request_wait = 20,
-  name = "gbif"
+  name = "gbif",
+  data_map = NULL,
+  filter_inconsistent = TRUE,
+  filter_NA_date = TRUE,
+  occ_char = TRUE,
+  adj_spa_rel = TRUE,
+  previous_key = NULL
 )
 }
 \arguments{

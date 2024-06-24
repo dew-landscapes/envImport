@@ -10,6 +10,7 @@
 #' @examples
   file_prep <- function(save_dir
                         , name
+                        , out_type = ".parquet"
                         ) {
 
     if(is.null(save_dir)) {
@@ -23,7 +24,8 @@
     save_file <- fs::path(save_dir
                           , name
                           , paste0(name
-                                   , "_raw.rds"
+                                   , "_raw"
+                                   , out_type
                                    )
                           )
 

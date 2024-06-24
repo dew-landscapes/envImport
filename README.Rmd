@@ -69,13 +69,8 @@ The data_map (see table @ref(tab:dataMap)) provides a mapping from original data
 
 Many of the `get_x` functions will only work within `DEW`.
 
-### `make_x`
+As of June 2024, `get_x` functions can be run from `get_data`.
 
-`make_x` functions take the results from `get_x` functions and prepare them for assembly. This usually involves:
+### Unite
 
-* selecting columns (this is really just aesthetic and helps with debugging when there are tens of columns returned)
-* munging a column or two to align with the data_map. For example, the raw TERN plant data obtained via get_tern is point intercept data. The `make_tern` function transforms the raw data into projected foliage cover data (making use of the `ausplotsR::species_table()` function)
-
-### Assemble
-
-
+`unite_data` writes `bio_all`. 

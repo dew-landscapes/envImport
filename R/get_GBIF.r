@@ -40,6 +40,12 @@
                        , ...
                        , request_wait = 20
                        , name = "gbif"
+                       , data_map = NULL
+                       , filter_inconsistent = TRUE
+                       , filter_NA_date = TRUE
+                       , occ_char = TRUE
+                       , adj_spa_rel = TRUE
+                       , previous_key = NULL
                        ) {
 
     save_file <- file_prep(save_dir, name)
@@ -106,11 +112,55 @@
       meta <- rgbif::occ_download_meta(gbif_download)
 
       gbif_download <- rgbif::occ_download_get(gbif_download
-                                               , path = save_dir
+                                               , path = fs::path(save_dir, name)
                                                , overwrite = TRUE
                                                )
 
-      temp <- rgbif::occ_download_import(gbif_download)
+      select_names <- data_map %>%
+        dplyr::filter(data_name == name) %>%
+        unlist(., use.names=FALSE) %>%
+        stats::na.omit() %>%
+        unique() %>%
+        c(., "individualCount")
+
+      temp <- rgbif::occ_download_import(gbif_download) %>%
+        dplyr::select(tidyselect::any_of(select_names)) %>%
+        {if(filter_NA_date) (.) %>%
+            dplyr::filter(!is.na(eventDate)) else (.)
+          } %>%
+        {if(filter_inconsistent) (.) %>%
+            dplyr::filter(!(occurrenceStatus == "ABSENT" &
+                              !is.na(organismQuantity) &
+                              organismQuantity > 0
+                            )
+                          ) %>%
+            dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                            !is.na(organismQuantity) &
+                            organismQuantity == 0
+                            )
+                          ) %>%
+            dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                              !is.na(individualCount) &
+                              individualCount == 0
+                            )
+                          ) %>%
+            dplyr::filter(!(occurrenceStatus == "ABSENT" &
+                              !is.na(individualCount) &
+                              individualCount > 0
+                            )
+                          ) else (.)
+          } %>%
+        {if(occ_char) (.) %>%
+            dplyr::mutate(organismQuantity = as.character(organismQuantity)) else (.)
+          } %>%
+        {if(adj_spa_rel) (.) %>%
+            dplyr::mutate(coordinateUncertaintyInMeters = dplyr::case_when(grepl("Coordinate uncertainty increased to"
+                                                                                 , informationWithheld
+                                                                                 ) ~ readr::parse_number(informationWithheld)
+                                                                           , TRUE ~ coordinateUncertaintyInMeters
+                                                                           )
+            ) else (.)
+        }
 
       rio::export(temp
                   , save_file
@@ -118,7 +168,7 @@
 
       # Make a reference for the download
 
-      bib_file <- fs::path(save_dir
+      bib_file <- fs::path(fs::path(save_dir, name)
                            , "gbif.bib"
                            )
 

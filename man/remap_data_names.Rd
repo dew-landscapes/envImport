@@ -6,7 +6,7 @@
 \usage{
 remap_data_names(
   this_name,
-  df,
+  df_to_remap,
   names_map,
   exclude_names = c("data_name", "order", "days", "desc", "epsg")
 )
@@ -14,7 +14,7 @@ remap_data_names(
 \arguments{
 \item{this_name}{Character. Name of the data source.}
 
-\item{df}{Dataframe containing the columns to select and (potentially) rename}
+\item{df_to_remap}{Dataframe containing the columns to select and (potentially) rename}
 
 \item{names_map}{Dataframe mapping old names to new names}
 

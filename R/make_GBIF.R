@@ -60,13 +60,18 @@
                           )
                         ) %>%
           dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                          !is.na(organismQuantity) &
+                          organismQuantity == 0
+                          )
+                        ) %>%
+          dplyr::filter(!(occurrenceStatus == "PRESENT" &
                             !is.na(individualCount) &
                             individualCount == 0
                           )
                         ) %>%
-          dplyr::filter(!(occurrenceStatus == "PRESENT" &
-                          !is.na(organismQuantity) &
-                          organismQuantity == 0
+          dplyr::filter(!(occurrenceStatus == "ABSENT" &
+                            !is.na(individualCount) &
+                            individualCount > 0
                           )
                         ) else (.)
         } %>%
