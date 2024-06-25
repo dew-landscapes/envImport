@@ -72,16 +72,6 @@
 
         }
 
-        select_names <- data_map %>%
-          dplyr::filter(data_name == name) %>%
-          unlist(., use.names=FALSE) %>%
-          stats::na.omit()
-
-        all_names <- c(select_names
-                          , species_col
-                          ) %>%
-          unique()
-
         temp <- ausplotsR::species_table(tern_data$veg.PI
                                          , m_kind = m_kind
                                          , cover_type = cover_type
@@ -96,29 +86,21 @@
                               , values_to = "cover"
                               ) %>%
           dplyr::filter(cover > 0) %>%
-          dplyr::left_join(tern_data$site.info %>%
-                             dplyr::select(tidyselect::any_of(all_names)
-                                           , plot_dimensions
-                                           )
-                           ) %>%
+          dplyr::left_join(tern_data$site.info) %>%
           dplyr::mutate(cover = cover / 100
                         , visit_start_date = as.POSIXct(visit_start_date
                                                   , format = "%Y-%m-%d"
                                                   )
-                        , quadX = as.numeric(gsub("\\s"
-                                                  , ""
-                                                  , stringr::str_extract(plot_dimensions
-                                                                         , "\\d{1,4} "
-                                                                         )
-                                                  )
-                                             )
-                        , quadY = as.numeric(gsub("\\s"
-                                                  , ""
-                                                  , stringr::str_extract(plot_dimensions
-                                                                         , " \\d{1,4}"
-                                                                         )
-                                                  )
-                                             )
+                        , quadX = readr::parse_number(gsub("x.*|"
+                                                           , ""
+                                                           , plot_dimensions
+                                                           )
+                                                      )
+                        , quadY = readr::parse_number(gsub(".*x"
+                                                           , ""
+                                                           , plot_dimensions
+                                                           )
+                                                      )
                         , observer_veg = as.character(observer_veg)
                         )
 
@@ -223,7 +205,6 @@
 
         temp <- temp %>%
           dplyr::rename(species = !!rlang::ensym(species_col)) %>%
-          dplyr::select(tidyselect::any_of(select_names)) %>%
           dplyr::distinct()
 
         # limit? -------
@@ -232,7 +213,7 @@
 
           select_names <- data_map %>%
             dplyr::filter(data_name == name) %>%
-            unlist(., use.names=FALSE) %>%
+            base::unlist(., use.names=FALSE) %>%
             stats::na.omit()
 
           temp <- temp %>%

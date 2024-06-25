@@ -10,7 +10,7 @@
 #'
 #' Any arguments to `rgbif::occ_download()` can be passed via `...`. For
 #' convenience, `aoi` can also be passed directly and internally it is converted
-#'  to a bounding box in appropriate lat/long and passed to
+#' to a bounding box in appropriate lat/long and passed to
 #' `rgbif::pred_within()` in WKT format.
 #'
 #' @param aoi sf defining area of interest.
@@ -23,6 +23,20 @@
 #' @param request_wait Integer. Time in seconds to wait between
 #' `rgbif::occ_download_meta()` requests. Used by `rgbif::occ_download_wait()`
 #' `status_ping` argument.
+#' @filter_inconsistent Logical. If `TRUE` inconsistencies between the
+#' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
+#' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
+#' `individualCount == 1` would be filtered.
+#' @param filter_NA_date Logical. Filter if `is.na(eventDate)`.
+#' @param occ_char Logical. If true, occ_derivation will be coerced to character
+#' (to match other data sources).
+#' @param adj_spa_rel Logical. If true, an attempt will be made to check
+#' `coordinateUncertaintyInMetres` against: information in `informationWithheld.` If
+#' `informationWithheld` contains "Coordinate uncertainty increased to",
+#' `readr::parse_number()` is used to retrieve that number, which is then used
+#' to replace any value in `coordinateUncertaintyInMetres`; and if the column
+#' `issue` contains `COORDINATE_ROUNDED`, `coordinateUncertaintyInMetres` is
+#' given the value 10000.
 #'
 #' @return Dataframe, `save_file`, `gbif_data_ref.bib` (in the same directory as
 #' `save_file`) and full GBIF download.
@@ -45,7 +59,6 @@
                        , filter_NA_date = TRUE
                        , occ_char = TRUE
                        , adj_spa_rel = TRUE
-                       , previous_key = NULL
                        ) {
 
     save_file <- file_prep(save_dir, name)
@@ -113,7 +126,7 @@
 
       gbif_download <- rgbif::occ_download_get(gbif_download
                                                , path = fs::path(save_dir, name)
-                                               , overwrite = TRUE
+                                               , overwrite = FALSE
                                                )
 
       select_names <- data_map %>%
@@ -121,10 +134,9 @@
         unlist(., use.names=FALSE) %>%
         stats::na.omit() %>%
         unique() %>%
-        c(., "individualCount")
+        c(., "individualCount", "issues")
 
       temp <- rgbif::occ_download_import(gbif_download) %>%
-        dplyr::select(tidyselect::any_of(select_names)) %>%
         {if(filter_NA_date) (.) %>%
             dplyr::filter(!is.na(eventDate)) else (.)
           } %>%
@@ -157,10 +169,12 @@
             dplyr::mutate(coordinateUncertaintyInMeters = dplyr::case_when(grepl("Coordinate uncertainty increased to"
                                                                                  , informationWithheld
                                                                                  ) ~ readr::parse_number(informationWithheld)
+                                                                           , grepl("COORDINATE_UNCERTAINTY_METERS_INVALID", issue) & coordinateUncertaintyInMeters < 10000 ~ 10000
                                                                            , TRUE ~ coordinateUncertaintyInMeters
                                                                            )
             ) else (.)
-        }
+        } %>%
+        dplyr::select(tidyselect::any_of(select_names))
 
       rio::export(temp
                   , save_file
@@ -185,7 +199,9 @@
 
     }
 
-    temp <- rio::import(save_file)
+    temp <- rio::import(save_file
+                        , setclass = "tibble"
+                        )
 
     return(temp)
 

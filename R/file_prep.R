@@ -29,7 +29,7 @@
                                    )
                           )
 
-    fs::dir_create(dirname(save_dir))
+    fs::dir_create(dirname(save_file))
 
     return(save_file)
 

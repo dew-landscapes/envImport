@@ -45,10 +45,10 @@
                                                           , units = c("mins")
                                                           )
                                                  )
-                                      , 2
+                                      , 3
                                       )
                               , " minutes to return "
-                              , if(data_name != "tern") format(nrow(temp), big.mark = ",") else format(nrow(temp$veg.PI), big.mark = ",")
+                              , format(nrow(temp), big.mark = ",")
                               , " records."
                               )
                        , file = fs::path(save_dir, "log.log")
