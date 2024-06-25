@@ -105,12 +105,12 @@ saved results.</p></dd>
 
 <dt>adj_spa_rel</dt>
 <dd><p>Logical. If true, an attempt will be made to check
-<code>coordinateUncertaintyInMetres</code> against: information in <code>informationWithheld.</code> If
+<code>coordinateUncertaintyInMeters</code> against: information in <code>informationWithheld.</code> If
 <code>informationWithheld</code> contains "Coordinate uncertainty increased to",
 <code><a href="https://readr.tidyverse.org/reference/parse_number.html" class="external-link">readr::parse_number()</a></code> is used to retrieve that number, which is then used
-to replace any value in <code>coordinateUncertaintyInMetres</code>; and if the column
-<code>issue</code> contains <code>COORDINATE_ROUNDED</code>, <code>coordinateUncertaintyInMetres</code> is
-given the value 10000.</p></dd>
+to replace any value in <code>coordinateUncertaintyInMeters</code>; and if the column
+<code>issue</code> contains <code>COORDINATE_UNCERTAINTY_METERS_INVALID</code>,
+<code>coordinateUncertaintyInMeters</code> is limited to 10000 or greater.</p></dd>
 
 </dl></div>
     <div id="value">

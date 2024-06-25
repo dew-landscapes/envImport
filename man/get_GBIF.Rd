@@ -40,12 +40,12 @@ saved results.}
 (to match other data sources).}
 
 \item{adj_spa_rel}{Logical. If true, an attempt will be made to check
-\code{coordinateUncertaintyInMetres} against: information in \code{informationWithheld.} If
+\code{coordinateUncertaintyInMeters} against: information in \code{informationWithheld.} If
 \code{informationWithheld} contains "Coordinate uncertainty increased to",
 \code{readr::parse_number()} is used to retrieve that number, which is then used
-to replace any value in \code{coordinateUncertaintyInMetres}; and if the column
-\code{issue} contains \code{COORDINATE_ROUNDED}, \code{coordinateUncertaintyInMetres} is
-given the value 10000.}
+to replace any value in \code{coordinateUncertaintyInMeters}; and if the column
+\code{issue} contains \code{COORDINATE_UNCERTAINTY_METERS_INVALID},
+\code{coordinateUncertaintyInMeters} is limited to 10000 or greater.}
 }
 \value{
 Dataframe, \code{save_file}, \code{gbif_data_ref.bib} (in the same directory as

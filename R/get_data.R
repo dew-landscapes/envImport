@@ -9,7 +9,6 @@
 #' `here::here("out", "ds", data_name, paste0(data_name, "_raw.rds"))`)
 #'
 #' @param data_name Character. Name of data source. e.g. 'tern' or 'gbif'.
-#' @param data_map Dataframe or NULL. Mapping of fields to retrieve.
 #' @param ... Passed to `get_data_name`.
 #'
 #' @return Dataframe, either loaded from `save_dir` or from a new query to
@@ -20,7 +19,6 @@
 #'
 #' @examples
   get_data <- function(data_name
-                       , data_map = NULL
                        , ...
                        ) {
 

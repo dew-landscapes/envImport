@@ -31,12 +31,12 @@
 #' @param occ_char Logical. If true, occ_derivation will be coerced to character
 #' (to match other data sources).
 #' @param adj_spa_rel Logical. If true, an attempt will be made to check
-#' `coordinateUncertaintyInMetres` against: information in `informationWithheld.` If
+#' `coordinateUncertaintyInMeters` against: information in `informationWithheld.` If
 #' `informationWithheld` contains "Coordinate uncertainty increased to",
 #' `readr::parse_number()` is used to retrieve that number, which is then used
-#' to replace any value in `coordinateUncertaintyInMetres`; and if the column
-#' `issue` contains `COORDINATE_ROUNDED`, `coordinateUncertaintyInMetres` is
-#' given the value 10000.
+#' to replace any value in `coordinateUncertaintyInMeters`; and if the column
+#' `issue` contains `COORDINATE_UNCERTAINTY_METERS_INVALID`,
+#' `coordinateUncertaintyInMeters` is limited to 10000 or greater.
 #'
 #' @return Dataframe, `save_file`, `gbif_data_ref.bib` (in the same directory as
 #' `save_file`) and full GBIF download.
@@ -70,6 +70,7 @@
       # Increase the time allowed to access URLs
       RCurl::curlSetOpt(timeout = 100000)
 
+      # occ_download ------
       if(!is.null(aoi)) {
 
         aoiWKT <- aoi %>%
@@ -118,17 +119,21 @@
 
       }
 
+      # wait ------
       rgbif::occ_download_wait(gbif_download
                                , status_ping = request_wait
                                )
 
+      # meta-------
       meta <- rgbif::occ_download_meta(gbif_download)
 
+      # get -------
       gbif_download <- rgbif::occ_download_get(gbif_download
                                                , path = fs::path(save_dir, name)
                                                , overwrite = FALSE
                                                )
 
+      # build output -------
       select_names <- data_map %>%
         dplyr::filter(data_name == name) %>%
         unlist(., use.names=FALSE) %>%
@@ -176,12 +181,12 @@
         } %>%
         dplyr::select(tidyselect::any_of(select_names))
 
+      # save -------
       rio::export(temp
                   , save_file
                   )
 
-      # Make a reference for the download
-
+      # .bib -------
       bib_file <- fs::path(fs::path(save_dir, name)
                            , "gbif.bib"
                            )

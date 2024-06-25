@@ -4,12 +4,10 @@
 \alias{get_data}
 \title{Get \code{data_name} data}
 \usage{
-get_data(data_name, data_map = NULL, ...)
+get_data(data_name, ...)
 }
 \arguments{
 \item{data_name}{Character. Name of data source. e.g. 'tern' or 'gbif'.}
-
-\item{data_map}{Dataframe or NULL. Mapping of fields to retrieve.}
 
 \item{...}{Passed to \code{get_data_name}.}
 }
