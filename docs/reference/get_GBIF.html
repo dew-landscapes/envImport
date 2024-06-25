@@ -63,8 +63,7 @@ Global Biodiversity Information Facility."><!-- mathjax --><script src="https://
 <span>  filter_inconsistent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  filter_NA_date <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  occ_char <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  adj_spa_rel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  previous_key <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  adj_spa_rel <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -93,6 +92,25 @@ saved results.</p></dd>
 <dd><p>Integer. Time in seconds to wait between
 <code><a href="https://docs.ropensci.org/rgbif/reference/occ_download_meta.html" class="external-link">rgbif::occ_download_meta()</a></code> requests. Used by <code><a href="https://docs.ropensci.org/rgbif/reference/occ_download_wait.html" class="external-link">rgbif::occ_download_wait()</a></code>
 <code>status_ping</code> argument.</p></dd>
+
+
+<dt>filter_NA_date</dt>
+<dd><p>Logical. Filter if <code>is.na(eventDate)</code>.</p></dd>
+
+
+<dt>occ_char</dt>
+<dd><p>Logical. If true, occ_derivation will be coerced to character
+(to match other data sources).</p></dd>
+
+
+<dt>adj_spa_rel</dt>
+<dd><p>Logical. If true, an attempt will be made to check
+<code>coordinateUncertaintyInMetres</code> against: information in <code>informationWithheld.</code> If
+<code>informationWithheld</code> contains "Coordinate uncertainty increased to",
+<code><a href="https://readr.tidyverse.org/reference/parse_number.html" class="external-link">readr::parse_number()</a></code> is used to retrieve that number, which is then used
+to replace any value in <code>coordinateUncertaintyInMetres</code>; and if the column
+<code>issue</code> contains <code>COORDINATE_ROUNDED</code>, <code>coordinateUncertaintyInMetres</code> is
+given the value 10000.</p></dd>
 
 </dl></div>
     <div id="value">

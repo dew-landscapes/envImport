@@ -15,8 +15,7 @@ get_gbif(
   filter_inconsistent = TRUE,
   filter_NA_date = TRUE,
   occ_char = TRUE,
-  adj_spa_rel = TRUE,
-  previous_key = NULL
+  adj_spa_rel = TRUE
 )
 }
 \arguments{
@@ -34,6 +33,19 @@ saved results.}
 \item{request_wait}{Integer. Time in seconds to wait between
 \code{rgbif::occ_download_meta()} requests. Used by \code{rgbif::occ_download_wait()}
 \code{status_ping} argument.}
+
+\item{filter_NA_date}{Logical. Filter if \code{is.na(eventDate)}.}
+
+\item{occ_char}{Logical. If true, occ_derivation will be coerced to character
+(to match other data sources).}
+
+\item{adj_spa_rel}{Logical. If true, an attempt will be made to check
+\code{coordinateUncertaintyInMetres} against: information in \code{informationWithheld.} If
+\code{informationWithheld} contains "Coordinate uncertainty increased to",
+\code{readr::parse_number()} is used to retrieve that number, which is then used
+to replace any value in \code{coordinateUncertaintyInMetres}; and if the column
+\code{issue} contains \code{COORDINATE_ROUNDED}, \code{coordinateUncertaintyInMetres} is
+given the value 10000.}
 }
 \value{
 Dataframe, \code{save_file}, \code{gbif_data_ref.bib} (in the same directory as
