@@ -37,6 +37,9 @@
 #' to replace any value in `coordinateUncertaintyInMeters`; and if the column
 #' `issue` contains `COORDINATE_UNCERTAINTY_METERS_INVALID`,
 #' `coordinateUncertaintyInMeters` is limited to 10000 or greater.
+#' @param previous_key Character. e.g. `0092123-240506114902167`. If provided,
+#' an attempt will be made to load from previously _successful_ download of
+#' occurrence data.
 #'
 #' @return Dataframe, `save_file`, `gbif_data_ref.bib` (in the same directory as
 #' `save_file`) and full GBIF download.
@@ -59,6 +62,7 @@
                        , filter_NA_date = TRUE
                        , occ_char = TRUE
                        , adj_spa_rel = TRUE
+                       , previous_key = NULL
                        ) {
 
     save_file <- file_prep(save_dir, name)
@@ -67,62 +71,71 @@
 
     if(get_new) {
 
-      # Increase the time allowed to access URLs
-      RCurl::curlSetOpt(timeout = 100000)
+      if(is.null(previous_key)) {
 
-      # occ_download ------
-      if(!is.null(aoi)) {
+        # Increase the time allowed to access URLs
+        RCurl::curlSetOpt(timeout = 100000)
 
-        aoiWKT <- aoi %>%
-          sf::st_bbox() %>%
-          sf::st_as_sfc() %>%
-          sf::st_geometry() %>%
-          sf::st_transform(crs = 4326) %>%
-          sf::st_as_text()
+        # occ_download ------
+        if(!is.null(aoi)) {
 
-        gbif_download <- rgbif::occ_download(
-          rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
-                                      , FALSE
-                                      )
-                          , rgbif::pred("HAS_COORDINATE"
-                                        , TRUE
+          aoiWKT <- aoi %>%
+            sf::st_bbox() %>%
+            sf::st_as_sfc() %>%
+            sf::st_geometry() %>%
+            sf::st_transform(crs = 4326) %>%
+            sf::st_as_text()
+
+          gbif_download <- rgbif::occ_download(
+            rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
+                                        , FALSE
                                         )
-                          , rgbif::pred_not(rgbif::pred_in("BASIS_OF_RECORD"
-                                                           , c("FOSSIL_SPECIMEN"
-                                                               , "LIVING_SPECIMEN"
-                                                               )
-                                                           )
-                                            )
-                          , ...
-                          )
-          , rgbif::pred_within(aoiWKT)
-          )
+                            , rgbif::pred("HAS_COORDINATE"
+                                          , TRUE
+                                          )
+                            , rgbif::pred_not(rgbif::pred_in("BASIS_OF_RECORD"
+                                                             , c("FOSSIL_SPECIMEN"
+                                                                 , "LIVING_SPECIMEN"
+                                                                 )
+                                                             )
+                                              )
+                            , ...
+                            )
+            , rgbif::pred_within(aoiWKT)
+            )
+
+        } else {
+
+          gbif_download <- rgbif::occ_download(
+            rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
+                                        , FALSE
+                                        )
+                            , rgbif::pred("HAS_COORDINATE"
+                                          , TRUE
+                                          )
+                             , rgbif::pred_not(rgbif::pred_in("BASIS_OF_RECORD"
+                                                             , c("FOSSIL_SPECIMEN"
+                                                                 , "LIVING_SPECIMEN"
+                                                                 )
+                                                             )
+                                              )
+                            , ...
+                            )
+            )
+
+        }
+
+        # wait ------
+        rgbif::occ_download_wait(gbif_download
+                                 , status_ping = request_wait
+                                 )
+
 
       } else {
 
-        gbif_download <- rgbif::occ_download(
-          rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
-                                      , FALSE
-                                      )
-                          , rgbif::pred("HAS_COORDINATE"
-                                        , TRUE
-                                        )
-                           , rgbif::pred_not(rgbif::pred_in("BASIS_OF_RECORD"
-                                                           , c("FOSSIL_SPECIMEN"
-                                                               , "LIVING_SPECIMEN"
-                                                               )
-                                                           )
-                                            )
-                          , ...
-                          )
-          )
+        gbif_download <- previous_key
 
       }
-
-      # wait ------
-      rgbif::occ_download_wait(gbif_download
-                               , status_ping = request_wait
-                               )
 
       # meta-------
       meta <- rgbif::occ_download_meta(gbif_download)
