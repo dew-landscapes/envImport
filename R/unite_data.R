@@ -134,9 +134,16 @@ unite_data <- function(df_to_unite
 
       }
 
+      keep_cols <- c(names(data_map)
+                     , "quad_metres"
+                     , if(make_occ) "occ"
+                     , if(add_year) "year"
+                     , if(add_month) "month"
+                     )
+
       # clean up -----
       united <- united %>%
-        dplyr::select(tidyselect::any_of(names(data_map)))
+        dplyr::select(tidyselect::any_of(keep_cols))
 
       # previous------
 
