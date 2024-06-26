@@ -15,7 +15,8 @@ get_gbif(
   filter_inconsistent = TRUE,
   filter_NA_date = TRUE,
   occ_char = TRUE,
-  adj_spa_rel = TRUE
+  adj_spa_rel = TRUE,
+  previous_key = NULL
 )
 }
 \arguments{
@@ -46,6 +47,10 @@ saved results.}
 to replace any value in \code{coordinateUncertaintyInMeters}; and if the column
 \code{issue} contains \code{COORDINATE_UNCERTAINTY_METERS_INVALID},
 \code{coordinateUncertaintyInMeters} is limited to 10000 or greater.}
+
+\item{previous_key}{Character. e.g. \code{0092123-240506114902167}. If provided,
+an attempt will be made to load from previously \emph{successful} download of
+occurrence data.}
 }
 \value{
 Dataframe, \code{save_file}, \code{gbif_data_ref.bib} (in the same directory as

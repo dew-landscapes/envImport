@@ -63,7 +63,8 @@ Global Biodiversity Information Facility."><!-- mathjax --><script src="https://
 <span>  filter_inconsistent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  filter_NA_date <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  occ_char <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  adj_spa_rel <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  adj_spa_rel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  previous_key <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,6 +112,12 @@ saved results.</p></dd>
 to replace any value in <code>coordinateUncertaintyInMeters</code>; and if the column
 <code>issue</code> contains <code>COORDINATE_UNCERTAINTY_METERS_INVALID</code>,
 <code>coordinateUncertaintyInMeters</code> is limited to 10000 or greater.</p></dd>
+
+
+<dt>previous_key</dt>
+<dd><p>Character. e.g. <code>0092123-240506114902167</code>. If provided,
+an attempt will be made to load from previously <em>successful</em> download of
+occurrence data.</p></dd>
 
 </dl></div>
     <div id="value">
