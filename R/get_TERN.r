@@ -123,8 +123,6 @@
 
         if(make_lifeform) {
 
-          # not used any more. left here in case
-
           luGF <- tibble::tribble(
             ~growth_form, ~lifeform
             , "Bryophyte", "MO"
@@ -154,7 +152,7 @@
                           , height
                           , tidyselect::any_of(all_names)
                           ) %>%
-            dplyr::group_by(dplyr::across(tidyselect::any_of(all_names))) %>%
+            dplyr::group_by(site_unique, !!rlang::ensym(species_col)) %>%
             dplyr::summarise(growth_form = names(which.max(table(growth_form)))
                              , height = median(height)
                              ) %>%
