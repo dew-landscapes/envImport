@@ -211,7 +211,7 @@
                                            ) %>%
         RefManageR::toBiblatex()
 
-      ref[1] <- paste0("@misc{gbif}")
+      ref[1] <- paste0("@misc{gbif,")
 
       readr::write_lines(ref, bib_file)
 
