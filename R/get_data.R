@@ -24,7 +24,14 @@
 
     dots <- list(...)
     get_new <- dots$get_new
-    save_dir <- dots$save_dir
+
+    if(is.null(dots$save_dir)) {
+
+      dots$save_dir <- here::here("out", "ds")
+
+      save_dir <- dots$save_dir
+
+    }
 
     start_time <- Sys.time()
 

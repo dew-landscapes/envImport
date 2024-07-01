@@ -142,7 +142,7 @@
 
       # get -------
       gbif_download <- rgbif::occ_download_get(gbif_download
-                                               , path = fs::path(save_dir, name)
+                                               , path = dirname(save_file)
                                                , overwrite = FALSE
                                                )
 
@@ -200,7 +200,7 @@
                   )
 
       # .bib -------
-      bib_file <- fs::path(fs::path(save_dir, name)
+      bib_file <- fs::path(fs::path(dirname(save_file))
                            , "gbif.bib"
                            )
 
