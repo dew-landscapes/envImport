@@ -40,12 +40,15 @@
              , "Paddock tree project"
              , "Terrestrial ecosystem network"
              , "Global biodiversity information facility"
-             , "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, Cherry Gardens Post-fire Heath Bird Monitoring"
+             , "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre"
              )
     ) %>%
     dplyr::mutate(data_name = forcats::fct_reorder(data_name
                                                    , order
                                                    )
-                  , data_name_use = toupper(data_name)
+                  , data_name_use = dplyr::case_when(data_name == "havplot" ~ "HAVPlot",
+                                                     data_name == "other" ~ "Other",
+                                                     TRUE ~ toupper(data_name)
+                                                     )
                   ) %>%
     dplyr::arrange(order)
