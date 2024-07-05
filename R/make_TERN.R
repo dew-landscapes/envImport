@@ -203,7 +203,8 @@
     temp <- temp %>%
       dplyr::rename(species = !!rlang::ensym(species_col)) %>%
       dplyr::select(tidyselect::any_of(select_names)) %>%
-      dplyr::distinct()
+      dplyr::distinct() %>%
+      dplyr::mutate(kingdom = "Plantae")
 
     if(!is.null(save_file)) {
 
