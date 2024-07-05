@@ -9,14 +9,14 @@
     date = c("obsStartDate", "SurveyDate", "ASSESSMENT_DATE", "OBSDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_start_date", "eventDate", "SIGHTINGDATE"),
     lat = c("decimalLatitude", "LATITUDE", "LATITUDE", "LATITUDE", "LATITUDE", "lat", "LATITUDE", "latitude", "decimalLatitude", "LATITUDE"),
     long = c("decimalLongitude", "LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
-    original_name = c("scientificName", "LegacyName", "Species", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "species", "species", "SPECIES"),
-    common = c(NA, NA, "Common1", "COMNAME1", "COMNAME", NA, "Common_name_orig", NA, NA, NA),
-    nsx = c(NA, "NSXCode", "Old_NSX_Code", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
+    original_name = c("scientificName", "SPECIES", "SPECIES", "SPECIES", "SPECIES", "Spp", "Scientific_name_original", "species", "species", "SPECIES"),
+    common = c(NA, "COMNAME1", "COMNAME1", "COMNAME1", "COMNAME", NA, "Common_name_orig", NA, NA, NA),
+    nsx = c(NA, "NSXCode", "NSXCODE", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
     occ_derivation = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "occurrenceStatus", "NUMOBSERVED"),
     quantity = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "organismQuantity", "NUMOBSERVED"),
     survey_nr = c(NA, NA, NA, "SURVEYNR", "SURVEYNR", NA, NA, NA, NA, "SURVEYNR"),
     survey = c("projectID", "LandSystem", NA, "SURVEYNAME", "SURVEYNAME", NA, NA, NA, NA, "SURVEYNAME"),
-    ind = c(NA, NA, "isIndigenous", "ISINDIGENOUS", "ISINDIGENOUSFLAG", NA, "Native_Introduced_original", NA, NA, NA),
+    ind = c(NA, "ISINDIGENOUS", "ISINDIGENOUS", "ISINDIGENOUS", "ISINDIGENOUSFLAG", NA, "Native_Introduced_original", NA, NA, NA),
     rel_metres = c("coordinateUncertaintyInMetres", NA, NA, "rel_metres", "rel_metres", NA, NA, NA, "coordinateUncertaintyInMeters", "maxDist"),
     sens = c(NA, NA, NA, NA, "DISTRIBNDESC", NA, NA, NA, NA, NA),
     lifeform = c(NA, "Lifeform", NA, "MUIRCODE", NA, NA, "Life_form", "lifeform", NA, NA),
@@ -26,8 +26,8 @@
     height = c(NA, NA, NA, NA, NA, NA, NA, "height", NA, NA),
     quad_x = c("length", NA, "X_DIM", "VEGQUADSIZE1", NA, NA, NA, "quadX", NA, NA),
     quad_y = c("width", NA, "Y_DIM", "VEGQUADSIZE2", NA, NA, NA, "quadY", NA, NA),
-    epbc_status = c(NA, NA, NA, "ESACTSTATUSCODE", "ESACTSTATUSCODE", NA, NA, NA, NA, NA),
-    npw_status = c(NA, NA, NA, "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", NA, NA, NA, NA, NA),
+    epbc_status = c(NA, "ESACTSTATUSCODE", "ESACTSTATUSCODE", "ESACTSTATUSCODE", "ESACTSTATUSCODE", NA, NA, NA, NA, NA),
+    npw_status = c(NA, "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", "NPWACTSTATUSCODE", NA, NA, NA, NA, NA),
     method = c("abundanceMethod", NA, NA, "METHODDESC", "METHODDESC", NA, NA, NA, "samplingProtocol", "METHODDESC"),
     obs = c("individualName", "observer", "assessor", "observer", "OBSERVER", "assessor", "Observers", "observer_veg", "recordedBy", "observer"),
     denatured = c(NA, NA, NA, NA, NA, NA, NA, NA, "informationWithheld", NA),
@@ -43,7 +43,8 @@
              , "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre"
              )
     ) %>%
-    dplyr::mutate(data_name = forcats::fct_reorder(data_name
+    dplyr::mutate(kingdom = "kingdom"
+                  , data_name = forcats::fct_reorder(data_name
                                                    , order
                                                    )
                   , data_name_use = dplyr::case_when(data_name == "havplot" ~ "HAVPlot",
