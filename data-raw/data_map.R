@@ -9,7 +9,7 @@
     date = c("obsStartDate", "SurveyDate", "ASSESSMENT_DATE", "OBSDATE", "SIGHTINGDATE", "date", "Obs_Date", "visit_start_date", "eventDate", "SIGHTINGDATE"),
     lat = c("decimalLatitude", "LATITUDE", "LATITUDE", "LATITUDE", "LATITUDE", "lat", "LATITUDE", "latitude", "decimalLatitude", "LATITUDE"),
     long = c("decimalLongitude", "LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
-    original_name = c("scientificName", "CONCATNAMAUTH", "CONCATNAMAUTH", "CONCATNAMAUTH", "SPECIES", "Spp", "CONCATNAMAUTH", "species", "species", "SPECIES"),
+    original_name = c("scientificName", "CONCATNAMAUTH", "CONCATNAMAUTH", "CONCATNAMAUTH", "SPECIES", "Spp", "CONCATNAMAUTH", "species", "scientificName", "SPECIES"),
     common = c(NA, "COMNAME1", "COMNAME1", "COMNAME1", "COMNAME", NA, "COMNAME1", NA, NA, NA),
     nsx = c(NA, "NSXCode", "NSXCODE", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
     occ_derivation = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "occurrenceStatus", "NUMOBSERVED"),
