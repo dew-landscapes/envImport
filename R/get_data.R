@@ -29,8 +29,6 @@
 
       dots$save_dir <- here::here("out", "ds")
 
-      save_dir <- dots$save_dir
-
     }
 
     start_time <- Sys.time()
@@ -56,7 +54,7 @@
                               , format(nrow(temp), big.mark = ",")
                               , " records."
                               )
-                       , file = fs::path(save_dir, "log.log")
+                       , file = fs::path(dots$save_dir, "log.log")
                        , append = TRUE
                        )
 
