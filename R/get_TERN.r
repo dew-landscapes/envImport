@@ -220,7 +220,8 @@
 
         temp <- temp %>%
           dplyr::rename(species = !!rlang::ensym(species_col)) %>%
-          dplyr::distinct()
+          dplyr::distinct() %>%
+          dplyr::mutate(kingdom = "Plantae")
 
         # limit? -------
         # limit size of object by only returning columns in the data_map
