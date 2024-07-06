@@ -11,7 +11,7 @@
     long = c("decimalLongitude", "LONGITUDE", "LONGITUDE", "LONGITUDE", "LONGITUDE", "lon", "LONGITUDE", "longitude", "decimalLongitude", "LONGITUDE"),
     original_name = c("scientificName", "CONCATNAMAUTH", "CONCATNAMAUTH", "CONCATNAMAUTH", "SPECIES", "Spp", "CONCATNAMAUTH", "species", "scientificName", "SPECIES"),
     common = c(NA, "COMNAME1", "COMNAME1", "COMNAME1", "COMNAME", NA, "COMNAME1", NA, NA, NA),
-    nsx = c(NA, "NSXCode", "NSXCODE", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
+    nsx = c(NA, "NSXCode", "species", "NSXCODE", "NSXCODE", NA, "NSXCODE", NA, "organismID", NA),
     occ_derivation = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "occurrenceStatus", "NUMOBSERVED"),
     quantity = c("abundanceValue", NA, NA, "NUMOBSERVED", "NUMOBSERVED", NA, NA, NA, "organismQuantity", "NUMOBSERVED"),
     survey_nr = c(NA, NA, NA, "SURVEYNR", "SURVEYNR", NA, NA, NA, NA, "SURVEYNR"),
