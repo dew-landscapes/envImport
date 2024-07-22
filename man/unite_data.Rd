@@ -8,7 +8,6 @@ unite_data(
   df_to_unite,
   data_map,
   out_file,
-  get_new = FALSE,
   add_month = TRUE,
   add_year = TRUE,
   make_occ = TRUE,
@@ -21,15 +20,13 @@ unite_data(
 }
 \arguments{
 \item{df_to_unite}{Dataframe with (at least) columns \code{data_name} and a list column of
-results from \code{make_data_name}}
+results from \code{make_data_name} named \code{obj}}
 
 \item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
 \code{envImport::data_map}}
 
 \item{out_file}{Path to save results to. Will always save .parquet
 irrespective of any file type implied by out_file.}
-
-\item{get_new}{Logical. If FALSE, will attempt to load from existing \code{out_file}}
 
 \item{add_month, add_year}{Logical. Add a year and/or month column to returned
 data frame (requires a \code{date} field to be specified by \code{data_map})}
