@@ -59,7 +59,7 @@ unite_data <- function(df_to_unite
 
     # united -------
     united <- df_to_unite %>%
-      dplyr::mutate(make = purrr::map2(data_name
+      dplyr::mutate(obj = purrr::map2(data_name
                                        , obj
                                        , \(x, y) remap_data_names(this_name = x
                                                                   , df = y
@@ -67,7 +67,7 @@ unite_data <- function(df_to_unite
                                                                   )
                                        )
                     ) %>%
-      tidyr::unnest(cols = c(make))
+      tidyr::unnest(cols = c(obj))
 
     # year and month ------
     if(any(add_year, add_month)) {
