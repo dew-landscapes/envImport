@@ -27,7 +27,6 @@
     func <- get(paste0("get_", data_name))
 
     temp <- func(name = data_name
-                 , save_dir
                  , ...
                  )
 
