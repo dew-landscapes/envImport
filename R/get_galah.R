@@ -48,14 +48,15 @@
       galah::galah_config(atlas = node)
       on.exit(galah::galah_config(atlas = old_atlas))
 
-      # initiate qry -------
+      # qry -------
+      ## initiate-------
       if(is.null(qry)) {
 
         qry <- galah::galah_call()
 
       }
 
-      # aoi
+      ## aoi------
       if(!is.null(aoi)) qry <- qry %>%
           galah::galah_geolocate(aoi)
 
@@ -73,9 +74,11 @@
         stats::na.omit() %>%
         dplyr::filter(value %in% galah::show_all("fields")$id)
 
+      ## select-------
       qry <- qry %>%
         galah::galah_select(select_names$value)
 
+      ## check records--------
       records <- qry %>%
         galah::atlas_counts()
 
@@ -94,14 +97,13 @@
               , " node"
               )
 
-      # bib -------
       make_doi <- galah::galah_config()$user$download_reason_id != 10
 
+      ## retrieve ------
       temp <- qry %>%
-        galah::atlas_occurrences(mint_doi = make_doi
-                                 , wait = TRUE
-                                 )
+        galah::atlas_occurrences(mint_doi = make_doi)
 
+      # bib -------
       if(make_doi) {
 
         doi <- attr(temp, "doi")
