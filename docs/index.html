@@ -12,12 +12,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Combine Disparate Data Sources">
-<meta property="og:description" content="Tools to help with data preparation for varied environmental
-    analyses. General workflow is `get_`, `make_` then unite. `get_` functions
-    retrieve data from external data sources, always saving results to file and
-    with an absolute minimum of changes to raw data. `make_` functions mung the
-    results from `get_`. Data source specific munging options are in here.
-    Finally `unite_data_sources` using a data map.">
+<meta property="og:description" content="Get data from various data sources and align naming and data types,
+    including some fixes for common issues when combining data sources.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -78,7 +74,7 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The goal of envImport is to obtain, and assemble, environmental data from disparate data sources, for a geographic area of interest. As little filtering as possible occurs when obtaining data and envImport does <em>not</em> aim to clean, filter or tidy the data (see <a href="https://acanthiza.github.io/envClean/" class="external-link">envClean</a> for help there). Usually the end result of an envImport workflow is a single object that contains all records from all the data sources. Sourcing and assembling environmental rasters for the area of interest is also in scope, but poorly implemented / documented currently.</p>
+<p>The goal of envImport is to obtain, and make seamlessly useable, environmental data from disparate data sources, for a geographic area of interest.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -90,7 +86,7 @@
 <div class="section level2">
 <h2 id="supported-data-sources">Supported data sources<a class="anchor" aria-label="anchor" href="#supported-data-sources"></a>
 </h2>
-<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>) or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). The 10 data sources currently supported or with plans for development are (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
+<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>) via <code>galah</code> package [@R-galah] or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). The 11 data sources currently supported or with plans for development are (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
 <ul>
 <li>bdbsa: Biological databases of South Australia</li>
 <li>egis: Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</li>
@@ -101,6 +97,7 @@
 <li>bcm: Bushland condition monitoring</li>
 <li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre</li>
 <li>ptp: Paddock tree project</li>
+<li>galah: Atlas of Living Australia</li>
 <li>gbif: Global biodiversity information facility</li>
 </ul>
 </div>
@@ -121,29 +118,30 @@
 <caption>Data map of desired columns in the assembled data (columns) and names of columns in the original data (rows)</caption>
 <colgroup>
 <col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="4%">
+<col width="2%">
+<col width="1%">
 <col width="1%">
 <col width="0%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
 <col width="1%">
 <col width="2%">
 <col width="2%">
 <col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="5%">
-<col width="2%">
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -178,6 +176,7 @@
 <th align="left">height</th>
 <th align="left">quad_x</th>
 <th align="left">quad_y</th>
+<th align="left">quad_metres</th>
 <th align="left">epbc_status</th>
 <th align="left">npw_status</th>
 <th align="left">method</th>
@@ -213,6 +212,7 @@
 <td align="left">NA</td>
 <td align="left">VEGQUADSIZE1</td>
 <td align="left">VEGQUADSIZE2</td>
+<td align="left">NA</td>
 <td align="left">ESACTSTATUSCODE</td>
 <td align="left">NPWACTSTATUSCODE</td>
 <td align="left">METHODDESC</td>
@@ -240,6 +240,7 @@
 <td align="left">ISINDIGENOUSFLAG</td>
 <td align="left">rel_metres</td>
 <td align="left">DISTRIBNDESC</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -283,6 +284,7 @@
 <td align="left">width</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">abundanceMethod</td>
 <td align="left">individualName</td>
 <td align="left">NA</td>
@@ -318,6 +320,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">observer_veg</td>
 <td align="left">NA</td>
 <td align="left">Terrestrial ecosystem network</td>
@@ -349,6 +352,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">ESACTSTATUSCODE</td>
 <td align="left">NPWACTSTATUSCODE</td>
 <td align="left">NA</td>
@@ -367,6 +371,7 @@
 <td align="left">lat</td>
 <td align="left">lon</td>
 <td align="left">Spp</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -417,6 +422,7 @@
 <td align="left">NA</td>
 <td align="left">X_DIM</td>
 <td align="left">Y_DIM</td>
+<td align="left">NA</td>
 <td align="left">ESACTSTATUSCODE</td>
 <td align="left">NPWACTSTATUSCODE</td>
 <td align="left">NA</td>
@@ -443,6 +449,7 @@
 <td align="left">SURVEYNAME</td>
 <td align="left">NA</td>
 <td align="left">maxDist</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -488,6 +495,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">Observers</td>
 <td align="left">NA</td>
 <td align="left">Paddock tree project</td>
@@ -495,8 +503,43 @@
 <td align="left">PTP</td>
 </tr>
 <tr class="even">
-<td align="left">gbif</td>
+<td align="left">galah</td>
 <td align="right">10</td>
+<td align="right">4326</td>
+<td align="left">locationID</td>
+<td align="left">eventDate</td>
+<td align="left">decimalLatitude</td>
+<td align="left">decimalLongitude</td>
+<td align="left">scientificName</td>
+<td align="left">vernacularName</td>
+<td align="left">organismID</td>
+<td align="left">occurrenceStatus</td>
+<td align="left">organismQuantity</td>
+<td align="left">NA</td>
+<td align="left">datasetName</td>
+<td align="left">NA</td>
+<td align="left">coordinateUncertaintyInMeters</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">samplingProtocol</td>
+<td align="left">recordedBy</td>
+<td align="left">generalisationInMetres</td>
+<td align="left">Atlas of Living Australia</td>
+<td align="left">kingdom</td>
+<td align="left">ALA</td>
+</tr>
+<tr class="odd">
+<td align="left">gbif</td>
+<td align="right">11</td>
 <td align="right">4326</td>
 <td align="left">gbifID</td>
 <td align="left">eventDate</td>
@@ -514,7 +557,8 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="left">organismQuantity</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -530,12 +574,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level3">
-<h3 id="get_x">
-<code>get_x</code><a class="anchor" aria-label="anchor" href="#get_x"></a>
-</h3>
-<p><code>get_x</code> functions get data from the data source <code>x</code>. Results are always saved to disk (as getting data can be slow). When run again, they load from the saved file by default. If available, <code>get_x</code> functions use any R packages and functions provided by the data source (e.g. GBIF provides <code>rgbif</code> [@R-rgbif;@rgbif2017] and TERN provides <code>ausplotsR</code> [@R-ausplotsR]). The first arguments to <code>get_x</code> functions are always:</p>
+<p><code>get_x</code> functions get data from the data source <code>x</code>. Results are always saved to disk (as getting data can be slow). When run again, they load from the saved file by default. If available, <code>get_x</code> functions use any R packages and functions provided by the data source (e.g. TERN provides <code>ausplotsR</code> [@]). The first arguments to <code>get_x</code> functions are always:</p>
 <ul>
 <li>
 <code>aoi</code>: an area of interest, provided as simple feature. <code>get_x</code> will turn any <code>aoi</code> into a bounding box and convert to coordinates appropriate for data source <code>x</code>. [Ed: is <code>aoi</code> always required?]</li>
@@ -549,11 +588,6 @@
 </ul>
 <p>Many of the <code>get_x</code> functions will only work within <code>DEW</code>.</p>
 <p>As of June 2024, <code>get_x</code> functions can be run from <code>get_data</code>.</p>
-</div>
-<div class="section level3">
-<h3 id="unite">Unite<a class="anchor" aria-label="anchor" href="#unite"></a>
-</h3>
-<p><code>unite_data</code> writes <code>bio_all</code>.</p>
 </div>
 </div>
 </div>

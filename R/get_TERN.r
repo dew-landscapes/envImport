@@ -22,7 +22,7 @@
 #' @return Object and tern_raw.rds in `save_dir`
 #' @export
 #'
-#' @examples
+#' @example inst/examples/get_tern_ex.R
   get_tern <- function(aoi
                        , save_dir = NULL
                        , get_new = FALSE
@@ -33,9 +33,10 @@
                        , species_name = "SN"
                        , strip_bryophytes = FALSE
                        , make_lifeform = TRUE
+                       , ...
                        ) {
 
-    save_file <- file_prep(save_dir, name)
+    save_file <- file_prep(save_dir, name, ...)
 
     # run query
     get_new <- if(!file.exists(save_file)) TRUE else get_new
@@ -223,23 +224,12 @@
           dplyr::distinct() %>%
           dplyr::mutate(kingdom = "Plantae")
 
-        # limit? -------
-        # limit size of object by only returning columns in the data_map
-        if(!is.null(data_map)) {
-
-          select_names <- data_map %>%
-            dplyr::filter(data_name == name) %>%
-            base::unlist(., use.names=FALSE) %>%
-            stats::na.omit()
-
-          temp <- temp %>%
-            dplyr::select(tidyselect::any_of(select_names))
-
-        }
-
-        rio::export(temp
-                    , save_file
-                    )
+        temp <- remap_data_names(this_name = name
+                                 , df_to_remap = temp
+                                 , data_map = data_map
+                                 , out_file = save_file
+                                 , previous = "move"
+                                 )
 
       } else {
 

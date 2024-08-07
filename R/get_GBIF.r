@@ -1,6 +1,8 @@
 
 #' Get an occurrence record set from GBIF
 #'
+#' Deprecated. Use `get_galah()` with `atlas = "GBIF"`.
+#'
 #' Get new occurrence record set from GBIF and save as `.rds`. GBIF is the
 #' [Global Biodiversity Information Facility](https://www.gbif.org/).
 #'
@@ -51,10 +53,10 @@
 #' # but can take a while to run depending on GBIF waiting times.
 #' get_gbif(aoi = NULL, save_dir = NULL, get_new = FALSE, rgbif::pred("taxonKey", 2474903), rgbif::pred("year", 1901))
 #'}
-  get_gbif <- function(aoi = NULL
+  get_gbif <- function(...
+                       , aoi = NULL
                        , save_dir = NULL
                        , get_new = FALSE
-                       , ...
                        , request_wait = 20
                        , name = "gbif"
                        , data_map = NULL
@@ -107,18 +109,7 @@
         } else {
 
           gbif_download <- rgbif::occ_download(
-            rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
-                                        , FALSE
-                                        )
-                            , rgbif::pred("HAS_COORDINATE"
-                                          , TRUE
-                                          )
-                             , rgbif::pred_not(rgbif::pred_in("BASIS_OF_RECORD"
-                                                             , c("FOSSIL_SPECIMEN"
-                                                                 , "LIVING_SPECIMEN"
-                                                                 )
-                                                             )
-                                              )
+            rgbif::pred_and(
                             , ...
                             )
             )
@@ -147,12 +138,6 @@
                                                )
 
       # build output -------
-      select_names <- data_map %>%
-        dplyr::filter(data_name == name) %>%
-        unlist(., use.names=FALSE) %>%
-        stats::na.omit() %>%
-        unique() %>%
-        c(., "individualCount", "issues")
 
       temp <- rgbif::occ_download_import(gbif_download) %>%
         {if(filter_NA_date) (.) %>%
@@ -191,8 +176,16 @@
                                                                            , TRUE ~ coordinateUncertaintyInMeters
                                                                            )
             ) else (.)
-        } %>%
-        dplyr::select(tidyselect::any_of(select_names))
+        }
+
+
+      # remap ------
+      temp <- remap_data_names(this_name = name
+                               , df_to_remap = temp
+                               , data_map = data_map
+                               , out_file = save_file
+                               , previous = "move"
+                               )
 
       # save -------
       rio::export(temp

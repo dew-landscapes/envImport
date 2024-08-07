@@ -11,7 +11,7 @@
 
   lapply(codes,source)
 
-  datas <- ls(pattern = "lu|data_map")
+  datas <- ls(pattern = "lu|data_map|aoi")
 
   do.call(save, c(lapply(datas,as.name), file = "data/data.rda"))
 

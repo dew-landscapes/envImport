@@ -1,3 +1,10 @@
+#' Simple feature to define a geographic area of interest.
+#'
+#' `aoi` defines an area in the South Australian riverland, centred on Cooltong
+#' Conservation Park.
+#'
+#' @format A simple feature polygon
+"aoi"
 
 #' Lookup the maximum reliability distance for `RELIBANR` field
 #'

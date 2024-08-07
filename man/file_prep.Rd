@@ -4,11 +4,32 @@
 \alias{file_prep}
 \title{Prepare saving location in get functions}
 \usage{
-file_prep(save_dir, name, out_type = ".parquet")
+file_prep(
+  save_dir = NULL,
+  name,
+  out_type = ".parquet",
+  sub_dir = NULL,
+  create_dir = TRUE
+)
 }
 \arguments{
-\item{name}{}
+\item{save_dir}{Character. Name of directory to save results into.}
+
+\item{name}{Character. Usually \code{data_name} from a data map (e.g. see
+\code{envImport::data_map})}
+
+\item{out_type}{Character. File type to save (anything accepted by
+\code{rio::export()})}
+
+\item{sub_dir}{Character or \code{NULL}. Save to \code{fs::path(save_dir, sub_dir)}?}
+}
+\value{
+Character. Name of file to save, usually within \code{get_x} functions.
 }
 \description{
 Prepare saving location in get functions
 }
+\examples{
+file_prep(here::here(), name = "galah", create_dir = FALSE)
+}
+\keyword{internal}

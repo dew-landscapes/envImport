@@ -9,7 +9,7 @@
 #' `here::here("out", "ds", data_name, paste0(data_name, "_raw.rds"))`)
 #'
 #' @param data_name Character. Name of data source. e.g. 'tern' or 'gbif'.
-#' @param ... Passed to `get_data_name`.
+#' @param ... Passed to `get_data_name`. Needs `save_dir` and `get_new`.
 #'
 #' @return Dataframe, either loaded from `save_dir` or from a new query to
 #' `data_name`. If new data is queried, .rds results file will be created,
@@ -17,7 +17,7 @@
 #' @family Help with combining data sources
 #' @export
 #'
-#' @examples
+#' @example inst/examples/get_data_ex.R
   get_data <- function(data_name
                        , ...
                        ) {
@@ -36,6 +36,7 @@
     temp <- R.utils::doCall(paste0("get_",data_name)
                             , name = data_name
                             , args = dots
+                            , ...
                             )
 
     readr::write_lines(paste0(Sys.time()
@@ -61,3 +62,5 @@
     return(temp)
 
   }
+
+

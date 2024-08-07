@@ -14,7 +14,8 @@ get_tern(
   cover_type = "PFC",
   species_name = "SN",
   strip_bryophytes = FALSE,
-  make_lifeform = TRUE
+  make_lifeform = TRUE,
+  ...
 )
 }
 \arguments{
@@ -42,4 +43,18 @@ Object and tern_raw.rds in \code{save_dir}
 TERN is the
 \href{https://www.tern.org.au/}{Terrestrial Ecosystem Research Network}. Built on
 the \code{ausplotsR::get_ausplots} function.
+}
+\examples{
+
+  library("envImport")
+
+  out_dir <- file.path(system.file(package = "envImport"), "examples")
+
+  aoi <- envImport::aoi
+
+  qry_tern <- get_tern(aoi = aoi
+                       , save_dir = out_dir
+                       , data_map = data_map
+                       , get_new = TRUE
+                       )
 }

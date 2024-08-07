@@ -2,13 +2,22 @@
 % Please edit documentation in R/remap_data_names.R
 \name{remap_data_names}
 \alias{remap_data_names}
-\title{Use a data map to combine several data sources into one data frame}
+\title{Use a data map to select, rename, adjust and align columns}
 \usage{
 remap_data_names(
   this_name,
   df_to_remap,
-  names_map,
-  exclude_names = c("data_name", "order", "days", "desc", "epsg")
+  data_map,
+  out_file = NULL,
+  exclude_names = c("order", "epsg", "desc", "data_name_use"),
+  add_month = TRUE,
+  add_year = TRUE,
+  make_occ = TRUE,
+  occ_cols = c("occ_derivation", "quantity"),
+  absences = c("0", "none detected", "none observed", "None detected", "ABSENT"),
+  previous = c("delete", "move"),
+  compare_previous = TRUE,
+  compare_cols = c("data_name", "survey")
 )
 }
 \arguments{
@@ -16,15 +25,43 @@ remap_data_names(
 
 \item{df_to_remap}{Dataframe containing the columns to select and (potentially) rename}
 
-\item{names_map}{Dataframe mapping old names to new names}
+\item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
+\code{envImport::data_map}}
+
+\item{out_file}{Character. Name of file to save. If \code{NULL}, this will be
+\code{here::here("ds", this_name, "this_name.parquet")}}
 
 \item{exclude_names}{Character. column names in namesmap to exclude from the
 combined data}
+
+\item{add_month, add_year}{Logical. Add a year and/or month column to returned
+data frame (requires a \code{date} field to be specified by \code{data_map})}
+
+\item{make_occ}{Logical. Make an \code{occ} column (occurrence) of 1 = detected, 0
+= not detected? Due to the plethora of ways original data sets record numbers
+and absences this should not be considered 100\% reliable.}
+
+\item{absences}{Character. If \code{make_occ} what values are considered absences?}
+
+\item{previous}{Character. What to do with any previous \code{out_file}.
+Default is 'delete'. Alternative 'move' will rename to the same location as
+gsub("\\.parquet", paste0("moved__", format(now(), "\%Y\%m\%d_\%H\%M\%S"), ".parquet"), \code{out_file})}
+
+\item{compare_previous}{Logical. If \code{TRUE} a comparison of records per
+\code{compare_cols} will be made between the new and previous \code{out_file.} Ignored
+unless \verb{previous == "move}}
+
+\item{compare_cols}{If \code{compare_previous} which columns to comapare. Default
+is \code{survey}.}
 }
 \value{
-Tibble with select and renamed columns
+Tibble with selected, renamed, adjusted and aligned columns
 }
 \description{
+Useful to prepare data from several different data sources into a common
+structure that can be read collectively via \code{arrow::open_dataset()}
+}
+\details{
 Includes code from the \href{https://stackoverflow.com/}{stack exchange network}
 \href{https://stackoverflow.com/a/48186249}{post}
 by \href{https://stackoverflow.com/users/4777122/dan}{Dan}.
