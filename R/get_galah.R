@@ -106,22 +106,30 @@
 
         doi <- attr(temp, "doi")
 
-        bib <- bibentry(bibtype = "MISC"
-                        , key = "galah"
-                        , title = "Occurrence download data"
-                        , author = utils::person("Atlas Of Living Australia")
-                        , publisher = "Atlas Of Living Australia"
-                        , year = base::format(base::Sys.Date(), "%Y")
-                        , doi = fs::path(basename(dirname(doi)), basename(doi))
-                        ) %>%
-          utils::toBibtex()
+        if(is.character(doi)) {
 
-        readr::write_lines(bib
-                           , file = fs::path(dirname(save_file)
-                                             , paste0(basename(dirname(save_file)), ".bib")
-                                             )
-                           , append = TRUE
-                           )
+          bib <- bibentry(bibtype = "MISC"
+                          , key = "galah"
+                          , title = "Occurrence download data"
+                          , author = utils::person("Atlas Of Living Australia")
+                          , publisher = "Atlas Of Living Australia"
+                          , year = base::format(base::Sys.Date(), "%Y")
+                          , doi = fs::path(basename(dirname(doi)), basename(doi))
+                          ) %>%
+            utils::toBibtex()
+
+          readr::write_lines(bib
+                             , file = fs::path(dirname(save_file)
+                                               , paste0(basename(dirname(save_file)), ".bib")
+                                               )
+                             , append = TRUE
+                             )
+
+        } else {
+
+          message("problem with doi: galah entry not written to .bib")
+
+        }
 
       }
 
