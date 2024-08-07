@@ -51,7 +51,7 @@
       # initiate qry -------
       if(is.null(qry)) {
 
-        qry <- galah::galah_call()
+        qry <- galah::request_data(type = "occurrences")
 
       }
 
@@ -70,10 +70,11 @@
         dplyr::filter(data_name == name) %>%
         dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
         tidyr::pivot_longer(tidyselect::everything()) %>%
-        stats::na.omit()
+        stats::na.omit() %>%
+        dplyr::filter(value %in% galah::show_all("fields")$id)
 
       qry <- qry %>%
-        galah::galah_select(tidyselect::any_of(select_names$value))
+        galah::galah_select(select_names$value)
 
       records <- qry %>%
         galah::atlas_counts()
@@ -87,14 +88,19 @@
 
       }
 
+      message(records
+              , " records available from galah via "
+              , galah::galah_config()$atlas$acronym
+              , " node"
+              )
+
       # bib -------
       make_doi <- galah::galah_config()$user$download_reason_id != 10
 
       temp <- qry %>%
-        galah::atlas_occurrences(mint_doi = make_doi
-                                 , wait = TRUE
-                                 , file = fs::path(dirname(save_file), "galah_raw.zip")
-                                 )
+        dplyr::collect(mint_doi = make_doi
+                       , wait = TRUE
+                       )
 
       if(make_doi) {
 
