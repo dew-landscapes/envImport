@@ -20,10 +20,11 @@
 #' `galah::galah_call()`
 #' @param ... Passed to `envImport::file_prep()`
 #'
-#' @return
+#' @return Dataframe of occurrences and file saved to `save_dir`. .bib created
+#' when `download_reason_id != 10.`
 #' @export
 #'
-#' @examples
+#' @example inst/examples/get_data_ex.R
   get_galah <- function(aoi = NULL
                         , save_dir = NULL
                         , get_new = FALSE

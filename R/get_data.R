@@ -8,8 +8,8 @@
 #' (respectively: `FALSE` and
 #' `here::here("out", "ds", data_name, paste0(data_name, "_raw.rds"))`)
 #'
-#' @param data_name Character. Name of data source. e.g. 'tern' or 'gbif'.
-#' @param ... Passed to `get_data_name`. Needs `save_dir` and `get_new`.
+#' @param data_name Character. Name of data source. e.g. 'tern' or 'galah'.
+#' @param ... Passed to `get_data_name`
 #'
 #' @return Dataframe, either loaded from `save_dir` or from a new query to
 #' `data_name`. If new data is queried, .rds results file will be created,
@@ -22,42 +22,14 @@
                        , ...
                        ) {
 
-    dots <- list(...)
-    get_new <- dots$get_new
-
-    if(is.null(dots$save_dir)) {
-
-      dots$save_dir <- here::here("out", "ds")
-
-    }
-
     start_time <- Sys.time()
 
-    temp <- R.utils::doCall(paste0("get_",data_name)
-                            , name = data_name
-                            , args = dots
-                            , ...
-                            )
+    func <- get(paste0("get_", data_name))
 
-    readr::write_lines(paste0(Sys.time()
-                              , ": "
-                              , data_name
-                              , if(get_new) " download" else " collection"
-                              , " took "
-                              , round(as.numeric(difftime(Sys.time()
-                                                          , start_time
-                                                          , units = c("mins")
-                                                          )
-                                                 )
-                                      , 3
-                                      )
-                              , " minutes to return "
-                              , format(nrow(temp), big.mark = ",")
-                              , " records."
-                              )
-                       , file = fs::path(dots$save_dir, "log.log")
-                       , append = TRUE
-                       )
+    temp <- func(name = data_name
+                 , save_dir
+                 , ...
+                 )
 
     return(temp)
 

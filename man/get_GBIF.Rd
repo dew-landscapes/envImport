@@ -41,6 +41,11 @@ saved results.}
 \item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
 \code{envImport::data_map}}
 
+\item{filter_inconsistent}{Logical. If \code{TRUE} inconsistencies between the
+\code{occurrenceStatus} column and either \code{organismQuantity} or \code{individualCount}
+are removed. e.g. a record with \code{occurrenceStatus == "ABSENT"} but
+\code{individualCount == 1} would be filtered.}
+
 \item{filter_NA_date}{Logical. Filter if \code{is.na(eventDate)}.}
 
 \item{occ_char}{Logical. If true, occ_derivation will be coerced to character
@@ -59,8 +64,8 @@ an attempt will be made to load from previously \emph{successful} download of
 occurrence data.}
 }
 \value{
-Dataframe, \code{save_file}, \code{gbif_data_ref.bib} (in the same directory as
-\code{save_file}) and full GBIF download.
+Dataframe of occurrences, full download (as key.zip) in \code{save_dir}
+and file saved to \code{save_dir}
 }
 \description{
 Deprecated. Use \code{get_galah()} with \code{atlas = "GBIF"}.

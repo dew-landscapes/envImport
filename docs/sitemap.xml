@@ -52,21 +52,9 @@
     <loc>/reference/lurelBDBSA.html</loc>
   </url>
   <url>
-    <loc>/reference/make_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_gbif.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_tern.html</loc>
-  </url>
-  <url>
     <loc>/reference/pipe.html</loc>
   </url>
   <url>
     <loc>/reference/remap_data_names.html</loc>
-  </url>
-  <url>
-    <loc>/reference/unite_data.html</loc>
   </url>
 </urlset>

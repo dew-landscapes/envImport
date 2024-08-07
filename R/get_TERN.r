@@ -24,7 +24,7 @@
 #' each unique site.
 #' @param ... Passed to `envImport::file_prep()`
 #'
-#' @return Object and tern_raw.rds in `save_dir`
+#' @return Dataframe of occurrences and file saved to `save_dir`
 #' @export
 #'
 #' @example inst/examples/get_tern_ex.R

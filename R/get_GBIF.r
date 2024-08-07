@@ -29,7 +29,7 @@
 #' @param request_wait Integer. Time in seconds to wait between
 #' `rgbif::occ_download_meta()` requests. Used by `rgbif::occ_download_wait()`
 #' `status_ping` argument.
-#' @filter_inconsistent Logical. If `TRUE` inconsistencies between the
+#' @param filter_inconsistent Logical. If `TRUE` inconsistencies between the
 #' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
 #' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
 #' `individualCount == 1` would be filtered.
@@ -47,8 +47,8 @@
 #' an attempt will be made to load from previously _successful_ download of
 #' occurrence data.
 #'
-#' @return Dataframe, `save_file`, `gbif_data_ref.bib` (in the same directory as
-#' `save_file`) and full GBIF download.
+#' @return Dataframe of occurrences, full download (as key.zip) in `save_dir`
+#' and file saved to `save_dir`
 #' @export
 #'
 #' @examples

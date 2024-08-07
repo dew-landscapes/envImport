@@ -71,22 +71,36 @@
   # lost some records due to the profile
   nrow(qry03) > nrow(qry04)
 
-  ## bio_all: get_galah for aoi -------
+  # bio_all --------
+  ## get_galah for aoi -------
   bio_all_galah <- get_galah(aoi = envImport::aoi
                              , save_dir = out_dir
                              , data_map = data_map
                              , sub_dir = "bio_all"
                              )
 
-  # tern ------
-  ## bio_all: get_tern for aoi --------
+  ## get_tern for aoi --------
   bio_all_tern <- get_tern(aoi = envImport::aoi
                            , save_dir = out_dir
                            , data_map = data_map
                            , sub_dir = "bio_all"
                            )
 
-  # bio_all --------
+  ## or using get_data -------
+  # to get both galah and tern
+  datas <- c("galah", "tern")
+
+  purrr::map(datas
+              , \(x) get_data(x
+                              , save_dir = out_dir
+                              , get_new = FALSE
+                              , aoi = envImport::aoi
+                              , data_map = data_map
+                              , sub_dir = "bio_all"
+                              )
+              )
+
+  ## single dataset --------
   bio_all <- arrow::open_dataset(fs::dir_ls(fs::path(out_dir, "bio_all")
                                             , regexp = "\\.parquet"
                                             )

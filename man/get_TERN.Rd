@@ -45,7 +45,7 @@ each unique site.}
 \item{...}{Passed to \code{envImport::file_prep()}}
 }
 \value{
-Object and tern_raw.rds in \code{save_dir}
+Dataframe of occurrences and file saved to \code{save_dir}
 }
 \description{
 TERN is the

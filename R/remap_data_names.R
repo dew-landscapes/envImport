@@ -30,6 +30,7 @@
 #' @param compare_cols If `compare_previous` which columns to comapare. Default
 #' is `survey`.
 #'
+#' @keywords internal
 #' @return Tibble with selected, renamed, adjusted and aligned columns
 #' @family Help with combining data sources
 #' @export

@@ -103,6 +103,13 @@ saved results.</p></dd>
 <code><a href="data_map.html">envImport::data_map</a></code></p></dd>
 
 
+<dt>filter_inconsistent</dt>
+<dd><p>Logical. If <code>TRUE</code> inconsistencies between the
+<code>occurrenceStatus</code> column and either <code>organismQuantity</code> or <code>individualCount</code>
+are removed. e.g. a record with <code>occurrenceStatus == "ABSENT"</code> but
+<code>individualCount == 1</code> would be filtered.</p></dd>
+
+
 <dt>filter_NA_date</dt>
 <dd><p>Logical. Filter if <code>is.na(eventDate)</code>.</p></dd>
 
@@ -132,8 +139,12 @@ occurrence data.</p></dd>
     <h2>Value</h2>
     
 
-<p>Dataframe, <code>save_file</code>, <code>gbif_data_ref.bib</code> (in the same directory as
-<code>save_file</code>) and full GBIF download.</p>
+<p>Dataframe of occurrences, full download (as key.zip) in <code>save_dir</code></p>
+
+
+<p>and file saved to <code>save_dir</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>

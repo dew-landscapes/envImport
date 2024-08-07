@@ -7,9 +7,9 @@
 get_data(data_name, ...)
 }
 \arguments{
-\item{data_name}{Character. Name of data source. e.g. 'tern' or 'gbif'.}
+\item{data_name}{Character. Name of data source. e.g. 'tern' or 'galah'.}
 
-\item{...}{Passed to \code{get_data_name}. Needs \code{save_dir} and \code{get_new}.}
+\item{...}{Passed to \code{get_data_name}}
 }
 \value{
 Dataframe, either loaded from \code{save_dir} or from a new query to
@@ -33,7 +33,7 @@ values from \code{get_data_name} are used
 
   # galah--------
 
-  ## config
+  ## config -------
   galah::galah_config(email = Sys.getenv("GBIF_email")
                       , username = Sys.getenv("GBIF_user")
                       , password = Sys.getenv("GBIF_pwd")
@@ -99,22 +99,51 @@ values from \code{get_data_name} are used
   # lost some records due to the profile
   nrow(qry03) > nrow(qry04)
 
-  ## 05: get_galah for aoi -------
-  gry05 <- get_galah(save_dir = fs::path(out_dir, "qry05")
-                     , data_map = data_map
-                     ,
-                     )
+  # bio_all --------
+  ## get_galah for aoi -------
+  bio_all_galah <- get_galah(aoi = envImport::aoi
+                             , save_dir = out_dir
+                             , data_map = data_map
+                             , sub_dir = "bio_all"
+                             )
 
+  ## get_tern for aoi --------
+  bio_all_tern <- get_tern(aoi = envImport::aoi
+                           , save_dir = out_dir
+                           , data_map = data_map
+                           , sub_dir = "bio_all"
+                           )
 
-  # clean up ------
-  rm(qry01, qry02, qry03, qry04, qry, out_dir)
+  ## or using get_data -------
+  # to get both galah and tern
+  datas <- c("galah", "tern")
 
+  purrr::map(datas
+              , \(x) get_data(x
+                              , save_dir = out_dir
+                              , get_new = FALSE
+                              , aoi = envImport::aoi
+                              , data_map = data_map
+                              , sub_dir = "bio_all"
+                              )
+              )
+
+  ## single dataset --------
+  bio_all <- arrow::open_dataset(fs::dir_ls(fs::path(out_dir, "bio_all")
+                                            , regexp = "\\\\.parquet"
+                                            )
+                                 ) \%>\%
+    dplyr::collect()
+
+  # 'bio_all' is now the sum of its components
+  nrow(bio_all) == nrow(bio_all_galah) + nrow(bio_all_tern)
+
+  # clean up -------
   # return to original atlas
   galah::galah_config(atlas = old_atlas)
 }
 \seealso{
 Other Help with combining data sources: 
-\code{\link{make_data}()},
 \code{\link{remap_data_names}()}
 }
 \concept{Help with combining data sources}

@@ -68,7 +68,6 @@ by \href{https://stackoverflow.com/users/4777122/dan}{Dan}.
 }
 \seealso{
 Other Help with combining data sources: 
-\code{\link{get_data}()},
-\code{\link{make_data}()}
+\code{\link{get_data}()}
 }
 \concept{Help with combining data sources}
