@@ -51,7 +51,7 @@
       # initiate qry -------
       if(is.null(qry)) {
 
-        qry <- galah::call()
+        qry <- galah::galah_call()
 
       }
 
