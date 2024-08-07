@@ -7,6 +7,7 @@
 #' @param out_type Character. File type to save (anything accepted by
 #' `rio::export()`)
 #' @param sub_dir Character or `NULL`. Save to `fs::path(save_dir, sub_dir)`?
+#' @param ... Not used
 #'
 #' @return Character. Name of file to save, usually within `get_x` functions.
 #' @export
@@ -19,6 +20,7 @@
                         , out_type = ".parquet"
                         , sub_dir = NULL
                         , create_dir = TRUE
+                        , ...
                         ) {
 
     if(is.null(save_dir)) {

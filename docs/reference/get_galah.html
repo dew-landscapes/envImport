@@ -164,7 +164,7 @@ when <code>download_reason_id != 10.</code></p>
 <span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Request for 857 occurrences placed in queue</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Current queue length: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> --</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># similar (but not identical) # of records</span></span></span>
@@ -181,7 +181,7 @@ when <code>download_reason_id != 10.</code></p>
 <span class="r-in"><span>                     , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                     , qry <span class="op">=</span> <span class="va">qry</span></span></span>
 <span class="r-in"><span>                     <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpeeMSEi/temp_libpath25946abe4b14/envImport/examples/qry03/galah/galah.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/Rtmp46gAkk/temp_libpathe6c1fbf3b85/envImport/examples/qry03/galah/galah.parquet</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry03</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry02</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
@@ -204,7 +204,7 @@ when <code>download_reason_id != 10.</code></p>
 <span class="r-in"><span>                     , qry <span class="op">=</span> <span class="va">qry</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>                       <span class="fu">galah</span><span class="fu">::</span><span class="fu"><a href="https://galah.ala.org.au/R/reference/galah_apply_profile.html" class="external-link">apply_profile</a></span><span class="op">(</span><span class="va">CSDM</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                     <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpeeMSEi/temp_libpath25946abe4b14/envImport/examples/qry04/galah/galah.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/Rtmp46gAkk/temp_libpathe6c1fbf3b85/envImport/examples/qry04/galah/galah.parquet</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># lost some records due to the profile</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry03</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry04</span><span class="op">)</span></span></span>
@@ -217,7 +217,7 @@ when <code>download_reason_id != 10.</code></p>
 <span class="r-in"><span>                             , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                             , sub_dir <span class="op">=</span> <span class="st">"bio_all"</span></span></span>
 <span class="r-in"><span>                             <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpeeMSEi/temp_libpath25946abe4b14/envImport/examples/bio_all/galah.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/Rtmp46gAkk/temp_libpathe6c1fbf3b85/envImport/examples/bio_all/galah.parquet</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co">## get_tern for aoi --------</span></span></span>
 <span class="r-in"><span>  <span class="va">bio_all_tern</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_tern.html">get_tern</a></span><span class="op">(</span>aoi <span class="op">=</span> <span class="fu">envImport</span><span class="fu">::</span><span class="va"><a href="aoi.html">aoi</a></span></span></span>
@@ -225,7 +225,7 @@ when <code>download_reason_id != 10.</code></p>
 <span class="r-in"><span>                           , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                           , sub_dir <span class="op">=</span> <span class="st">"bio_all"</span></span></span>
 <span class="r-in"><span>                           <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpeeMSEi/temp_libpath25946abe4b14/envImport/examples/bio_all/tern.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/Rtmp46gAkk/temp_libpathe6c1fbf3b85/envImport/examples/bio_all/tern.parquet</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co">## or using get_data -------</span></span></span>
 <span class="r-in"><span>  <span class="co"># to get both galah and tern</span></span></span>
@@ -240,8 +240,8 @@ when <code>download_reason_id != 10.</code></p>
 <span class="r-in"><span>                              , sub_dir <span class="op">=</span> <span class="st">"bio_all"</span></span></span>
 <span class="r-in"><span>                              <span class="op">)</span></span></span>
 <span class="r-in"><span>              <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpeeMSEi/temp_libpath25946abe4b14/envImport/examples/bio_all/galah.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpeeMSEi/temp_libpath25946abe4b14/envImport/examples/bio_all/tern.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/Rtmp46gAkk/temp_libpathe6c1fbf3b85/envImport/examples/bio_all/galah.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/Rtmp46gAkk/temp_libpathe6c1fbf3b85/envImport/examples/bio_all/tern.parquet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 97,194 × 19</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    data_name site  date         lat  long original_name             common nsx  </span>

@@ -9,7 +9,8 @@ file_prep(
   name,
   out_type = ".parquet",
   sub_dir = NULL,
-  create_dir = TRUE
+  create_dir = TRUE,
+  ...
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ file_prep(
 \code{rio::export()})}
 
 \item{sub_dir}{Character or \code{NULL}. Save to \code{fs::path(save_dir, sub_dir)}?}
+
+\item{...}{Not used}
 }
 \value{
 Character. Name of file to save, usually within \code{get_x} functions.
