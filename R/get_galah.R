@@ -87,7 +87,7 @@
 
       }
 
-      # doi -------
+      # bib -------
       make_doi <- galah::galah_config()$user$download_reason_id != 10
 
       temp <- qry %>%
@@ -98,9 +98,6 @@
 
         doi <- attr(temp, "doi")
 
-        galah::atlas_citation(temp) %>%
-          bibentry(format = "bibtext")
-
         bib <- bibentry(bibtype = "MISC"
                         , key = "galah"
                         , title = "Occurrence download data"
@@ -108,10 +105,14 @@
                         , publisher = "Atlas Of Living Australia"
                         , year = base::format(base::Sys.Date(), "%Y")
                         , doi = fs::path(basename(dirname(doi)), basename(doi))
-                        )
+                        ) %>%
+          utils::toBibtex()
 
         readr::write_lines(bib
-                           , file = fs::path(dirname(out_file), "galah.bib")
+                           , file = fs::path(dirname(save_file)
+                                             , paste0(basename(dirname(save_file)), ".bib")
+                                             )
+                           , append = TRUE
                            )
 
       }
