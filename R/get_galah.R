@@ -91,8 +91,10 @@
       make_doi <- galah::galah_config()$user$download_reason_id != 10
 
       temp <- qry %>%
-        galah::atlas_occurrences(mint_doi = make_doi) %>%
-        galah::collect(wait = TRUE)
+        galah::atlas_occurrences(mint_doi = make_doi
+                                 , wait = TRUE
+                                 , file = fs::path(dirname(save_file), "galah_raw.zip")
+                                 )
 
       if(make_doi) {
 
@@ -101,7 +103,7 @@
         bib <- bibentry(bibtype = "MISC"
                         , key = "galah"
                         , title = "Occurrence download data"
-                        , author = person("Atlas Of Living Australia")
+                        , author = utils::person("Atlas Of Living Australia")
                         , publisher = "Atlas Of Living Australia"
                         , year = base::format(base::Sys.Date(), "%Y")
                         , doi = fs::path(basename(dirname(doi)), basename(doi))
