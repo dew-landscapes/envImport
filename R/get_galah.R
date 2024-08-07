@@ -51,7 +51,7 @@
       # initiate qry -------
       if(is.null(qry)) {
 
-        qry <- galah::request_data(type = "occurrences")
+        qry <- galah::call()
 
       }
 
@@ -98,9 +98,9 @@
       make_doi <- galah::galah_config()$user$download_reason_id != 10
 
       temp <- qry %>%
-        dplyr::collect(mint_doi = make_doi
-                       , wait = TRUE
-                       )
+        galah::atlas_occurrences(mint_doi = make_doi
+                                 , wait = TRUE
+                                 )
 
       if(make_doi) {
 
