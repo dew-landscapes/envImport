@@ -87,6 +87,16 @@ named <code>tern_raw.parquet</code></p></dd>
 <code>save_dir</code>.</p></dd>
 
 
+<dt>name</dt>
+<dd><p>Character. <code>data_name</code> value in <code><a href="data_map.html">envImport::data_map</a></code>
+(or other <code>data_map</code>)</p></dd>
+
+
+<dt>data_map</dt>
+<dd><p>Dataframe or NULL. Mapping of fields to retrieve. See example
+<code><a href="data_map.html">envImport::data_map</a></code></p></dd>
+
+
 <dt>m_kind, cover_type, species_name, strip_bryophytes</dt>
 <dd><p>Arguments required by
 <code><a href="https://rdrr.io/pkg/ausplotsR/man/species_table.html" class="external-link">ausplotsR::species_table()</a></code></p></dd>
@@ -96,6 +106,10 @@ named <code>tern_raw.parquet</code></p></dd>
 <dd><p>Logical. If true, the columns <code>growth_form</code> and
 <code>height</code> in <code>obj$veg.PI</code> are used to estimate a lifeform for each taxa within
 each unique site.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Passed to <code><a href="file_prep.html">envImport::file_prep()</a></code></p></dd>
 
 </dl></div>
     <div id="value">
@@ -121,6 +135,7 @@ each unique site.</p></dd>
 <span class="r-in"><span>                       , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                       , get_new <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>                       <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpkVCD0Y/temp_libpath4f34398054c6/envImport/examples/tern/tern.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calling the database. Please wait...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 200</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calling the database. Please wait...</span>

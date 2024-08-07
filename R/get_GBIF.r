@@ -21,6 +21,10 @@
 #' `gbif_raw.rds`.
 #' @param get_new Logical. If `FALSE` will attempt to load data from previously
 #' saved results.
+#' @param name Character. `data_name` value in `envImport::data_map`
+#' (or other `data_map`)
+#' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
+#' `envImport::data_map`
 #' @param ... Other arguments passed to `rgbif::occ_download()`
 #' @param request_wait Integer. Time in seconds to wait between
 #' `rgbif::occ_download_meta()` requests. Used by `rgbif::occ_download_wait()`

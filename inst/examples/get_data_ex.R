@@ -5,7 +5,7 @@
 
   # galah--------
 
-  ## config
+  ## config -------
   galah::galah_config(email = Sys.getenv("GBIF_email")
                       , username = Sys.getenv("GBIF_user")
                       , password = Sys.getenv("GBIF_pwd")
@@ -71,9 +71,31 @@
   # lost some records due to the profile
   nrow(qry03) > nrow(qry04)
 
+  ## bio_all: get_galah for aoi -------
+  bio_all_galah <- get_galah(aoi = envImport::aoi
+                             , save_dir = out_dir
+                             , data_map = data_map
+                             , sub_dir = "bio_all"
+                             )
 
-  # clean up ------
-  rm(qry01, qry02, qry03, qry04, qry, out_dir)
+  # tern ------
+  ## bio_all: get_tern for aoi --------
+  bio_all_tern <- get_tern(aoi = envImport::aoi
+                           , save_dir = out_dir
+                           , data_map = data_map
+                           , sub_dir = "bio_all"
+                           )
 
+  # bio_all --------
+  bio_all <- arrow::open_dataset(fs::dir_ls(fs::path(out_dir, "bio_all")
+                                            , regexp = "\\.parquet"
+                                            )
+                                 ) %>%
+    dplyr::collect()
+
+  # 'bio_all' is now the sum of its components
+  nrow(bio_all) == nrow(bio_all_galah) + nrow(bio_all_tern)
+
+  # clean up -------
   # return to original atlas
   galah::galah_config(atlas = old_atlas)

@@ -99,6 +99,12 @@ values from \code{get_data_name} are used
   # lost some records due to the profile
   nrow(qry03) > nrow(qry04)
 
+  ## 05: get_galah for aoi -------
+  gry05 <- get_galah(save_dir = fs::path(out_dir, "qry05")
+                     , data_map = data_map
+                     ,
+                     )
+
 
   # clean up ------
   rm(qry01, qry02, qry03, qry04, qry, out_dir)

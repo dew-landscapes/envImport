@@ -106,10 +106,6 @@ overwriting if necessary. Timing and number of records log in <code>save_dir</co
 <span class="r-in"><span>                      , caching <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>                      , download_reason_id <span class="op">=</span> <span class="fl">10</span> <span class="co"># testing</span></span></span>
 <span class="r-in"><span>                      <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> galah: version 2.0.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">Default node set to ALA (ala.org.au).</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">See all supported GBIF nodes with `show_all(atlases)`.</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">To change nodes, use e.g. `galah_config(atlas = "GBIF")`.</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">old_atlas</span> <span class="op">&lt;-</span> <span class="fu">galah</span><span class="fu">::</span><span class="fu"><a href="https://galah.ala.org.au/R/reference/galah_config.html" class="external-link">galah_config</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">atlas</span><span class="op">$</span><span class="va">region</span></span></span>
 <span class="r-in"><span></span></span>
@@ -158,40 +154,50 @@ overwriting if necessary. Timing and number of records log in <code>save_dir</co
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co">## 03: get_galah ---------</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">qry03</span> <span class="op">&lt;-</span> <span class="fu">get_galah</span><span class="op">(</span>save_dir <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"qry03"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">qry03</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_galah.html">get_galah</a></span><span class="op">(</span>save_dir <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"qry03"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                     , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                     , qry <span class="op">=</span> <span class="va">qry</span></span></span>
 <span class="r-in"><span>                     <span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_galah(save_dir = fs::path(out_dir, "qry03"), data_map = data_map,     qry = qry):</span> could not find function "get_galah"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpkVCD0Y/temp_libpath4f34398054c6/envImport/examples/qry03/galah/galah.parquet</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry03</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry02</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'qry03' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># names from data_map</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qry02</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "recordID"         "scientificName"   "taxonConceptID"   "decimalLatitude" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "decimalLongitude" "eventDate"        "occurrenceStatus" "dataResourceName"</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qry03</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'qry03' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "data_name"      "site"           "date"           "lat"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "long"           "original_name"  "common"         "nsx"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "occ_derivation" "quantity"       "survey"         "rel_metres"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "method"         "obs"            "denatured"      "kingdom"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "occ"            "year"           "month"         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co">## 04: get_galah with profile -------</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">qry04</span> <span class="op">&lt;-</span> <span class="fu">get_galah</span><span class="op">(</span>save_dir <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"qry04"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">qry04</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_galah.html">get_galah</a></span><span class="op">(</span>save_dir <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"qry04"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                     , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                     , qry <span class="op">=</span> <span class="va">qry</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>                       <span class="fu">galah</span><span class="fu">::</span><span class="fu"><a href="https://galah.ala.org.au/R/reference/galah_apply_profile.html" class="external-link">apply_profile</a></span><span class="op">(</span><span class="va">CSDM</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                     <span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_galah(save_dir = fs::path(out_dir, "qry04"), data_map = data_map,     qry = qry %&gt;% galah::apply_profile(CSDM)):</span> could not find function "get_galah"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpkVCD0Y/temp_libpath4f34398054c6/envImport/examples/qry04/galah/galah.parquet</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># lost some records due to the profile</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry03</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qry04</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'qry03' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co">## 05: get_galah for aoi -------</span></span></span>
+<span class="r-in"><span>  <span class="va">gry05</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_galah.html">get_galah</a></span><span class="op">(</span>save_dir <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"qry05"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                     , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
+<span class="r-in"><span>                     ,</span></span>
+<span class="r-in"><span>                     <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpkVCD0Y/temp_libpath4f34398054c6/envImport/examples/qry05/galah/galah.parquet</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_galah(save_dir = fs::path(out_dir, "qry05"), data_map = data_map,     ):</span> Returned records (145298286) would exceed limit of 50 million</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># clean up ------</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">qry01</span>, <span class="va">qry02</span>, <span class="va">qry03</span>, <span class="va">qry04</span>, <span class="va">qry</span>, <span class="va">out_dir</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>object 'qry03' not found</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>object 'qry04' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># return to original atlas</span></span></span>
 <span class="r-in"><span>  <span class="fu">galah</span><span class="fu">::</span><span class="fu"><a href="https://galah.ala.org.au/R/reference/galah_config.html" class="external-link">galah_config</a></span><span class="op">(</span>atlas <span class="op">=</span> <span class="va">old_atlas</span><span class="op">)</span></span></span>

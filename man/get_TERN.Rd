@@ -29,12 +29,20 @@ named \code{tern_raw.parquet}}
 \item{get_new}{Logical. If FALSE, will attempt to load from existing
 \code{save_dir}.}
 
+\item{name}{Character. \code{data_name} value in \code{envImport::data_map}
+(or other \code{data_map})}
+
+\item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
+\code{envImport::data_map}}
+
 \item{m_kind, cover_type, species_name, strip_bryophytes}{Arguments required by
 \code{ausplotsR::species_table()}}
 
 \item{make_lifeform}{Logical. If true, the columns \code{growth_form} and
 \code{height} in \code{obj$veg.PI} are used to estimate a lifeform for each taxa within
 each unique site.}
+
+\item{...}{Passed to \code{envImport::file_prep()}}
 }
 \value{
 Object and tern_raw.rds in \code{save_dir}

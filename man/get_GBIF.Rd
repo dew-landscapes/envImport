@@ -35,6 +35,12 @@ saved results.}
 \code{rgbif::occ_download_meta()} requests. Used by \code{rgbif::occ_download_wait()}
 \code{status_ping} argument.}
 
+\item{name}{Character. \code{data_name} value in \code{envImport::data_map}
+(or other \code{data_map})}
+
+\item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
+\code{envImport::data_map}}
+
 \item{filter_NA_date}{Logical. Filter if \code{is.na(eventDate)}.}
 
 \item{occ_char}{Logical. If true, occ_derivation will be coerced to character

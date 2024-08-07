@@ -13,11 +13,16 @@
 #' named `tern_raw.parquet`
 #' @param get_new Logical. If FALSE, will attempt to load from existing
 #' `save_dir`.
+#' @param name Character. `data_name` value in `envImport::data_map`
+#' (or other `data_map`)
+#' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
+#' `envImport::data_map`
 #' @param m_kind,cover_type,species_name,strip_bryophytes Arguments required by
 #' `ausplotsR::species_table()`
 #' @param make_lifeform Logical. If true, the columns `growth_form` and
 #' `height` in `obj$veg.PI` are used to estimate a lifeform for each taxa within
 #' each unique site.
+#' @param ... Passed to `envImport::file_prep()`
 #'
 #' @return Object and tern_raw.rds in `save_dir`
 #' @export
