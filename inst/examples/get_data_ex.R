@@ -38,8 +38,7 @@
     galah::galah_filter(year == 2000)
 
   qry02 <- qry %>%
-    galah::atlas_occurrences() %>%
-    dplyr::collect()
+    galah::atlas_occurrences()
 
   # similar (but not identical) # of records
     # difference due to predicates?
