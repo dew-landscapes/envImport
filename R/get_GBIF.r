@@ -1,8 +1,6 @@
 
 #' Get an occurrence record set from GBIF
 #'
-#' Deprecated. Use `get_galah()` with `atlas = "GBIF"`.
-#'
 #' Get new occurrence record set from GBIF and save as `.rds`. GBIF is the
 #' [Global Biodiversity Information Facility](https://www.gbif.org/).
 #'
@@ -71,7 +69,7 @@
                        , previous_key = NULL
                        ) {
 
-    save_file <- file_prep(save_dir, name)
+    save_file <- file_prep(save_dir, name, ...)
 
     get_new <- if(!file.exists(save_file)) TRUE else get_new
 
@@ -113,7 +111,18 @@
         } else {
 
           gbif_download <- rgbif::occ_download(
-            rgbif::pred_and(
+            rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
+                                        , FALSE
+                                        )
+                            , rgbif::pred("HAS_COORDINATE"
+                                          , TRUE
+                                          )
+                             , rgbif::pred_not(rgbif::pred_in("BASIS_OF_RECORD"
+                                                             , c("FOSSIL_SPECIMEN"
+                                                                 , "LIVING_SPECIMEN"
+                                                                 )
+                                                             )
+                                              )
                             , ...
                             )
             )
