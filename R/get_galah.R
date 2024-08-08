@@ -57,12 +57,12 @@
       }
 
       ## aoi------
-      if(!is.null(aoi)) qry <- qry |>
+      if(!is.null(aoi)) qry <- qry %>%
           galah::galah_geolocate(aoi)
 
 
       ## check records--------
-      records <- qry |>
+      records <- qry %>%
         galah::atlas_counts()
 
       if(records > 50000000) {
@@ -83,27 +83,29 @@
       ## select-------
       if(is.null(data_map)) {
 
-          qry <- qry |>
+          qry <- qry %>%
             galah::galah_select(group = c("basic", "event", "taxonomy"))
 
       } else {
 
-        select_names <- data_map |>
-          dplyr::filter(data_name == name) |>
-          dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) |>
-          tidyr::pivot_longer(tidyselect::everything()) |>
-          stats::na.omit() |>
+        select_names <- data_map %>%
+          dplyr::filter(data_name == name) %>%
+          dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
+          tidyr::pivot_longer(tidyselect::everything()) %>%
+          stats::na.omit() %>%
           dplyr::filter(value %in% galah::show_all("fields")$id)
 
-        qry <- qry |>
-          galah::select(select_names$value)
+        qry <- qry %>%
+          galah::select(recordID # inc recordID here: see https://github.com/AtlasOfLivingAustralia/galah-R/issues/239
+                        , select_names$value
+                        )
 
       }
 
       make_doi <- galah::galah_config()$user$download_reason_id != 10
 
       ## retrieve ------
-      temp <- qry |>
+      temp <- qry %>%
         galah::atlas_occurrences(mint_doi = make_doi)
 
       # bib -------
@@ -120,7 +122,7 @@
                           , publisher = "Atlas Of Living Australia"
                           , year = base::format(base::Sys.Date(), "%Y")
                           , doi = fs::path(basename(dirname(doi)), basename(doi))
-                          ) |>
+                          ) %>%
             utils::toBibtex()
 
           readr::write_lines(bib
