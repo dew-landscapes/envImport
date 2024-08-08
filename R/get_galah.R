@@ -7,15 +7,16 @@
 #' @param aoi Optional simple feature (sf). Used to limit the occurrences
 #' returned via `galah::galah_geolocate()`
 #' @param save_dir Character. Path to directory into which to save outputs. If
-#' `null` results will be saved to `here::here("out", "ds", "tern")`. File will be
-#' named `tern_raw.parquet`
+#' `NULL` results will be saved to `here::here("out", "ds", "galah")`. File will be
+#' named `galah.parquet`
 #' @param get_new Logical. If FALSE, will attempt to load from existing
 #' `save_dir`.
 #' @param name Character. `data_name` value in `envImport::data_map`
 #' (or other `data_map`)
 #' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
 #' `envImport::data_map`
-#' @param node Character. Name of atlas to use (see `galah::atlas_occurrences()`)
+#' @param node Character. Name of atlas to use (see `galah::atlas_occurrences()`).
+#' Doesn't seem to work with node = "GBIF" and untested on other nodes.
 #' @param qry `NULL` or an object of class data_request, created using
 #' `galah::galah_call()`
 #' @param ... Passed to `envImport::file_prep()`
