@@ -8,22 +8,22 @@
 #' to return a dataframe of occurence records. Requires
 #' [gbif credentials](https://docs.ropensci.org/rgbif/articles/gbif_credentials.html).
 #'
-#' Any arguments to `rgbif::occ_download()` can be passed via `...`. For
-#' convenience, `aoi` can also be passed directly and internally it is converted
-#' to a bounding box in appropriate lat/long and passed to
+#' Any arguments to `rgbif::occ_download()` can be passed via `extra_prediates`.
+#' For convenience, `aoi` can also be passed directly and internally it is
+#' converted to a bounding box in appropriate lat/long and passed to
 #' `rgbif::pred_within()` in WKT format.
 #'
 #' @param aoi sf defining area of interest.
 #' @param save_dir Character. File path into which to save outputs. If `null`
 #' results will be saved to `fs::path("out", "ds", "gbif")` as file
-#' `gbif_raw.rds`.
+#' `gbif.rds`.
 #' @param get_new Logical. If `FALSE` will attempt to load data from previously
 #' saved results.
-#' @param name Character. `data_name` value in `envImport::data_map`
-#' (or other `data_map`)
-#' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
+#' @param name Character or `NULL`. `data_name` value in `envImport::data_map`
+#' (or other `data_map`). Required if `data_map` is not `NULL`
+#' @param data_map Dataframe or `NULL.` Mapping of fields to retrieve. See example
 #' `envImport::data_map`
-#' @param ... Other arguments passed to `rgbif::occ_download()`
+#' @param predicates List. Any number of [gbif predicates](https://docs.ropensci.org/rgbif/articles/getting_occurrence_data.html#occ_download)
 #' @param request_wait Integer. Time in seconds to wait between
 #' `rgbif::occ_download_meta()` requests. Used by `rgbif::occ_download_wait()`
 #' `status_ping` argument.
@@ -42,31 +42,29 @@
 #' `issue` contains `COORDINATE_UNCERTAINTY_METERS_INVALID`,
 #' `coordinateUncertaintyInMeters` is limited to 10000 or greater.
 #' @param previous_key Character. e.g. `0092123-240506114902167`. If provided,
-#' an attempt will be made to load from previously _successful_ download of
-#' occurrence data.
+#' an attempt will be made to load (or download) a previous query of occurrence
+#' data.
+#' @param ... Passed to `envImport::file_prep()`
 #'
 #' @return Dataframe of occurrences, full download (as key.zip) in `save_dir`
-#' and file saved to `save_dir`
+#' and file saved to `save_dir` as `gbif.parquet`.
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' # Australian Bustard Ardeotis australis with year == 1901. Returns 7 records
-#' # but can take a while to run depending on GBIF waiting times.
-#' get_gbif(aoi = NULL, save_dir = NULL, get_new = FALSE, rgbif::pred("taxonKey", 2474903), rgbif::pred("year", 1901))
-#'}
-  get_gbif <- function(...
-                       , aoi = NULL
+#' @example inst/examples/get_gbif_ex.R
+#'
+  get_gbif <- function(aoi = NULL
                        , save_dir = NULL
                        , get_new = FALSE
+                       , data_map = NULL
+                       , predicates = NULL
                        , request_wait = 20
                        , name = "gbif"
-                       , data_map = NULL
                        , filter_inconsistent = TRUE
                        , filter_NA_date = TRUE
                        , occ_char = TRUE
                        , adj_spa_rel = TRUE
                        , previous_key = NULL
+                       , ...
                        ) {
 
     save_file <- file_prep(save_dir, name, ...)
@@ -84,11 +82,13 @@
         if(!is.null(aoi)) {
 
           aoiWKT <- aoi %>%
+            sf::st_transform(crs = 4326) %>%
             sf::st_bbox() %>%
             sf::st_as_sfc() %>%
-            sf::st_geometry() %>%
-            sf::st_transform(crs = 4326) %>%
             sf::st_as_text()
+
+          next_year <- as.numeric(format(Sys.Date(), "%Y")) + 1
+          dummy_pred <- rgbif::pred_lt("year", next_year)
 
           gbif_download <- rgbif::occ_download(
             rgbif::pred_and(rgbif::pred("HAS_GEOSPATIAL_ISSUE"
@@ -103,9 +103,9 @@
                                                                  )
                                                              )
                                               )
-                            , ...
                             )
             , rgbif::pred_within(aoiWKT)
+            , if(!is.null(predicates)) predicates else dummy_pred
             )
 
         } else {
@@ -123,8 +123,8 @@
                                                                  )
                                                              )
                                               )
-                            , ...
                             )
+            , if(!is.null(predicates)) predicates
             )
 
         }
@@ -182,10 +182,12 @@
             dplyr::mutate(organismQuantity = as.character(organismQuantity)) else (.)
           } %>%
         {if(adj_spa_rel) (.) %>%
-            dplyr::mutate(coordinateUncertaintyInMeters = dplyr::case_when(grepl("Coordinate uncertainty increased to"
-                                                                                 , informationWithheld
-                                                                                 ) ~ readr::parse_number(informationWithheld)
-                                                                           , grepl("COORDINATE_UNCERTAINTY_METERS_INVALID", issue) & coordinateUncertaintyInMeters < 10000 ~ 10000
+            dplyr::mutate(coordinateUncertaintyInMeters_adj = dplyr::case_when(grepl("Coordinate uncertainty increased to"
+                                                                                     , as.character(informationWithheld)
+                                                                                     ) ~ readr::parse_number(as.character(informationWithheld))
+                                                                               , grepl("COORDINATE_UNCERTAINTY_METERS_INVALID"
+                                                                                       , issue
+                                                                                       ) & coordinateUncertaintyInMeters < 10000 ~ 10000
                                                                            , TRUE ~ coordinateUncertaintyInMeters
                                                                            )
             ) else (.)
@@ -200,32 +202,34 @@
                                , previous = "move"
                                )
 
-      # save -------
-      rio::export(temp
-                  , save_file
-                  )
-
       # .bib -------
       bib_file <- fs::path(fs::path(dirname(save_file))
                            , "gbif.bib"
                            )
 
 
-      ref <- RefManageR::GetBibEntryWithDOI(meta$doi
+      bib <- RefManageR::GetBibEntryWithDOI(meta$doi
                                            , temp.file = bib_file
                                            , delete.file = TRUE
                                            ) %>%
         RefManageR::toBiblatex()
 
-      ref[1] <- paste0("@misc{gbif,")
+      bib[1] <- paste0("@misc{gbif,")
 
-      readr::write_lines(ref, bib_file)
+      readr::write_lines(bib
+                         , file = fs::path(dirname(save_file)
+                                           , paste0(basename(dirname(save_file)), ".bib")
+                                           )
+                         , append = TRUE
+                         )
+
+    } else {
+
+      temp <- rio::import(save_file
+                          , setclass = "tibble"
+                          )
 
     }
-
-    temp <- rio::import(save_file
-                        , setclass = "tibble"
-                        )
 
     return(temp)
 

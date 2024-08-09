@@ -55,17 +55,18 @@ structure that can be read collectively via <code><a href="https://arrow.apache.
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">remap_data_names</span><span class="op">(</span></span>
 <span>  <span class="va">this_name</span>,</span>
 <span>  <span class="va">df_to_remap</span>,</span>
-<span>  <span class="va">data_map</span>,</span>
+<span>  data_map <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  out_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  exclude_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"epsg"</span>, <span class="st">"desc"</span>, <span class="st">"data_name_use"</span><span class="op">)</span>,</span>
-<span>  add_month <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  add_year <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  make_occ <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  add_month <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
+<span>  add_year <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
+<span>  make_occ <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
 <span>  occ_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"occ_derivation"</span>, <span class="st">"quantity"</span><span class="op">)</span>,</span>
 <span>  absences <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"none detected"</span>, <span class="st">"none observed"</span>, <span class="st">"None detected"</span>, <span class="st">"ABSENT"</span><span class="op">)</span>,</span>
 <span>  previous <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"delete"</span>, <span class="st">"move"</span><span class="op">)</span>,</span>
 <span>  compare_previous <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  compare_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data_name"</span>, <span class="st">"survey"</span><span class="op">)</span></span>
+<span>  compare_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data_name"</span>, <span class="st">"survey"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -124,6 +125,10 @@ unless <code>previous == "move</code></p></dd>
 <dt>compare_cols</dt>
 <dd><p>If <code>compare_previous</code> which columns to comapare. Default
 is <code>survey</code>.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Not used</p></dd>
 
 </dl></div>
     <div id="value">

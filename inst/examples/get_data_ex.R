@@ -3,9 +3,9 @@
 
   out_dir <- file.path(system.file(package = "envImport"), "examples")
 
-  # galah--------
-
   ## config -------
+  old_atlas <- galah::galah_config()$atlas$region
+
   galah::galah_config(email = Sys.getenv("GBIF_email")
                       , username = Sys.getenv("GBIF_user")
                       , password = Sys.getenv("GBIF_pwd")
@@ -13,21 +13,36 @@
                       , download_reason_id = 10 # testing
                       )
 
-  old_atlas <- galah::galah_config()$atlas$region
-
   galah::galah_config(atlas = "GBIF")
+
+
+  # Australian Bustards--------
+    # in the year 2020
 
   ## 01: atlas = gbif --------
 
-  qry01 <- galah::galah_call() %>%
-    galah::galah_identify("Ardeotis australis") %>%
-    galah::galah_filter(year == 2000) %>%
-    galah::atlas_occurrences() %>%
-    dplyr::collect()
+  save_file <- fs::path(out_dir, "qry01", "qry01.rds")
+
+  if(!file.exists(save_file)) {
+
+    qry01 <- galah::galah_call() %>%
+      galah::galah_identify("Ardeotis australis") %>%
+      galah::galah_filter(year == 2000) %>%
+      galah::atlas_occurrences() %>%
+      dplyr::collect()
+
+    rio::export(qry01
+                , save_file
+                )
+
+  } else {
+
+    qry01 <- rio::import(save_file)
+
+  }
 
 
   ## 02: atlas = ala ----------
-
   galah::galah_config(atlas = "ALA")
 
   galah::galah_config(email = Sys.getenv("ALA_email"))
@@ -37,11 +52,26 @@
     galah::galah_identify("Ardeotis australis") %>%
     galah::galah_filter(year == 2000)
 
-  qry02 <- qry %>%
-    galah::atlas_occurrences()
+  save_file <- fs::path(out_dir, "qry02", "qry02.rds")
+
+  if(!file.exists(save_file)) {
+
+    qry02 <- qry %>%
+      galah::atlas_occurrences()
+
+    rio::export(qry02
+                , save_file
+                )
+
+  } else {
+
+    rio::import(save_file
+                , setclass = "tibble"
+                )
+
+  }
 
   # similar (but not identical) # of records
-    # difference due to predicates?
   nrow(qry01)
   nrow(qry02)
 
@@ -53,7 +83,19 @@
                      , qry = qry
                      )
 
-  nrow(qry03) == nrow(qry02)
+  # again, not quite the same number of records
+  nrow(qry02)
+  nrow(qry03)
+
+  # get_galah removes, via envImport::remap_data_names NULL dates, lat and long
+    # see arguments to envImport::remap_data_names
+    # filtering qry02 on those columns gives the same result as qry03
+  qry02 %>%
+    dplyr::filter(!is.na(eventDate)
+                  , !is.na(decimalLatitude)
+                  , !is.na(decimalLongitude)
+                  ) %>%
+    nrow()
 
   # names from data_map
   names(qry02)
@@ -68,9 +110,12 @@
                      )
 
   # lost some records due to the profile
-  nrow(qry03) > nrow(qry04)
+  nrow(qry04)
 
-  # bio_all --------
+
+  ############################################
+
+  # Combine data --------
   ## get_galah for aoi -------
   bio_all_galah <- get_galah(aoi = envImport::aoi
                              , save_dir = out_dir
@@ -87,7 +132,9 @@
 
   ## or using get_data -------
   # to get both galah and tern
-  datas <- c("galah", "tern")
+  datas <- c("galah", "tern", "gbif")
+
+  # galah and tern already run from above
 
   purrr::map(datas
               , \(x) get_data(x
@@ -99,6 +146,10 @@
                               )
               )
 
+  bio_all_gbif <- rio::import(fs::path(out_dir, "bio_all", "gbif.parquet")
+                              , setclass = "tibble"
+                              )
+
   ## single dataset --------
   bio_all <- arrow::open_dataset(fs::dir_ls(fs::path(out_dir, "bio_all")
                                             , regexp = "\\.parquet"
@@ -107,7 +158,7 @@
     dplyr::collect()
 
   # 'bio_all' is now the sum of its components
-  nrow(bio_all) == nrow(bio_all_galah) + nrow(bio_all_tern)
+  nrow(bio_all) == nrow(bio_all_galah) + nrow(bio_all_tern) + nrow(bio_all_gbif)
 
   # clean up -------
   # return to original atlas

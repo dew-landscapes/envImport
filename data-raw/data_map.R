@@ -56,3 +56,38 @@
                                                      )
                   ) %>%
     dplyr::arrange(order)
+
+  data_map_class <- tibble::tribble(
+    ~col, ~class, ~bio_all,
+    "data_name", "character", TRUE,
+    "order", "numeric", FALSE,
+    "epsg", "numeric", FALSE,
+    "site", "character", TRUE,
+    "date", "Date", TRUE,
+    "lat", "numeric", TRUE,
+    "long", "numeric", TRUE,
+    "original_name", "character", TRUE,
+    "common", "character", TRUE,
+    "nsx", "character", TRUE,
+    "occ_derivation", "character", TRUE,
+    "quantity", "character", TRUE,
+    "survey_nr", "character", TRUE,
+    "survey", "character", TRUE,
+    "ind", "character", TRUE,
+    "rel_metres", "character", TRUE,
+    "sens", "logical", TRUE,
+    "lifeform", "character", TRUE,
+    "lifespan", "character", TRUE,
+    "cover", "numeric", TRUE,
+    "cover_code", "character", TRUE,
+    "height", "numeric", TRUE,
+    "quad_x", "character", FALSE,
+    "quad_y", "character", FALSE,
+    "quad_metres", "numeric", TRUE,
+    "epbc_status", "character", TRUE,
+    "npw_status", "character", TRUE,
+    "method", "character", TRUE,
+    "obs", "character", TRUE,
+    "denatured", "character", FALSE,
+    "desc", "character", FALSE
+    )

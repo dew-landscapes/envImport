@@ -29,6 +29,7 @@
 #' unless `previous == "move`
 #' @param compare_cols If `compare_previous` which columns to comapare. Default
 #' is `survey`.
+#' @param ... Not used
 #'
 #' @keywords internal
 #' @return Tibble with selected, renamed, adjusted and aligned columns
@@ -38,16 +39,16 @@
 #' @examples
   remap_data_names <- function(this_name
                                , df_to_remap
-                               , data_map
+                               , data_map = NULL
                                , out_file = NULL
                                , exclude_names = c("order"
                                                    , "epsg"
                                                    , "desc"
                                                    , "data_name_use"
                                                    )
-                               , add_month = TRUE
-                               , add_year = TRUE
-                               , make_occ = TRUE
+                               , add_month = !is.null(data_map)
+                               , add_year = !is.null(data_map)
+                               , make_occ = !is.null(data_map)
                                , occ_cols = c("occ_derivation", "quantity")
                                , absences = c("0"
                                               , "none detected"
@@ -58,19 +59,31 @@
                                , previous = c("delete", "move")
                                , compare_previous = TRUE
                                , compare_cols = c("data_name", "survey")
+                               , ...
                                ) {
 
     if(is.null(out_file)) out_file <- here::here("ds", this_name, paste0(this_name, ".parquet"))
 
-    select_names <- data_map %>%
-      dplyr::filter(data_name == this_name) %>%
-      dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
-      tidyr::pivot_longer(everything()) %>%
-      dplyr::filter(!name %in% exclude_names) %>%
-      stats::na.omit()
+    if(is.null(data_map)) {
+
+      select_names <- tibble::tibble(name = names(df_to_remap)
+                                     , value = names(df_to_remap)
+                                     ) %>%
+        dplyr::bind_rows(tibble::tibble(name = this_name, value = this_name))
+
+    } else {
+
+      select_names <- data_map %>%
+        dplyr::filter(data_name == this_name) %>%
+        dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
+        tidyr::pivot_longer(everything()) %>%
+        dplyr::filter(!name %in% exclude_names) %>%
+        stats::na.omit()
+
+    }
 
     # call out the column names that don't exist
-    not_nms <- setdiff(select_names$value[select_names$value != this_name], names(df_to_remap))
+    not_nms <- setdiff(select_names$value[select_names$name != "data_name"], names(df_to_remap))
 
     if(length(not_nms) > 0) {
 
@@ -88,8 +101,8 @@
 
     # rename------
     rdf <- df_to_remap %>%
-      dplyr::mutate(!!rlang::ensym(this_name) := this_name) %>%
-      dplyr::select(tidyselect::any_of(unlist(tidyr::pivot_wider(select_names))))
+      dplyr::mutate(data_name := this_name) %>%
+      dplyr::select(data_name, tidyselect::any_of(unlist(tidyr::pivot_wider(select_names))))
 
     # dates------
     if(any(grepl("date", names(rdf), ignore.case = TRUE))) {
@@ -244,18 +257,6 @@
 
     }
 
-    # clean up -----
-    keep_cols <- c(select_names$name
-                   , "quad_metres"
-                   , if(make_occ) "occ"
-                   , if(add_year) "year"
-                   , if(add_month) "month"
-                   )
-
-    rdf <- rdf %>%
-      dplyr::select(tidyselect::any_of(keep_cols))
-
-
     # previous------
 
     if(file.exists(out_file)) {
@@ -315,6 +316,16 @@
       }
 
     }
+
+    # clean up -----
+    ## select cols -------
+    bio_all_cols <- data_map_class %>%
+      dplyr::filter(bio_all)
+
+    keep_cols <- bio_all_cols$col
+
+    rdf <- rdf %>%
+      dplyr::select(tidyselect::any_of(keep_cols))
 
     # save ------
     rio::export(rdf

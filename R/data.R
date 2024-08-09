@@ -55,3 +55,16 @@
 "data_map"
 
 
+#' Lookup for field classes and use in final 'bio_all'
+#'
+#'
+#' @format A data frame with `r nrow(data_map_class)` rows and `r ncol(data_map_class)`
+#' variables:
+#' \describe{
+#'   \item{col}{Character. One row for each name in `envImport::data_map`}
+#'   \item{class}{Character. What `base::class()` should each column be in final
+#'   bio_all?}
+#'   \item{bio_all}{Logical. Should this col be in the final bio_all?}
+#'   ...
+#' }
+"data_map_class"

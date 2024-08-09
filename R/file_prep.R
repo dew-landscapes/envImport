@@ -23,7 +23,9 @@
                         , ...
                         ) {
 
-    if(is.null(save_dir)) {
+    args <- as.list(environment())
+
+    if(is.null(args$save_dir)) {
 
       save_dir <- here::here("out"
                              , "ds"
@@ -31,10 +33,10 @@
 
     }
 
-    save_file <- fs::path(save_dir
-                          , if(!is.null(sub_dir)) sub_dir else name
-                          , paste0(name
-                                   , out_type
+    save_file <- fs::path(args$save_dir
+                          , if(!is.null(args$sub_dir)) args$sub_dir else args$name
+                          , paste0(args$name
+                                   , args$out_type
                                    )
                           )
 

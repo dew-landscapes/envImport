@@ -7,17 +7,18 @@
 remap_data_names(
   this_name,
   df_to_remap,
-  data_map,
+  data_map = NULL,
   out_file = NULL,
   exclude_names = c("order", "epsg", "desc", "data_name_use"),
-  add_month = TRUE,
-  add_year = TRUE,
-  make_occ = TRUE,
+  add_month = !is.null(data_map),
+  add_year = !is.null(data_map),
+  make_occ = !is.null(data_map),
   occ_cols = c("occ_derivation", "quantity"),
   absences = c("0", "none detected", "none observed", "None detected", "ABSENT"),
   previous = c("delete", "move"),
   compare_previous = TRUE,
-  compare_cols = c("data_name", "survey")
+  compare_cols = c("data_name", "survey"),
+  ...
 )
 }
 \arguments{
@@ -53,6 +54,8 @@ unless \verb{previous == "move}}
 
 \item{compare_cols}{If \code{compare_previous} which columns to comapare. Default
 is \code{survey}.}
+
+\item{...}{Not used}
 }
 \value{
 Tibble with selected, renamed, adjusted and aligned columns
