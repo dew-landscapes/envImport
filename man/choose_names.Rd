@@ -18,7 +18,7 @@ choose_names(
 
 \item{data_map}{Dataframe or \code{NULL.} Mapping of fields to retrieve. See example
 \code{envImport::data_map} or \code{envImport::data_map_old}. If \code{NULL} all columns are
-returned}
+returned. Optional if \code{df} provided.}
 
 \item{this_name}{Character. \code{data_name} value in \code{data_map}. Required if
 \code{data_map} is not \code{NULL}}
@@ -30,6 +30,7 @@ disk?}
 the logical values to filter on?}
 }
 \description{
-Choose columns to keep from a dataframe, based on a data map
+The behaviour when \code{df} provided and \code{is.null(data_map)} is essentially
+\code{df <- df} (although any colnames matching \code{excludes} will be removed)
 }
 \keyword{internal}
