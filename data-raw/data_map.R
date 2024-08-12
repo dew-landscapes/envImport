@@ -153,7 +153,7 @@
         "survey", "SURVEYNAME",
         "ind", "ISINDIGENOUSFLAG",
         "rel_metres", "rel_metres",
-        "sens", "DISTRIBDESC",
+        "sens", "DISTRIBNDESC",
         "epbc_status", "ESACTSTATUSCODE",
         "npw_status", "NPWACTSTATUSCODE",
         "method", "METHODDESC",
