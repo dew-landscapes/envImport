@@ -124,7 +124,7 @@
                                                              )
                                               )
                             )
-            , if(!is.null(predicates)) predicates
+            , if(!is.null(predicates)) predicates else dummy_pred
             )
 
         }
@@ -199,7 +199,7 @@
                                , df_to_remap = temp
                                , data_map = data_map
                                , out_file = save_file
-                               , previous = "move"
+                               , ...
                                )
 
       # .bib -------

@@ -22,13 +22,16 @@
     <loc>/reference/aoi.html</loc>
   </url>
   <url>
+    <loc>/reference/choose_names.html</loc>
+  </url>
+  <url>
     <loc>/reference/connect_to_access_dbi.html</loc>
   </url>
   <url>
     <loc>/reference/data_map.html</loc>
   </url>
   <url>
-    <loc>/reference/data_map_class.html</loc>
+    <loc>/reference/data_map_old.html</loc>
   </url>
   <url>
     <loc>/reference/file_prep.html</loc>

@@ -57,7 +57,7 @@ structure that can be read collectively via <code><a href="https://arrow.apache.
 <span>  <span class="va">df_to_remap</span>,</span>
 <span>  data_map <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  out_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  exclude_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"epsg"</span>, <span class="st">"desc"</span>, <span class="st">"data_name_use"</span><span class="op">)</span>,</span>
+<span>  exclude_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"epsg"</span>, <span class="st">"desc"</span>, <span class="st">"data_name_use"</span>, <span class="st">"url"</span><span class="op">)</span>,</span>
 <span>  add_month <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
 <span>  add_year <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
 <span>  make_occ <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
@@ -88,11 +88,6 @@ structure that can be read collectively via <code><a href="https://arrow.apache.
 <dt>out_file</dt>
 <dd><p>Character. Name of file to save. If <code>NULL</code>, this will be
 <code>here::here("ds", this_name, "this_name.parquet")</code></p></dd>
-
-
-<dt>exclude_names</dt>
-<dd><p>Character. column names in namesmap to exclude from the
-combined data</p></dd>
 
 
 <dt>add_month, add_year</dt>
@@ -129,6 +124,11 @@ is <code>survey</code>.</p></dd>
 
 <dt>...</dt>
 <dd><p>Not used</p></dd>
+
+
+<dt>exclude_names</dt>
+<dd><p>Character. column names in namesmap to exclude from the
+combined data</p></dd>
 
 </dl></div>
     <div id="value">

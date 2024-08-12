@@ -3,37 +3,22 @@
 \docType{data}
 \name{data_map}
 \alias{data_map}
-\title{Lookup for mapping fields from original data sources to common column names}
+\title{Lookup for mapping data source columns to united column}
 \format{
-A data frame with 11 rows and 33
-variables where column names provide the new name for columns in the original
+A data frame with 31 rows and 14
+variables where column names are \code{col} (new column names)
+, \code{class} (class of new columns)
+, \code{final_select_col} (usually \code{bio_all}) and an extra column for each
+\code{data_name} mapping \code{data_name} column names to \code{col} column names
 data sources:
 \describe{
-\item{data_name}{Short name of data source}
-\item{order}{Integer. Preferential order for using data if assessing
-duplication}
-\item{days}{How many days to allow before attempting to update? Rarely used
-anymore. More efficient to update manually via explicitly running \code{get_}
-and \code{make_}}
-\item{site}{}
-\item{date}{}
-\item{lat}{Latitude}
-\item{long}{Longitude}
-\item{original_name}{Name of column with taxa information}
-\item{nsx}{Name of column with taxa codes}
-\item{number}{Number observed}
-\item{surveynr}{Name of column with survey number (or code)}
-\item{survey}{Name of survey}
-\item{ind}{Flag for non-indigenous taxa}
-\item{rel_nr}{RELIABNR in \code{envClean::lurelBDBSA}}
-\item{rel_metres}{Spatial reliability in metres}
-\item{sens}{Sensitivity flag for EGIS data}
-\item{lifespan}{Muircode}
-\item{cover}{Cover value as proportion}
-\item{cover_code}{Cover value as modified Braun-Blanquet code}
-\item{quad_x}{Length of quadrat size in x direction}
-\item{quad_y}{Lenght of quadrat size in y direction}
-\item{desc}{Sentence description of \code{data_name}}
+\item{col}{Character. Name of column in new data frame}
+\item{class}{Character. What class will the new column be?}
+\item{\code{final_select_col}}{Logical. Will this column end up in the united
+data frame (or, the alternative, is it needed from the original data source
+for processing)}
+\item{\code{data_name}}{Any number of columns named for each data source and
+populated with the old column names in that data source}
 ...
 }
 }
@@ -41,6 +26,6 @@ and \code{make_}}
 data_map
 }
 \description{
-Lookup for mapping fields from original data sources to common column names
+Lookup for mapping data source columns to united column
 }
 \keyword{datasets}

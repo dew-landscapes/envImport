@@ -115,9 +115,9 @@ Get data using \code{galah::atlas_occurrences()}
 
   } else {
 
-    rio::import(save_file
-                , setclass = "tibble"
-                )
+    qry02 <- rio::import(save_file
+                         , setclass = "tibble"
+                         )
 
   }
 
@@ -186,29 +186,49 @@ Get data using \code{galah::atlas_occurrences()}
 
   # galah and tern already run from above
 
-  purrr::map(datas
-              , \(x) get_data(x
-                              , save_dir = out_dir
-                              , get_new = FALSE
-                              , aoi = envImport::aoi
-                              , data_map = data_map
-                              , sub_dir = "bio_all"
-                              )
-              )
-
-  bio_all_gbif <- rio::import(fs::path(out_dir, "bio_all", "gbif.parquet")
-                              , setclass = "tibble"
-                              )
+  temp <- purrr::map(datas
+                     , \(x) get_data(x
+                                     , save_dir = out_dir
+                                     , get_new = FALSE
+                                     , aoi = envImport::aoi
+                                     , data_map = data_map
+                                     , sub_dir = "bio_all"
+                                     , previous_key = "0057643-240626123714530"
+                                     )
+                     )
 
   ## single dataset --------
-  bio_all <- arrow::open_dataset(fs::dir_ls(fs::path(out_dir, "bio_all")
-                                            , regexp = "\\\\.parquet"
-                                            )
-                                 ) \%>\%
+  bio_all_files <- fs::dir_ls(fs::path(out_dir, "bio_all")
+                              , regexp = "\\\\.parquet"
+                              )
+
+  bio_all <- arrow::open_dataset(bio_all_files) \%>\%
     dplyr::collect()
 
+  if(FALSE) {
+
+    # check for misaligned classes
+    check <- purrr::map_dfr(temp
+                            , \(x) purrr::map(x, class)
+                            ) \%>\%
+      purrr::map_dfr(\(x) length(unique(na.omit(x))) == 1) \%>\%
+      tidyr::pivot_longer(everything()) \%>\%
+      dplyr::filter(!value)
+
+    use_schema <- arrow::schema(bio_all)
+
+    use_schema$quantity <- arrow::Field$create("quantity", arrow::string())
+
+    bio_all <- arrow::open_dataset(bio_all_files
+                                   , schema = use_schema
+                                   ) \%>\%
+      dplyr::collect()
+
+  }
+
+
   # 'bio_all' is now the sum of its components
-  nrow(bio_all) == nrow(bio_all_galah) + nrow(bio_all_tern) + nrow(bio_all_gbif)
+  nrow(bio_all) == sum(purrr::map_dbl(temp, nrow))
 
   # clean up -------
   # return to original atlas

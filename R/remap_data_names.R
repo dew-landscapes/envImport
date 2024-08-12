@@ -41,11 +41,12 @@
                                , df_to_remap
                                , data_map = NULL
                                , out_file = NULL
-                               , exclude_names = c("order"
-                                                   , "epsg"
-                                                   , "desc"
-                                                   , "data_name_use"
-                                                   )
+                               , exclude_cols = c("order"
+                                                  , "epsg"
+                                                  , "desc"
+                                                  , "data_name_use"
+                                                  , "url"
+                                                  )
                                , add_month = !is.null(data_map)
                                , add_year = !is.null(data_map)
                                , make_occ = !is.null(data_map)
@@ -64,26 +65,15 @@
 
     if(is.null(out_file)) out_file <- here::here("ds", this_name, paste0(this_name, ".parquet"))
 
-    if(is.null(data_map)) {
-
-      select_names <- tibble::tibble(name = names(df_to_remap)
-                                     , value = names(df_to_remap)
-                                     ) %>%
-        dplyr::bind_rows(tibble::tibble(name = this_name, value = this_name))
-
-    } else {
-
-      select_names <- data_map %>%
-        dplyr::filter(data_name == this_name) %>%
-        dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
-        tidyr::pivot_longer(everything()) %>%
-        dplyr::filter(!name %in% exclude_names) %>%
-        stats::na.omit()
-
-    }
+    select_names <- choose_names(df_to_remap
+                                 , data_map = data_map
+                                 , this_name = this_name
+                                 , final_select = FALSE
+                                 , excludes = exclude_cols
+                                 )
 
     # call out the column names that don't exist
-    not_nms <- setdiff(select_names$value[select_names$name != "data_name"], names(df_to_remap))
+    not_nms <- setdiff(select_names$value[select_names$col != "data_name"], names(df_to_remap))
 
     if(length(not_nms) > 0) {
 
@@ -102,7 +92,12 @@
     # rename------
     rdf <- df_to_remap %>%
       dplyr::mutate(data_name := this_name) %>%
-      dplyr::select(data_name, tidyselect::any_of(unlist(tidyr::pivot_wider(select_names))))
+      dplyr::select(data_name, tidyselect::any_of(unlist(tidyr::pivot_wider(select_names
+                                                                            , names_from = "col"
+                                                                            )
+                                                         )
+                                                  )
+                    )
 
     # dates------
     if(any(grepl("date", names(rdf), ignore.case = TRUE))) {
@@ -219,20 +214,6 @@
 
     }
 
-    # quad_metres-------
-    if(exists("quad_x", rdf)) {
-
-      rdf <- rdf %>%
-        dplyr::mutate(quad_metres_calc = quad_x * quad_y) %>%
-        {if("quad_metres" %in% names(.)) (.) else (.) %>% dplyr::mutate(quad_metres = NA)} %>%
-        dplyr::mutate(quad_metres = dplyr::case_when(!is.na(quad_metres) ~ quad_metres
-                                                     , is.na(quad_metres) ~ quad_metres_calc
-                                                     )
-                      ) %>%
-        dplyr::select(-quad_x, -quad_y, -quad_metres_calc)
-
-    }
-
     # occ -------
     if(make_occ) {
 
@@ -319,13 +300,22 @@
 
     # clean up -----
     ## select cols -------
-    bio_all_cols <- data_map_class %>%
-      dplyr::filter(bio_all)
-
-    keep_cols <- bio_all_cols$col
+    select_names <- choose_names(df_to_remap
+                                 , data_map = data_map
+                                 , this_name = this_name
+                                 , final_select = TRUE
+                                 , final_select_col = "bio_all"
+                                 )
 
     rdf <- rdf %>%
-      dplyr::select(tidyselect::any_of(keep_cols))
+      dplyr::select(tidyselect::any_of(select_names$col))
+
+    if("quantity" %in% names(rdf)) {
+
+      rdf <- rdf %>%
+        dplyr::mutate(quanity = as.character(quantity))
+
+    }
 
     # save ------
     rio::export(rdf

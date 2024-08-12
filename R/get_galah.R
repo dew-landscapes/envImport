@@ -89,16 +89,14 @@
 
       } else {
 
-        select_names <- data_map %>%
-          dplyr::filter(data_name == name) %>%
-          dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
-          tidyr::pivot_longer(tidyselect::everything()) %>%
-          stats::na.omit() %>%
+        select_names <- choose_names(data_map = data_map
+                                     , this_name = name
+                                     ) %>%
           dplyr::filter(value %in% galah::show_all("fields")$id)
 
         qry <- qry %>%
           galah::select(recordID # inc recordID here: see https://github.com/AtlasOfLivingAustralia/galah-R/issues/239
-                        , select_names$value
+                        , tidyselect::any_of(select_names$value)
                         )
 
       }
@@ -108,6 +106,9 @@
       ## retrieve ------
       temp <- qry %>%
         galah::atlas_occurrences(mint_doi = make_doi)
+
+      ## deal with rel_metres
+
 
       # bib -------
       if(make_doi) {
@@ -146,7 +147,6 @@
                                , df_to_remap = temp
                                , data_map = data_map
                                , out_file = save_file
-                               , previous = "move"
                                , ...
                                )
 

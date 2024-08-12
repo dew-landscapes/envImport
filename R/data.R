@@ -18,10 +18,10 @@
 #' }
 "lurelBDBSA"
 
-#' Lookup for mapping fields from original data sources to common column names
+#' (Old version) Lookup for mapping data source columns to united column
 #'
 #'
-#' @format A data frame with `r nrow(data_map)` rows and `r ncol(data_map)`
+#' @format A data frame with `r nrow(data_map_old)` rows and `r ncol(data_map_old)`
 #' variables where column names provide the new name for columns in the original
 #' data sources:
 #' \describe{
@@ -52,19 +52,25 @@
 #'   \item{desc}{Sentence description of `data_name`}
 #'   ...
 #' }
-"data_map"
+"data_map_old"
 
-
-#' Lookup for field classes and use in final 'bio_all'
+#' Lookup for mapping data source columns to united column
 #'
 #'
-#' @format A data frame with `r nrow(data_map_class)` rows and `r ncol(data_map_class)`
-#' variables:
+#' @format A data frame with `r nrow(data_map)` rows and `r ncol(data_map)`
+#' variables where column names are `col` (new column names)
+#' , `class` (class of new columns)
+#' , `final_select_col` (usually `bio_all`) and an extra column for each
+#' `data_name` mapping `data_name` column names to `col` column names
+#' data sources:
 #' \describe{
-#'   \item{col}{Character. One row for each name in `envImport::data_map`}
-#'   \item{class}{Character. What `base::class()` should each column be in final
-#'   bio_all?}
-#'   \item{bio_all}{Logical. Should this col be in the final bio_all?}
+#'   \item{col}{Character. Name of column in new data frame}
+#'   \item{class}{Character. What class will the new column be?}
+#'   \item{`final_select_col`}{Logical. Will this column end up in the united
+#'   data frame (or, the alternative, is it needed from the original data source
+#'   for processing)}
+#'   \item{`data_name`}{Any number of columns named for each data source and
+#'   populated with the old column names in that data source}
 #'   ...
 #' }
-"data_map_class"
+"data_map"

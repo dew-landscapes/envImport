@@ -64,17 +64,9 @@
 
       if(nrow(tern_data$veg.PI) > 0) {
 
-        if(is.null(data_map)) {
-
-          data_map <- data.frame(t(c(name, names(temp)))) %>%
-            stats::setNames(c("data_name", names(temp)))
-
-        }
-
-        select_names <- data_map %>%
-          dplyr::filter(data_name == name) %>%
-          unlist(., use.names=FALSE) %>%
-          stats::na.omit()
+        select_names <- choose_names(data_map = data_map
+                                     , this_name = name
+                                     )
 
         species_col <- if(species_name == "SN") {
 
@@ -90,7 +82,7 @@
 
         }
 
-        all_names <- c(select_names
+        all_names <- c(select_names$value
                       , species_col
                       ) %>%
           unique()
@@ -124,6 +116,7 @@
                                                            , plot_dimensions
                                                            )
                                                       )
+                        , quad_metres = quadX * quadY
                         , observer_veg = as.character(observer_veg)
                         )
 
