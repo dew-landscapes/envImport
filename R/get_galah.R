@@ -147,6 +147,8 @@
                                , df_to_remap = temp
                                , data_map = data_map
                                , out_file = save_file
+                               , final_select = TRUE
+                               , final_select_col = "bio_all"
                                , ...
                                )
 

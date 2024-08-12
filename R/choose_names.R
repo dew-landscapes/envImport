@@ -1,10 +1,13 @@
 
 #' Choose columns to keep from a dataframe, based on a data map
 #'
+#' The behaviour when `df` provided and `is.null(data_map)` is essentially
+#' `df <- df` (although any colnames matching `excludes` will be removed)
+#'
 #' @param df Dataframe to select columns from. Only needed if `is.null(data_map)`
 #' @param data_map Dataframe or `NULL.` Mapping of fields to retrieve. See example
 #' `envImport::data_map` or `envImport::data_map_old`. If `NULL` all columns are
-#' returned
+#' returned. Optional if `df` provided.
 #' @param this_name Character. `data_name` value in `data_map`. Required if
 #' `data_map` is not `NULL`
 #' @param final_select Logical. Is this the final select prior to writing to
@@ -47,7 +50,7 @@
     # Select cols from old or new data map
     if(!all(c("col", "class") %in% names(data_map))) {
 
-      select_name <- data_map_old %>%
+      select_name <- data_map %>%
         dplyr::filter(data_name == this_name) %>%
         dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
         dplyr::select(tidyselect::any_of(data_map$col)) %>%
