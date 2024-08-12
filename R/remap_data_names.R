@@ -17,10 +17,10 @@
 #' combined data
 #' @param add_month,add_year Logical. Add a year and/or month column to returned
 #' data frame (requires a `date` field to be specified by `data_map`)
-#' @param make_occ Logical. Make an `occ` column (occurrence) of 1 = detected, 0
+#' @param add_occ Logical. Make an `occ` column (occurrence) of 1 = detected, 0
 #' = not detected? Due to the plethora of ways original data sets record numbers
 #' and absences this should not be considered 100% reliable.
-#' @param absences Character. If `make_occ` what values are considered absences?
+#' @param absences Character. If `add_occ` what values are considered absences?
 #' @param previous Character. What to do with any previous `out_file`.
 #' Default is 'delete'. Alternative 'move' will rename to the same location as
 #' gsub("\\.parquet", paste0("moved__", format(now(), "%Y%m%d_%H%M%S"), ".parquet"), `out_file`)
@@ -49,7 +49,7 @@
                                                   )
                                , add_month = !is.null(data_map)
                                , add_year = !is.null(data_map)
-                               , make_occ = !is.null(data_map)
+                               , add_occ = !is.null(data_map)
                                , occ_cols = c("occ_derivation", "quantity")
                                , absences = c("0"
                                               , "none detected"
@@ -62,6 +62,27 @@
                                , compare_cols = c("data_name", "survey")
                                , ...
                                ) {
+
+    if(any(add_year, add_month, add_occ)) {
+
+      if(add_year) add_names <- tibble::tibble(
+        col = "year",
+        value = "year"
+      ) else tibble::tibble()
+
+      if(add_month) add_names <- add_names %>%
+          dplyr::bind_rows(tibble::tibble(
+            col = "month",
+            value = "month"
+          ))
+
+          if(add_occ) add_names <- add_names %>%
+            dplyr::bind_rows(tibble::tibble(
+              col = "occ",
+              value = "occ"
+            ))
+
+    }
 
     if(is.null(out_file)) out_file <- here::here("ds", this_name, paste0(this_name, ".parquet"))
 
@@ -215,7 +236,7 @@
     }
 
     # occ -------
-    if(make_occ) {
+    if(add_occ) {
 
       rdf$occ <- 1L
 
@@ -305,7 +326,8 @@
                                  , this_name = this_name
                                  , final_select = TRUE
                                  , final_select_col = "bio_all"
-                                 )
+                                 ) %>%
+      dplyr::bind_rows(add_names)
 
     rdf <- rdf %>%
       dplyr::select(tidyselect::any_of(select_names$col))
