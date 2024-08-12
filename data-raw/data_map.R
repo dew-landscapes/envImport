@@ -78,7 +78,7 @@
     "original_name", "character", TRUE,
     "common", "character", TRUE,
     "nsx", "character", TRUE,
-    "occ_derivation", "character", TRUE,
+    "occ_derivation", "character", FALSE,
     "quantity", "character", TRUE,
     "survey_nr", "character", TRUE,
     "survey", "character", TRUE,
