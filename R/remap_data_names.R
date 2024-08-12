@@ -330,12 +330,13 @@
       dplyr::bind_rows(add_names)
 
     rdf <- rdf %>%
-      dplyr::select(tidyselect::any_of(select_names$col))
+      dplyr::select(tidyselect::any_of(select_names$col)) %>%
+      janitor::remove_empty(which = "cols")
 
     if("quantity" %in% names(rdf)) {
 
       rdf <- rdf %>%
-        dplyr::mutate(quanity = as.character(quantity))
+        dplyr::mutate(quantity = as.character(quantity))
 
     }
 
