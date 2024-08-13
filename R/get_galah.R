@@ -19,6 +19,12 @@
 #' Doesn't seem to work with node = "GBIF" and untested on other nodes.
 #' @param qry `NULL` or an object of class data_request, created using
 #' `galah::galah_call()`
+#' @param check_rel_metres Logical. Ensure that `coordinateUncertaintyInMetres`
+#' is no less than `generalisationInMetres`?
+#' @param filter_inconsistent Logical. If `TRUE`, inconsistencies between the
+#' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
+#' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
+#' `individualCount == 1` would be filtered.
 #' @param ... Passed to `envImport::file_prep()`
 #'
 #' @return Dataframe of occurrences and file saved to `save_dir`. .bib created
@@ -33,6 +39,8 @@
                         , data_map = NULL
                         , node = "ALA"
                         , qry = NULL
+                        , check_rel_metres = TRUE
+                        , filter_inconsistent = TRUE
                         , ...
                         ) {
 
@@ -84,8 +92,13 @@
       ## select-------
       if(is.null(data_map)) {
 
-          qry <- qry %>%
-            galah::galah_select(group = c("basic", "event", "taxonomy"))
+        get_groups <- c("basic", "event", "taxonomy")
+
+        qry <- qry %>%
+          galah::galah_select(group = get_groups)
+
+        data_map <- tibble::tibble(col = unique(unlist(purrr::map(get_groups, galah:::preset_groups)))) %>%
+          dplyr::mutate(!!rlang::ensym(name) := col)
 
       } else {
 
@@ -96,7 +109,7 @@
 
         qry <- qry %>%
           galah::select(recordID # inc recordID here: see https://github.com/AtlasOfLivingAustralia/galah-R/issues/239
-                        , tidyselect::any_of(select_names$value)
+                        , select_names$value
                         )
 
       }
@@ -107,7 +120,36 @@
       temp <- qry %>%
         galah::atlas_occurrences(mint_doi = make_doi)
 
-      ## deal with rel_metres
+      ## rel_metres-------
+      if(check_rel_metres) {
+
+        temp <- temp %>%
+          dplyr::rename(cuim = coordinateUncertaintyInMeters
+                        , gim = generalisationInMetres
+                        ) %>%
+          dplyr::mutate(coordinateUncertaintyInMeters = dplyr::case_when(!is.na(gim) & gim > cuim ~ gim
+                                                                         , TRUE ~ cuim
+                                                                         )
+                        )
+
+      }
+
+      ## filter_inconsistent --------
+      if(filter_inconsistent) {
+
+        temp <- temp %>%
+            dplyr::filter(!(occurrenceStatus == "ABSENT" &
+                              !is.na(organismQuantity) &
+                              organismQuantity > 0
+                            )
+                          ) %>%
+            dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                            !is.na(organismQuantity) &
+                            organismQuantity == 0
+                            )
+                          )
+
+      }
 
 
       # bib -------
