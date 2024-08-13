@@ -5,7 +5,7 @@
 \alias{data_map}
 \title{Lookup for mapping data source columns to united column}
 \format{
-A data frame with 31 rows and 14
+A data frame with 32 rows and 14
 variables where column names are \code{col} (new column names)
 , \code{class} (class of new columns)
 , \code{final_select_col} (usually \code{bio_all}) and an extra column for each

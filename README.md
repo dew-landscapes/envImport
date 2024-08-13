@@ -89,6 +89,7 @@ Table: Data map of desired columns in the assembled data (col) and names of colu
 |denatured      |informationWithheld                      |NA                            |generalisationInMetres        |NA                                                                                   |
 |kingdom        |kingdom                                  |kingdom                       |kingdom                       |kingdom                                                                              |
 |desc           |Global biodiversity information facility |Terrestrial ecosystem network |Atlas of Living Australia     |Harmonised Australian Vegetation Plot dataset                                        |
+|data_name_use  |GBIF                                     |TERN                          |ALA                           |HAVPlot                                                                              |
 |url            |https://www.gbif.org/                    |https://www.tern.org.au/      |https://www.ala.org.au/       |https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860 |
 |order          |11                                       |4                             |10                            |3                                                                                    |
 

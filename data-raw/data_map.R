@@ -96,8 +96,9 @@
     "method", "character", TRUE,
     "obs", "character", TRUE,
     "denatured", "character", FALSE,
-    "kingdom", "kingdom", TRUE,
+    "kingdom", "character", TRUE,
     "desc", "character", FALSE,
+    "data_name_use", "character", FALSE,
     "url", "character", FALSE
     ) %>%
     dplyr::left_join(
