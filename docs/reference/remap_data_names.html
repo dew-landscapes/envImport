@@ -60,7 +60,7 @@ structure that can be read collectively via <code><a href="https://arrow.apache.
 <span>  exclude_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"epsg"</span>, <span class="st">"desc"</span>, <span class="st">"data_name_use"</span>, <span class="st">"url"</span><span class="op">)</span>,</span>
 <span>  add_month <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
 <span>  add_year <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
-<span>  make_occ <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
+<span>  add_occ <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span>,</span>
 <span>  occ_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"occ_derivation"</span>, <span class="st">"quantity"</span><span class="op">)</span>,</span>
 <span>  absences <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"none detected"</span>, <span class="st">"none observed"</span>, <span class="st">"None detected"</span>, <span class="st">"ABSENT"</span><span class="op">)</span>,</span>
 <span>  previous <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"delete"</span>, <span class="st">"move"</span><span class="op">)</span>,</span>
@@ -95,14 +95,14 @@ structure that can be read collectively via <code><a href="https://arrow.apache.
 data frame (requires a <code>date</code> field to be specified by <code>data_map</code>)</p></dd>
 
 
-<dt>make_occ</dt>
+<dt>add_occ</dt>
 <dd><p>Logical. Make an <code>occ</code> column (occurrence) of 1 = detected, 0
 = not detected? Due to the plethora of ways original data sets record numbers
 and absences this should not be considered 100% reliable.</p></dd>
 
 
 <dt>absences</dt>
-<dd><p>Character. If <code>make_occ</code> what values are considered absences?</p></dd>
+<dd><p>Character. If <code>add_occ</code> what values are considered absences?</p></dd>
 
 
 <dt>previous</dt>

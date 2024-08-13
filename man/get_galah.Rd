@@ -12,6 +12,8 @@ get_galah(
   data_map = NULL,
   node = "ALA",
   qry = NULL,
+  check_rel_metres = TRUE,
+  filter_inconsistent = TRUE,
   ...
 )
 }
@@ -37,6 +39,14 @@ Doesn't seem to work with node = "GBIF" and untested on other nodes.}
 
 \item{qry}{\code{NULL} or an object of class data_request, created using
 \code{galah::galah_call()}}
+
+\item{check_rel_metres}{Logical. Ensure that \code{coordinateUncertaintyInMetres}
+is no less than \code{generalisationInMetres}?}
+
+\item{filter_inconsistent}{Logical. If \code{TRUE}, inconsistencies between the
+\code{occurrenceStatus} column and either \code{organismQuantity} or \code{individualCount}
+are removed. e.g. a record with \code{occurrenceStatus == "ABSENT"} but
+\code{individualCount == 1} would be filtered.}
 
 \item{...}{Passed to \code{envImport::file_prep()}}
 }
@@ -202,8 +212,8 @@ Get data using \code{galah::atlas_occurrences()}
                               , regexp = "\\\\.parquet"
                               )
 
-  bio_all <- arrow::open_dataset(bio_all_files) \%>\%
-    dplyr::collect()
+  bio_all <- purrr::map_dfr(bio_all_files, \(x) rio::import(x))
+
 
   if(FALSE) {
 

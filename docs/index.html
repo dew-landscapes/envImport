@@ -86,10 +86,21 @@
 <div class="section level2">
 <h2 id="supported-data-sources">Supported data sources<a class="anchor" aria-label="anchor" href="#supported-data-sources"></a>
 </h2>
-<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>) via <code>galah</code> package [@R-galah] or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). The 31 data sources currently supported or with plans for development are (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
+<p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>), Atlas of Living Australia (<a href="https://www.ala.org.au/" class="external-link">ALA</a>) or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). There are 11 data sources currently supported (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
 <ul>
-<li>:</li>
+<li>bdbsa: Biological databases of South Australia</li>
+<li>egis: Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</li>
+<li>havplot: Harmonised Australian Vegetation Plot dataset</li>
+<li>tern: Terrestrial ecosystem network</li>
+<li>alis: Arid lands information system</li>
+<li>bcm: Bushland condition monitoring</li>
+<li>ptp: Paddock tree project</li>
+<li>nvb: DEW Native Vegetation Branch</li>
+<li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre</li>
+<li>galah: Atlas of Living Australia</li>
+<li>gbif: Global biodiversity information facility</li>
 </ul>
+<p>Four of these sources are publicly available (GBIF, ALA, HAVPlot and TERN).</p>
 </div>
 <div class="section level2">
 <h2 id="general-workflow">General workflow<a class="anchor" aria-label="anchor" href="#general-workflow"></a>
@@ -98,74 +109,33 @@
 <h3 id="data_map">
 <code>data_map</code><a class="anchor" aria-label="anchor" href="#data_map"></a>
 </h3>
-<p>The data_map (see table @ref(tab:dataMap)) provides a mapping from original data sources to the desired columns in the assembled data set.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">data_map</span></span>
-<span>               , caption <span class="op">=</span> <span class="st">"Data map of desired columns in the assembled data (columns) and names of columns in the original data (rows)"</span></span>
-<span>               <span class="op">)</span></span></code></pre></div>
+<p>The data_map (see table below) provides a mapping from original data sources to the desired columns in the assembled data set.</p>
 <table class="table">
-<caption>Data map of desired columns in the assembled data (columns) and names of columns in the original data (rows)</caption>
+<caption>Data map of desired columns in the assembled data (col) and names of columns in the original data. Where a column name from the original data source does not match columns in the original data source, the get_x function has usually created a new column to better meet the requirements of the final combined data set</caption>
 <colgroup>
-<col width="1%">
-<col width="1%">
-<col width="0%">
-<col width="11%">
-<col width="9%">
-<col width="8%">
-<col width="3%">
-<col width="8%">
-<col width="5%">
-<col width="18%">
-<col width="6%">
-<col width="17%">
-<col width="3%">
-<col width="4%">
+<col width="7%">
+<col width="20%">
+<col width="14%">
+<col width="14%">
+<col width="42%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">col</th>
-<th align="left">class</th>
-<th align="left">bio_all</th>
-<th align="left">bdbsa</th>
-<th align="left">egis</th>
-<th align="left">havplot</th>
-<th align="left">tern</th>
-<th align="left">alis</th>
-<th align="left">bcm</th>
-<th align="left">ptp</th>
-<th align="left">nvb</th>
-<th align="left">other</th>
-<th align="left">galah</th>
 <th align="left">gbif</th>
+<th align="left">tern</th>
+<th align="left">galah</th>
+<th align="left">havplot</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">data_name</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">bdbsa</td>
-<td align="left">egis</td>
-<td align="left">havplot</td>
-<td align="left">tern</td>
-<td align="left">alis</td>
-<td align="left">bcm</td>
-<td align="left">ptp</td>
-<td align="left">nvb</td>
-<td align="left">other</td>
-<td align="left">galah</td>
 <td align="left">gbif</td>
+<td align="left">tern</td>
+<td align="left">galah</td>
+<td align="left">havplot</td>
 </tr>
 <tr class="even">
 <td align="left">epsg</td>
-<td align="left">numeric</td>
-<td align="left">FALSE</td>
-<td align="left">7844</td>
-<td align="left">7844</td>
-<td align="left">4326</td>
-<td align="left">4326</td>
-<td align="left">4326</td>
-<td align="left">4326</td>
-<td align="left">4326</td>
 <td align="left">4326</td>
 <td align="left">4326</td>
 <td align="left">4326</td>
@@ -173,95 +143,41 @@
 </tr>
 <tr class="odd">
 <td align="left">site</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">PATCHID</td>
-<td align="left">EGISCODE</td>
-<td align="left">plotName</td>
-<td align="left">site_unique</td>
-<td align="left">SITENUMBER</td>
-<td align="left">SITE_ID</td>
-<td align="left">PlantDataID</td>
-<td align="left">path</td>
-<td align="left">Site</td>
-<td align="left">locationID</td>
 <td align="left">gbifID</td>
+<td align="left">site_unique</td>
+<td align="left">locationID</td>
+<td align="left">plotName</td>
 </tr>
 <tr class="even">
 <td align="left">date</td>
-<td align="left">Date</td>
-<td align="left">TRUE</td>
-<td align="left">OBSDATE</td>
-<td align="left">SIGHTINGDATE</td>
-<td align="left">obsStartDate</td>
+<td align="left">eventDate</td>
 <td align="left">visit_start_date</td>
-<td align="left">SurveyDate</td>
-<td align="left">ASSESSMENT_DATE</td>
-<td align="left">Obs_Date</td>
-<td align="left">date</td>
-<td align="left">SIGHTINGDATE</td>
 <td align="left">eventDate</td>
-<td align="left">eventDate</td>
+<td align="left">obsStartDate</td>
 </tr>
 <tr class="odd">
 <td align="left">lat</td>
-<td align="left">numeric</td>
-<td align="left">TRUE</td>
-<td align="left">LATITUDE</td>
-<td align="left">LATITUDE</td>
 <td align="left">decimalLatitude</td>
 <td align="left">latitude</td>
-<td align="left">LATITUDE</td>
-<td align="left">LATITUDE</td>
-<td align="left">LATITUDE</td>
-<td align="left">lat</td>
-<td align="left">LATITUDE</td>
 <td align="left">decimalLatitude</td>
 <td align="left">decimalLatitude</td>
 </tr>
 <tr class="even">
 <td align="left">long</td>
-<td align="left">numeric</td>
-<td align="left">TRUE</td>
-<td align="left">LONGITUDE</td>
-<td align="left">LONGITUDE</td>
 <td align="left">decimalLongitude</td>
 <td align="left">longitude</td>
-<td align="left">LONGITUDE</td>
-<td align="left">LONGITUDE</td>
-<td align="left">LONGITUDE</td>
-<td align="left">lon</td>
-<td align="left">LONGITUDE</td>
 <td align="left">decimalLongitude</td>
 <td align="left">decimalLongitude</td>
 </tr>
 <tr class="odd">
 <td align="left">original_name</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">CONCATNAMAUTH</td>
-<td align="left">SPECIES</td>
 <td align="left">scientificName</td>
 <td align="left">species</td>
-<td align="left">CONCATNAMAUTH</td>
-<td align="left">CONCATNAMAUTH</td>
-<td align="left">CONCATNAMAUTH</td>
-<td align="left">Spp</td>
-<td align="left">SPECIES</td>
 <td align="left">scientificName</td>
 <td align="left">scientificName</td>
 </tr>
 <tr class="even">
 <td align="left">common</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">COMNAME1</td>
-<td align="left">COMNAME</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">COMNAME1</td>
-<td align="left">COMNAME1</td>
-<td align="left">COMNAME1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">vernacularName</td>
@@ -269,15 +185,6 @@
 </tr>
 <tr class="odd">
 <td align="left">nsx</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">NSXCODE</td>
-<td align="left">NSXCODE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NSXCode</td>
-<td align="left">species</td>
-<td align="left">NSXCODE</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">organismID</td>
@@ -285,79 +192,34 @@
 </tr>
 <tr class="even">
 <td align="left">occ_derivation</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">NUMOBSERVED</td>
-<td align="left">NUMOBSERVED</td>
+<td align="left">occurrenceStatus</td>
+<td align="left">NA</td>
+<td align="left">occurrenceStatus</td>
 <td align="left">abundanceValue</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NUMOBSERVED</td>
-<td align="left">occurrenceStatus</td>
-<td align="left">occurrenceStatus</td>
 </tr>
 <tr class="odd">
 <td align="left">quantity</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">NUMOBSERVED</td>
-<td align="left">NUMOBSERVED</td>
+<td align="left">organismQuantity</td>
+<td align="left">NA</td>
+<td align="left">organismQuantity</td>
 <td align="left">abundanceValue</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NUMOBSERVED</td>
-<td align="left">organismQuantity</td>
-<td align="left">organismQuantity</td>
 </tr>
 <tr class="even">
 <td align="left">survey_nr</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">SURVEYNR</td>
-<td align="left">SURVEYNR</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">SURVEYNR</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">survey</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">SURVEYNAME</td>
-<td align="left">SURVEYNAME</td>
-<td align="left">projectID</td>
-<td align="left">NA</td>
-<td align="left">LandSystem</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">SURVEYNAME</td>
 <td align="left">datasetName</td>
-<td align="left">NA</td>
+<td align="left">projectID</td>
 </tr>
 <tr class="even">
 <td align="left">ind</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">ISINDIGENOUS</td>
-<td align="left">ISINDIGENOUSFLAG</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ISINDIGENOUS</td>
-<td align="left">ISINDIGENOUS</td>
-<td align="left">ISINDIGENOUS</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -365,31 +227,13 @@
 </tr>
 <tr class="odd">
 <td align="left">rel_metres</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">rel_metres</td>
-<td align="left">rel_metres</td>
+<td align="left">coordinateUncertaintyInMeters</td>
+<td align="left">NA</td>
+<td align="left">coordinateUncertaintyInMeters</td>
 <td align="left">coordinateUncertaintyInMetres</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">maxDist</td>
-<td align="left">coordinateUncertaintyInMeters</td>
-<td align="left">coordinateUncertaintyInMeters</td>
 </tr>
 <tr class="even">
 <td align="left">sens</td>
-<td align="left">logical</td>
-<td align="left">TRUE</td>
-<td align="left">NA</td>
-<td align="left">DISTRIBDESC</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -397,31 +241,13 @@
 </tr>
 <tr class="odd">
 <td align="left">lifeform</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">MUIRCODE</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">lifeform</td>
-<td align="left">Lifeform</td>
-<td align="left">NA</td>
-<td align="left">Life_form</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">lifespan</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">LIFESPAN</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">LIFESPAN</td>
-<td align="left">LIFESPAN</td>
-<td align="left">LIFESPAN</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -429,31 +255,13 @@
 </tr>
 <tr class="odd">
 <td align="left">cover</td>
-<td align="left">numeric</td>
-<td align="left">TRUE</td>
-<td align="left">COVER</td>
 <td align="left">NA</td>
 <td align="left">cover</td>
+<td align="left">NA</td>
 <td align="left">cover</td>
-<td align="left">Cover</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">cover_code</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">COVCODE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Cover_abundance</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -461,47 +269,20 @@
 </tr>
 <tr class="odd">
 <td align="left">height</td>
-<td align="left">numeric</td>
-<td align="left">TRUE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">height</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">quad_metres</td>
-<td align="left">numeric</td>
-<td align="left">TRUE</td>
-<td align="left">quad_metres</td>
-<td align="left">NA</td>
-<td align="left">quad_metres</td>
-<td align="left">quad_metres</td>
 <td align="left">NA</td>
 <td align="left">quad_metres</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
+<td align="left">quad_metres</td>
 </tr>
 <tr class="odd">
 <td align="left">epbc_status</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">ESACTSTATUSCODE</td>
-<td align="left">ESACTSTATUSCODE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">ESACTSTATUSCODE</td>
-<td align="left">ESACTSTATUSCODE</td>
-<td align="left">ESACTSTATUSCODE</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -509,15 +290,6 @@
 </tr>
 <tr class="even">
 <td align="left">npw_status</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">NPWACTSTATUSCODE</td>
-<td align="left">NPWACTSTATUSCODE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NPWACTSTATUSCODE</td>
-<td align="left">NPWACTSTATUSCODE</td>
-<td align="left">NPWACTSTATUSCODE</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -525,62 +297,26 @@
 </tr>
 <tr class="odd">
 <td align="left">method</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">METHODDESC</td>
-<td align="left">METHODDESC</td>
+<td align="left">samplingProtocol</td>
+<td align="left">NA</td>
+<td align="left">samplingProtocol</td>
 <td align="left">abundanceMethod</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">METHODDESC</td>
-<td align="left">samplingProtocol</td>
-<td align="left">samplingProtocol</td>
 </tr>
 <tr class="even">
 <td align="left">obs</td>
-<td align="left">character</td>
-<td align="left">TRUE</td>
-<td align="left">observer</td>
-<td align="left">OBSERVER</td>
-<td align="left">individualName</td>
+<td align="left">recordedBy</td>
 <td align="left">observer_veg</td>
-<td align="left">observer</td>
-<td align="left">assessor</td>
-<td align="left">Observers</td>
-<td align="left">assessor</td>
-<td align="left">observer</td>
 <td align="left">recordedBy</td>
-<td align="left">recordedBy</td>
+<td align="left">individualName</td>
 </tr>
 <tr class="odd">
 <td align="left">denatured</td>
-<td align="left">character</td>
-<td align="left">FALSE</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
+<td align="left">informationWithheld</td>
 <td align="left">NA</td>
 <td align="left">generalisationInMetres</td>
-<td align="left">informationWithheld</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">kingdom</td>
-<td align="left">kingdom</td>
-<td align="left">TRUE</td>
-<td align="left">kingdom</td>
-<td align="left">kingdom</td>
-<td align="left">kingdom</td>
-<td align="left">kingdom</td>
-<td align="left">kingdom</td>
-<td align="left">kingdom</td>
 <td align="left">kingdom</td>
 <td align="left">kingdom</td>
 <td align="left">kingdom</td>
@@ -589,71 +325,89 @@
 </tr>
 <tr class="odd">
 <td align="left">desc</td>
-<td align="left">character</td>
-<td align="left">FALSE</td>
-<td align="left">Biological databases of South Australia</td>
-<td align="left">Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</td>
-<td align="left">Harmonised Australian Vegetation Plot dataset</td>
-<td align="left">Terrestrial ecosystem network</td>
-<td align="left">Arid lands information system</td>
-<td align="left">Bushland condition monitoring</td>
-<td align="left">Paddock tree project</td>
-<td align="left">DEW Native Vegetation Branch</td>
-<td align="left">Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre</td>
-<td align="left">Atlas of Living Australia</td>
 <td align="left">Global biodiversity information facility</td>
+<td align="left">Terrestrial ecosystem network</td>
+<td align="left">Atlas of Living Australia</td>
+<td align="left">Harmonised Australian Vegetation Plot dataset</td>
 </tr>
 <tr class="even">
 <td align="left">url</td>
-<td align="left">character</td>
-<td align="left">FALSE</td>
-<td align="left"><a href="https://www.environment.sa.gov.au/topics/science/information-and-data/biological-databases-of-south-australia" class="external-link uri">https://www.environment.sa.gov.au/topics/science/information-and-data/biological-databases-of-south-australia</a></td>
-<td align="left"><a href="https://data.sa.gov.au/data/dataset/enviro-data-sa-website" class="external-link uri">https://data.sa.gov.au/data/dataset/enviro-data-sa-website</a></td>
-<td align="left"><a href="https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860" class="external-link uri">https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860</a></td>
-<td align="left"><a href="https://www.tern.org.au/" class="external-link uri">https://www.tern.org.au/</a></td>
-<td align="left"><a href="https://www.pir.sa.gov.au/aghistory/natural_resources/pastoral_land_management" class="external-link uri">https://www.pir.sa.gov.au/aghistory/natural_resources/pastoral_land_management</a></td>
-<td align="left"><a href="https://www.ncssa.asn.au/bushland-health-and-condition/" class="external-link uri">https://www.ncssa.asn.au/bushland-health-and-condition/</a></td>
-<td align="left">
-<a href="https://treesforlife.org.au/TFLWeb/TFLWeb/What_we_do/Projects/Paddock-Tree-Projects.aspx#" class="external-link uri">https://treesforlife.org.au/TFLWeb/TFLWeb/What_we_do/Projects/Paddock-Tree-Projects.aspx#</a>:~:text=Mount%20Lofty%20Ranges%20Paddock%20Tree,whose%20numbers%20are%20in%20decline.</td>
-<td align="left"><a href="https://www.environment.sa.gov.au/topics/native-vegetation" class="external-link uri">https://www.environment.sa.gov.au/topics/native-vegetation</a></td>
-<td align="left">NA</td>
-<td align="left"><a href="https://www.ala.org.au/" class="external-link uri">https://www.ala.org.au/</a></td>
 <td align="left"><a href="https://www.gbif.org/" class="external-link uri">https://www.gbif.org/</a></td>
+<td align="left"><a href="https://www.tern.org.au/" class="external-link uri">https://www.tern.org.au/</a></td>
+<td align="left"><a href="https://www.ala.org.au/" class="external-link uri">https://www.ala.org.au/</a></td>
+<td align="left"><a href="https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860" class="external-link uri">https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860</a></td>
 </tr>
 <tr class="odd">
 <td align="left">order</td>
-<td align="left">character</td>
-<td align="left">FALSE</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">3</td>
-<td align="left">4</td>
-<td align="left">5</td>
-<td align="left">6</td>
-<td align="left">7</td>
-<td align="left">8</td>
-<td align="left">9</td>
-<td align="left">10</td>
 <td align="left">11</td>
+<td align="left">4</td>
+<td align="left">10</td>
+<td align="left">3</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level3">
+<h3 id="get_x">
+<code>get_x</code><a class="anchor" aria-label="anchor" href="#get_x"></a>
+</h3>
 <p><code>get_x</code> functions get data from the data source <code>x</code>. Results are always saved to disk (as getting data can be slow). When run again, they load from the saved file by default. If available, <code>get_x</code> functions use any R packages and functions provided by the data source (e.g. TERN provides <code>ausplotsR</code> [@]). The first arguments to <code>get_x</code> functions are always:</p>
 <ul>
 <li>
-<code>aoi</code>: an area of interest, provided as simple feature. <code>get_x</code> will turn any <code>aoi</code> into a bounding box and convert to coordinates appropriate for data source <code>x</code>. [Ed: is <code>aoi</code> always required?]</li>
+<code>aoi</code>: an area of interest, provided as simple feature (see <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code>)</li>
 <li>
-<code>save_dir</code>: a directory to save the results to. The default (<code>NULL</code>) leads to the file <code>here::here("out", "ds", "x.rds")</code> being created and used as <code>save_file</code>. <code>ds</code> is for ‘data source’. While the saved file is usually <code>x.rds</code>, in some instances it follows the format and naming of the download from <code>x</code> (e.g. GBIF data comes in a <code>.zip</code> file named by the corresponding download key).</li>
+<code>save_dir</code>: a directory to save the results to. The default (<code>NULL</code>) leads to the file <code>here::here("out", "ds", "x.rds")</code> being created and used as <code>save_file</code>. <code>ds</code> is for ‘data source’. While the saved file is usually <code>x.rds</code>, in some instances it follows the format and naming of the download from <code>x</code> (e.g. GBIF data comes in a <code>.zip</code> file named by the corresponding download key)</li>
 <li>
 <code>get_new</code>: an override to force <code>get_x</code> to requery the data source, even if save_file already exists</li>
 <li>
-<code>...</code>: the dots are passed to any underlying ‘native’ function, such as <code><a href="https://docs.ropensci.org/rgbif/reference/occ_download.html" class="external-link">rgbif::occ_download()</a></code> or <code><a href="https://rdrr.io/pkg/ausplotsR/man/get_ausplots.html" class="external-link">ausplotsR::get_ausplots()</a></code>
+<code>...</code>: the dots are passed to any underlying ‘native’ function, such as <code><a href="https://docs.ropensci.org/rgbif/reference/occ_download.html" class="external-link">rgbif::occ_download()</a></code>, <code><a href="https://galah.ala.org.au/R/reference/galah_call.html" class="external-link">galah::galah_call()</a></code> or <code><a href="https://rdrr.io/pkg/ausplotsR/man/get_ausplots.html" class="external-link">ausplotsR::get_ausplots()</a></code>
 </li>
 </ul>
-<p>Many of the <code>get_x</code> functions will only work within <code>DEW</code>.</p>
-<p>As of June 2024, <code>get_x</code> functions can be run from <code>get_data</code>.</p>
+<p>Only the <code>get_x</code> functions for publicly available data are available within envImport.</p>
+<p>Within <code>get_x</code> functions the following steps are taken:</p>
+<ul>
+<li>query the data source for data within the area of interest
+<ul>
+<li>possibly including other criteria to limit the results</li>
+</ul>
+</li>
+<li>adjust the results, if required, to better integrate with other data sources</li>
+<li>rename the columns to a common standard (via the data_map)
+<ul>
+<li>possibly adding some commonly desired fields at this step: <code>occ</code> (is this a presence [<code>1</code>] or absence [<code>0</code>] record?), <code>month</code> and <code>year</code>
+</li>
+</ul>
+</li>
+<li>save the results, usually as .parquet</li>
+</ul>
+<p><code>get_x</code> functions can be run from <code>get_data</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="combine">Combine<a class="anchor" aria-label="anchor" href="#combine"></a>
+</h3>
+<p>No specific functions are provided for combining data. The following are possible (assuming ‘files’ is a vector of file names resulting from <code>get_x</code>):</p>
+<ul>
+<li><code>purrr::map_dfr(files, \(x) rio::import(x, setclass = "tibble")</code></li>
+<li><code>arrow::open_dataset(files, unify_schema = TRUE) %&gt;% dplyr::collect()</code></li>
+</ul>
+<p><code><a href="https://rdrr.io/pkg/rio/man/import.html" class="external-link">rio::import</a></code> is possibly more robust to differences in schema when importing files (based on observation - needs testing).</p>
 </div>
 </div>
+</div>
+<div class="section level1">
+<h1 id="cleaning">Cleaning<a class="anchor" aria-label="anchor" href="#cleaning"></a>
+</h1>
+<p><code>envImport</code> <strong><em>does not clean</em></strong> data. Any combined dataset is likely to contain all sorts of duplication and other spurious records. For help cleaning data, see, for example:</p>
+<ul>
+<li>The book <a href="https://cleaning-data-r.ala.org.au/" class="external-link">Cleaning Biodiversity Data in R</a>
+</li>
+<li>R packages:
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html" class="external-link">CoordinateCleaner</a></li>
+<li><a href="https://acanthiza.github.io/envClean/" class="external-link">envClean</a></li>
+</ul>
+</li>
+</ul>
 </div>
 
   </div>

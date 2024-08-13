@@ -39,32 +39,70 @@ devtools::install_github("Acanthiza/envImport")
 
 ## Supported data sources
 
-`data_name` = 'data source'. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility ([GBIF](https://www.gbif.org/)) via `galah` package `r cite_package("galah")` or Terrestrial Ecosystems Network ([TERN](https://www.tern.org.au/)). The `r nrow(envImport::data_map)` data sources currently supported or with plans for development are (also see `envImport::data_map`):
+`data_name` = 'data source'. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility ([GBIF](https://www.gbif.org/)), Atlas of Living Australia ([ALA](https://www.ala.org.au/)) or Terrestrial Ecosystems Network ([TERN](https://www.tern.org.au/)). There are `r ncol(envImport::data_map) - 3` data sources currently supported (also see `envImport::data_map`):
 
-* `r paste0(data_map$data_name, ": ", data_map$desc, collapse = "\n* ")`
+* `r paste0(names(data_map)[4:ncol(data_map)], ": ", data_map[data_map$col == "desc", 4:ncol(data_map)], collapse = "\n* ")`
+
+Four of these sources are publicly available (GBIF, ALA, HAVPlot and TERN). 
 
 ## General workflow
 
 ### `data_map`
 
-The data_map (see table @ref(tab:dataMap)) provides a mapping from original data sources to the desired columns in the assembled data set.
+The data_map (see table below) provides a mapping from original data sources to the desired columns in the assembled data set.
 
-```{r dataMap}
+```{r dataMap, echo = FALSE}
 
-  knitr::kable(data_map
-               , caption = "Data map of desired columns in the assembled data (columns) and names of columns in the original data (rows)"
+  dm <- data_map %>%
+    dplyr::select(col, gbif, tern, galah, havplot) %>%
+    dplyr::filter()
+
+  knitr::kable(dm
+               , caption = "Data map of desired columns in the assembled data (col) and names of columns in the original data. Where a column name from the original data source does not match columns in the original data source, the get_x function has usually created a new column to better meet the requirements of the final combined data set"
                )
 
 
 ```
 
+
+### `get_x`
+
 `get_x` functions get data from the data source `x`. Results are always saved to disk (as getting data can be slow). When run again, they load from the saved file by default. If available, `get_x` functions use any R packages and functions provided by the data source (e.g. TERN provides `ausplotsR` `r cite_package("ausplotsR")`). The first arguments to `get_x` functions are always:
 
-* `aoi`: an area of interest, provided as simple feature. `get_x` will turn any `aoi` into a bounding box and convert to coordinates appropriate for data source `x`. [Ed: is `aoi` always required?]
-* `save_dir`: a directory to save the results to. The default (`NULL`) leads to the file `here::here("out", "ds", "x.rds")` being created and used as `save_file`. `ds` is for 'data source'. While the saved file is usually `x.rds`, in some instances it follows the format and naming of the download from `x` (e.g. GBIF data comes in a `.zip` file named by the corresponding download key).
+* `aoi`: an area of interest, provided as simple feature (see `sf::sf()`)
+* `save_dir`: a directory to save the results to. The default (`NULL`) leads to the file `here::here("out", "ds", "x.rds")` being created and used as `save_file`. `ds` is for 'data source'. While the saved file is usually `x.rds`, in some instances it follows the format and naming of the download from `x` (e.g. GBIF data comes in a `.zip` file named by the corresponding download key)
 * `get_new`: an override to force `get_x` to requery the data source, even if save_file already exists
-* `...`: the dots are passed to any underlying 'native' function, such as `rgbif::occ_download()` or `ausplotsR::get_ausplots()`
+* `...`: the dots are passed to any underlying 'native' function, such as `rgbif::occ_download()`, `galah::galah_call()` or `ausplotsR::get_ausplots()`
 
-Many of the `get_x` functions will only work within `DEW`.
+Only the `get_x` functions for publicly available data are available within envImport.
 
-As of June 2024, `get_x` functions can be run from `get_data`.
+Within `get_x` functions the following steps are taken:
+
+* query the data source for data within the area of interest
+    * possibly including other criteria to limit the results
+* adjust the results, if required, to better integrate with other data sources
+* rename the columns to a common standard (via the data_map)
+    * possibly adding some commonly desired fields at this step: `occ` (is this a presence [`1`] or absence [`0`] record?), `month` and `year`
+* save the results, usually as .parquet
+
+`get_x` functions can be run from `get_data`.
+
+### Combine
+
+No specific functions are provided for combining data. The following are possible (assuming 'files' is a vector of file names resulting from `get_x`):
+
+* `purrr::map_dfr(files, \(x) rio::import(x, setclass = "tibble")`
+* `arrow::open_dataset(files, unify_schema = TRUE) %>% dplyr::collect()`
+
+`rio::import` is possibly more robust to differences in schema when importing files (based on observation - needs testing).
+
+# Cleaning
+
+`envImport` **_does not clean_** data. Any combined dataset is likely to contain all sorts of duplication and other spurious records. For help cleaning data, see, for example:
+
+* The book [Cleaning Biodiversity Data in R](https://cleaning-data-r.ala.org.au/)
+* R packages:
+    + [CoordinateCleaner](https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html)
+    + [envClean](https://acanthiza.github.io/envClean/)
+
+

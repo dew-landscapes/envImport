@@ -180,8 +180,8 @@ values from \code{get_data_name} are used
                               , regexp = "\\\\.parquet"
                               )
 
-  bio_all <- arrow::open_dataset(bio_all_files) \%>\%
-    dplyr::collect()
+  bio_all <- purrr::map_dfr(bio_all_files, \(x) rio::import(x))
+
 
   if(FALSE) {
 

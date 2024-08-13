@@ -12,7 +12,7 @@ remap_data_names(
   exclude_cols = c("order", "epsg", "desc", "data_name_use", "url"),
   add_month = !is.null(data_map),
   add_year = !is.null(data_map),
-  make_occ = !is.null(data_map),
+  add_occ = !is.null(data_map),
   occ_cols = c("occ_derivation", "quantity"),
   absences = c("0", "none detected", "none observed", "None detected", "ABSENT"),
   previous = c("delete", "move"),
@@ -35,11 +35,11 @@ remap_data_names(
 \item{add_month, add_year}{Logical. Add a year and/or month column to returned
 data frame (requires a \code{date} field to be specified by \code{data_map})}
 
-\item{make_occ}{Logical. Make an \code{occ} column (occurrence) of 1 = detected, 0
+\item{add_occ}{Logical. Make an \code{occ} column (occurrence) of 1 = detected, 0
 = not detected? Due to the plethora of ways original data sets record numbers
 and absences this should not be considered 100\% reliable.}
 
-\item{absences}{Character. If \code{make_occ} what values are considered absences?}
+\item{absences}{Character. If \code{add_occ} what values are considered absences?}
 
 \item{previous}{Character. What to do with any previous \code{out_file}.
 Default is 'delete'. Alternative 'move' will rename to the same location as
