@@ -248,8 +248,8 @@
 
           rdf <- rdf %>%
             dplyr::mutate(occ = dplyr::if_else(!!rlang::ensym(this_col) %in% absences
-                                               , 0
-                                               , occ
+                                               , 0L
+                                               , as.integer(occ)
                                                )
                           )
 

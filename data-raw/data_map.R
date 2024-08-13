@@ -384,7 +384,7 @@
     tidyr::pivot_wider()
 
 
-  # data_map_old
+  # data_map_old--------
   data_map_old <- tibble::tibble(
     data_name = c("havplot", "alis", "bcm", "bdbsa", "egis", "nvb", "ptp", "tern", "gbif", "galah", "other"),
     order = c(3, 5, 7, 1, 2, 5, 9, 4, 11, 10, 8),

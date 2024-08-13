@@ -48,7 +48,7 @@
     }
 
     # Select cols from old or new data map
-    if(!all(c("col", "class") %in% names(data_map))) {
+    if(!all(c("col", this_name) %in% names(data_map))) {
 
       select_name <- data_map %>%
         dplyr::filter(data_name == this_name) %>%
