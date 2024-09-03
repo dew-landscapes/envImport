@@ -119,7 +119,7 @@
   ## get_galah for aoi -------
   bio_all_galah <- get_galah(aoi = envImport::aoi
                              , save_dir = out_dir
-                             , data_map = NULL
+                             , data_map = data_map
                              , sub_dir = "bio_all"
                              )
 

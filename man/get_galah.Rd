@@ -19,11 +19,14 @@ get_galah(
 }
 \arguments{
 \item{aoi}{Optional simple feature (sf). Used to limit the occurrences
-returned via \code{galah::galah_geolocate()}}
+returned via \code{galah::galah_geolocate()}. Note the limitations given in
+\code{galah_geolocate}, 'Shapefiles must be simple to be accepted by the ALA....If
+type = "polygon", WKT strings longer than 10000 characters and sf objects
+with more than 500 vertices will not be accepted by the ALA."}
 
 \item{save_dir}{Character. Path to directory into which to save outputs. If
-\code{NULL} results will be saved to \code{here::here("out", "ds", "galah")}. File will be
-named \code{galah.parquet}}
+\code{NULL} results will be saved to \code{here::here("out", "ds", "galah")}. File will
+be named \code{galah.parquet}}
 
 \item{get_new}{Logical. If FALSE, will attempt to load from existing
 \code{save_dir}.}
@@ -38,17 +41,21 @@ named \code{galah.parquet}}
 Doesn't seem to work with node = "GBIF" and untested on other nodes.}
 
 \item{qry}{\code{NULL} or an object of class data_request, created using
-\code{galah::galah_call()}}
+\code{galah::galah_call()}. NOTE: do not include any \code{galah::atlas_occurrences()}
+in the \code{qry}, this is called by get_galah.}
 
 \item{check_rel_metres}{Logical. Ensure that \code{coordinateUncertaintyInMetres}
-is no less than \code{generalisationInMetres}?}
+is no less than \code{generalisationInMetres}? Only relevant if both columns are
+returned by \code{qry}}
 
 \item{filter_inconsistent}{Logical. If \code{TRUE}, inconsistencies between the
-\code{occurrenceStatus} column and either \code{organismQuantity} or \code{individualCount}
-are removed. e.g. a record with \code{occurrenceStatus == "ABSENT"} but
-\code{individualCount == 1} would be filtered.}
+\code{occurrenceStatus} column and either \code{organismQuantity} are filtered
+(removed). e.g. a record with \code{occurrenceStatus == "ABSENT"} but
+\code{organismQuantity == 10} would be filtered. Only relevant if both columns are
+returned by \code{qry}}
 
-\item{...}{Passed to \code{envImport::file_prep()}}
+\item{...}{Passed to \code{envImport::file_prep()} and
+\code{envImport::remap_data_names()}}
 }
 \value{
 Dataframe of occurrences and file saved to \code{save_dir}. .bib created
@@ -59,7 +66,7 @@ Get data using \code{galah::atlas_occurrences()}
 }
 \examples{
 
-  library("envImport")
+  # library("envImport")
 
   out_dir <- file.path(system.file(package = "envImport"), "examples")
 

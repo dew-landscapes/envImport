@@ -115,14 +115,13 @@
 
       } else {
 
-        select_names <- choose_names(data_map = data_map
-                                     , this_name = name
-                                     ) %>%
-          dplyr::filter(value %in% galah::show_all("fields")$id)
+        all_fields <- unique(galah::show_all("fields")$id)
+
+        select_names <- data_map$galah[data_map$galah %in% all_fields]
 
         qry <- qry %>%
           galah::select(recordID # inc recordID here: see https://github.com/AtlasOfLivingAustralia/galah-R/issues/239
-                        , select_names$value
+                        , tidyselect::all_of(select_names)
                         )
 
       }
@@ -135,7 +134,7 @@
       if(all(check_rel_metres, c("coordinateUncertaintyInMeters", "generalisationInMetres") %in% names(temp))) {
 
         temp <- temp %>%
-          dplyr::rename(cuim = coordinateUncertaintyInMeters
+          dplyr::mutate(cuim = coordinateUncertaintyInMeters
                         , gim = generalisationInMetres
                         ) %>%
           dplyr::mutate(coordinateUncertaintyInMeters = dplyr::case_when(!is.na(gim) & gim > cuim ~ gim

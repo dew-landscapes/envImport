@@ -27,7 +27,7 @@ values from \code{get_data_name} are used
 }
 \examples{
 
-  library("envImport")
+  # library("envImport")
 
   out_dir <- file.path(system.file(package = "envImport"), "examples")
 
