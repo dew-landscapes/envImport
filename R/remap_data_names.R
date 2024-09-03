@@ -210,7 +210,7 @@
 
 
     # year and month ------
-    if(any(add_year, add_month)) {
+    if(all("date" %in% names(rdf), any(add_year, add_month))) {
 
       dates <- rdf %>%
         dplyr::distinct(date)
@@ -321,6 +321,7 @@
 
     # clean up -----
     ## select cols -------
+
     select_names <- choose_names(df_to_remap
                                  , data_map = data_map
                                  , this_name = this_name

@@ -47,6 +47,12 @@
 
     }
 
+    if(! final_select_col %in% names(data_map)) {
+
+      data_map[final_select_col] <- TRUE
+
+    }
+
     # Select cols from old or new data map
     if(!all(c("col", this_name) %in% names(data_map))) {
 

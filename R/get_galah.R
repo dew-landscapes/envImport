@@ -5,10 +5,13 @@
 #'
 #'
 #' @param aoi Optional simple feature (sf). Used to limit the occurrences
-#' returned via `galah::galah_geolocate()`
+#' returned via `galah::galah_geolocate()`. Note the limitations given in
+#' `galah_geolocate`, 'Shapefiles must be simple to be accepted by the ALA....If
+#' type = "polygon", WKT strings longer than 10000 characters and sf objects
+#' with more than 500 vertices will not be accepted by the ALA."
 #' @param save_dir Character. Path to directory into which to save outputs. If
-#' `NULL` results will be saved to `here::here("out", "ds", "galah")`. File will be
-#' named `galah.parquet`
+#' `NULL` results will be saved to `here::here("out", "ds", "galah")`. File will
+#' be named `galah.parquet`
 #' @param get_new Logical. If FALSE, will attempt to load from existing
 #' `save_dir`.
 #' @param name Character. `data_name` value in `envImport::data_map`
@@ -18,14 +21,18 @@
 #' @param node Character. Name of atlas to use (see `galah::atlas_occurrences()`).
 #' Doesn't seem to work with node = "GBIF" and untested on other nodes.
 #' @param qry `NULL` or an object of class data_request, created using
-#' `galah::galah_call()`
+#' `galah::galah_call()`. NOTE: do not include any `galah::atlas_occurrences()`
+#' in the `qry`, this is called by get_galah.
 #' @param check_rel_metres Logical. Ensure that `coordinateUncertaintyInMetres`
-#' is no less than `generalisationInMetres`?
+#' is no less than `generalisationInMetres`? Only relevant if both columns are
+#' returned by `qry`
 #' @param filter_inconsistent Logical. If `TRUE`, inconsistencies between the
-#' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
-#' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
-#' `individualCount == 1` would be filtered.
-#' @param ... Passed to `envImport::file_prep()`
+#' `occurrenceStatus` column and either `organismQuantity` are filtered
+#' (removed). e.g. a record with `occurrenceStatus == "ABSENT"` but
+#' `organismQuantity == 10` would be filtered. Only relevant if both columns are
+#' returned by `qry`
+#' @param ... Passed to `envImport::file_prep()` and
+#' `envImport::remap_data_names()`
 #'
 #' @return Dataframe of occurrences and file saved to `save_dir`. .bib created
 #' when `download_reason_id != 10.`
@@ -58,10 +65,15 @@
       on.exit(galah::galah_config(atlas = old_atlas))
 
       # qry -------
+
+      make_doi <- galah::galah_config()$user$download_reason_id != 10
+
       ## initiate-------
       if(is.null(qry)) {
 
-        qry <- galah::galah_call()
+        qry <- galah::request_data(type = "occurrences"
+                                   , mint_doi = make_doi
+                                   )
 
       }
 
@@ -74,19 +86,20 @@
       records <- qry %>%
         galah::atlas_counts()
 
-      if(records > 50000000) {
+      if(records$count[[1]] > 50000000) {
 
         stop("Returned records ("
-             , records
-             , ") would exceed limit of 50 million"
+             , base::format(records$count[[1]], big.mark = ",")
+             , ") would exceed limit of 50,000,000"
              )
 
       }
 
-      message(records
+
+      message(base::format(records$count, big.mark = ",")
               , " records available from galah via "
               , galah::galah_config()$atlas$acronym
-              , " node"
+              , " node, based on this query"
               )
 
       ## select-------
@@ -114,14 +127,12 @@
 
       }
 
-      make_doi <- galah::galah_config()$user$download_reason_id != 10
-
       ## retrieve ------
       temp <- qry %>%
-        galah::atlas_occurrences(mint_doi = make_doi)
+        dplyr::collect()
 
       ## rel_metres-------
-      if(check_rel_metres) {
+      if(all(check_rel_metres, c("coordinateUncertaintyInMeters", "generalisationInMetres") %in% names(temp))) {
 
         temp <- temp %>%
           dplyr::rename(cuim = coordinateUncertaintyInMeters
@@ -135,17 +146,15 @@
       }
 
       ## filter_inconsistent --------
-      if(filter_inconsistent) {
+      if(all(filter_inconsistent, c("organismQuantity", "occurrenceStatus") %in% names(temp))) {
 
         temp <- temp %>%
             dplyr::filter(!(occurrenceStatus == "ABSENT" &
-                              !is.na(organismQuantity) &
-                              organismQuantity > 0
+                              isTRUE(organismQuantity > 0)
                             )
                           ) %>%
             dplyr::filter(!(occurrenceStatus == "PRESENT" &
-                            !is.na(organismQuantity) &
-                            organismQuantity == 0
+                            isTRUE(organismQuantity == 0)
                             )
                           )
 
