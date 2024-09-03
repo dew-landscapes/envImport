@@ -1,5 +1,5 @@
 
-  library("envImport")
+  # library("envImport")
 
   out_dir <- file.path(system.file(package = "envImport"), "examples")
 
@@ -119,7 +119,7 @@
   ## get_galah for aoi -------
   bio_all_galah <- get_galah(aoi = envImport::aoi
                              , save_dir = out_dir
-                             , data_map = data_map
+                             , data_map = NULL
                              , sub_dir = "bio_all"
                              )
 
