@@ -91,12 +91,12 @@ get_galah <- function(aoi = NULL
     }
 
     ## aoi------
-    if(!is.null(aoi)) qry1 <- qry %>%
+    if(!is.null(aoi)) qry1 <- qry %>% # relabel qry as qry1 to preserve the original qry for potential use with split aoi's later
       galah::galah_geolocate(aoi)
 
 
     ## check records--------
-    records <- qry1 %>%
+    records <- {if(!is.null(aoi)) qry1 else qry} %>%
       galah::atlas_counts() %>%
       dplyr::pull(count)
 
@@ -178,7 +178,7 @@ get_galah <- function(aoi = NULL
 
       ### continue if records < 50M ----
 
-      qry <- qry1
+      if(!is.null(aoi)) qry <- qry1
 
       message(records
               , " records available from galah via "
