@@ -1,7 +1,8 @@
 Package: envImport
 Title: Combine Disparate Data Sources
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
+    c(
     person(given = "Nigel",
            family = "Willoughby",
            role = c("aut", "cre"),
