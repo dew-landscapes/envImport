@@ -188,7 +188,7 @@ get_galah <- function(aoi = NULL
 
       ### continue if records < 50M ----
 
-      if(!is.null(aoi)) qry <- qry1
+      if(!is.null(aoi)) qry <- list(qry1)
 
       message(records
               , " records available from galah via "
@@ -284,7 +284,7 @@ get_galah <- function(aoi = NULL
                              , final_select = TRUE
                              , final_select_col = "bio_all"
                              , ...
-    )
+                             )
 
   } else {
 
