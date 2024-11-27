@@ -14,19 +14,17 @@ get_galah(
   qry = NULL,
   check_rel_metres = TRUE,
   filter_inconsistent = TRUE,
+  galah_config = list(email = Sys.getenv("ALA_email"), download_reason_id = 0),
   ...
 )
 }
 \arguments{
 \item{aoi}{Optional simple feature (sf). Used to limit the occurrences
-returned via \code{galah::galah_geolocate()}. Note the limitations given in
-\code{galah_geolocate}, 'Shapefiles must be simple to be accepted by the ALA....If
-type = "polygon", WKT strings longer than 10000 characters and sf objects
-with more than 500 vertices will not be accepted by the ALA."}
+returned via \code{galah::galah_geolocate()}}
 
 \item{save_dir}{Character. Path to directory into which to save outputs. If
-\code{NULL} results will be saved to \code{here::here("out", "ds", "galah")}. File will
-be named \code{galah.parquet}}
+\code{NULL} results will be saved to \code{here::here("out", "ds", "galah")}. File will be
+named \code{galah.parquet}}
 
 \item{get_new}{Logical. If FALSE, will attempt to load from existing
 \code{save_dir}.}
@@ -41,21 +39,20 @@ be named \code{galah.parquet}}
 Doesn't seem to work with node = "GBIF" and untested on other nodes.}
 
 \item{qry}{\code{NULL} or an object of class data_request, created using
-\code{galah::galah_call()}. NOTE: do not include any \code{galah::atlas_occurrences()}
-in the \code{qry}, this is called by get_galah.}
+\code{galah::galah_call()}}
 
 \item{check_rel_metres}{Logical. Ensure that \code{coordinateUncertaintyInMetres}
-is no less than \code{generalisationInMetres}? Only relevant if both columns are
-returned by \code{qry}}
+is no less than \code{generalisationInMetres}?}
 
 \item{filter_inconsistent}{Logical. If \code{TRUE}, inconsistencies between the
-\code{occurrenceStatus} column and either \code{organismQuantity} are filtered
-(removed). e.g. a record with \code{occurrenceStatus == "ABSENT"} but
-\code{organismQuantity == 10} would be filtered. Only relevant if both columns are
-returned by \code{qry}}
+\code{occurrenceStatus} column and either \code{organismQuantity} or \code{individualCount}
+are removed. e.g. a record with \code{occurrenceStatus == "ABSENT"} but
+\code{individualCount == 1} would be filtered.}
 
-\item{...}{Passed to \code{envImport::file_prep()} and
-\code{envImport::remap_data_names()}}
+\item{galah_config}{List in the form of key = value pairs suitable for
+\code{galah::galah_config()}.}
+
+\item{...}{Passed to \code{envImport::file_prep()}}
 }
 \value{
 Dataframe of occurrences and file saved to \code{save_dir}. .bib created

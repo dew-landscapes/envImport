@@ -25,6 +25,8 @@
 #' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
 #' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
 #' `individualCount == 1` would be filtered.
+#' @param galah_config List in the form of key = value pairs suitable for
+#' `galah::galah_config()`.
 #' @param ... Passed to `envImport::file_prep()`
 #'
 #' @return Dataframe of occurrences and file saved to `save_dir`. .bib created
@@ -41,8 +43,16 @@ get_galah <- function(aoi = NULL
                       , qry = NULL
                       , check_rel_metres = TRUE
                       , filter_inconsistent = TRUE
+                      , galah_config = list(email = Sys.getenv("ALA_email")
+                                            , download_reason_id = 0
+                                            )
                       , ...
-) {
+                      ) {
+
+  # galah config--------
+  base::do.call(galah::galah_config
+                , args = galah_config
+                )
 
   # save file -------
   save_file <- file_prep(save_dir, name, ...)
