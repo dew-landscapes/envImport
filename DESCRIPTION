@@ -5,7 +5,12 @@ Authors@R:
     person(given = "Nigel",
            family = "Willoughby",
            role = c("aut", "cre"),
-           email = "nige.willoughby@gmail.com")
+           email = "nige.willoughby@gmail.com"),
+    person(given = "Joel",
+            family = "Allan",
+            role = c("aut"),
+            email = "joel.allan@sa.gov.au")
+    )
 Description: Get data from various data sources and align naming and data types,
     including some fixes for common issues when combining data sources.
 License: MIT + file LICENSE
