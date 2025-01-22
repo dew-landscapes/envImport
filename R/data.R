@@ -60,7 +60,7 @@
 #' @format A data frame with `r nrow(data_map)` rows and `r ncol(data_map)`
 #' variables where column names are `col` (new column names)
 #' , `class` (class of new columns)
-#' , `final_select_col` (usually `bio_all`) and an extra column for each
+#' , 'final_select_col' (usually `bio_all`) and an extra column for each
 #' `data_name` mapping `data_name` column names to `col` column names
 #' data sources:
 #' \describe{
