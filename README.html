@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+padding-top: 0px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">library</span>(envReport)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">library</span>(envImport)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">library</span>(magrittr)</span></code></pre></div>
+<h1 id="envimport">envImport</h1>
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+<p>The goal of envImport is to obtain, and make seamlessly useable,
+environmental data from disparate data sources, for a geographic area of
+interest.</p>
+<h2 id="installation">Installation</h2>
+<p>You can install the development version of envImport from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dew-landscapes/envImport&quot;</span>)</span></code></pre></div>
+<h2 id="supported-data-sources">Supported data sources</h2>
+<p><code>data_name</code> = ‘data source’. Data sources are (usually)
+obvious sources of data. Examples are the Global Biodiversity
+Infrastructure Facility (<a href="https://www.gbif.org/">GBIF</a>),
+Atlas of Living Australia (<a href="https://www.ala.org.au/">ALA</a>) or
+Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/">TERN</a>). There are 12 data sources
+currently supported (also see <code>envImport::data_map</code>):</p>
+<ul>
+<li>bdbsa: Biological databases of South Australia</li>
+<li>egis: Occurrence datasets from the environmental databases of South
+Australia (e.g. supertables)</li>
+<li>havplot: Harmonised Australian Vegetation Plot dataset</li>
+<li>tern: Terrestrial ecosystem network</li>
+<li>abbbs: Australian Bird and Bat Banding Scheme</li>
+<li>alis: Arid lands information system</li>
+<li>bcm: Bushland condition monitoring</li>
+<li>ptp: Paddock tree project</li>
+<li>nvb: DEW Native Vegetation Branch</li>
+<li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA),
+Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post
+Fire Bird Monitoring, SA Seed Conservation Centre</li>
+<li>galah: Atlas of Living Australia</li>
+<li>gbif: Global biodiversity information facility</li>
+</ul>
+<p>Four of these sources are publicly available (GBIF, ALA, HAVPlot and
+TERN).</p>
+<h2 id="general-workflow">General workflow</h2>
+<h3 id="data_map"><code>data_map</code></h3>
+<p>The data_map (see table below) provides a mapping from original data
+sources to the desired columns in the assembled data set.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">col</th>
+<th align="left">gbif</th>
+<th align="left">tern</th>
+<th align="left">galah</th>
+<th align="left">havplot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">data_name</td>
+<td align="left">gbif</td>
+<td align="left">tern</td>
+<td align="left">galah</td>
+<td align="left">havplot</td>
+</tr>
+<tr class="even">
+<td align="left">epsg</td>
+<td align="left">4326</td>
+<td align="left">4326</td>
+<td align="left">4326</td>
+<td align="left">4326</td>
+</tr>
+<tr class="odd">
+<td align="left">site</td>
+<td align="left">gbifID</td>
+<td align="left">site_unique</td>
+<td align="left">locationID</td>
+<td align="left">plotName</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">eventDate</td>
+<td align="left">visit_start_date</td>
+<td align="left">eventDate</td>
+<td align="left">obsStartDate</td>
+</tr>
+<tr class="odd">
+<td align="left">lat</td>
+<td align="left">decimalLatitude</td>
+<td align="left">latitude</td>
+<td align="left">decimalLatitude</td>
+<td align="left">decimalLatitude</td>
+</tr>
+<tr class="even">
+<td align="left">long</td>
+<td align="left">decimalLongitude</td>
+<td align="left">longitude</td>
+<td align="left">decimalLongitude</td>
+<td align="left">decimalLongitude</td>
+</tr>
+<tr class="odd">
+<td align="left">original_name</td>
+<td align="left">scientificName</td>
+<td align="left">species</td>
+<td align="left">scientificName</td>
+<td align="left">scientificName</td>
+</tr>
+<tr class="even">
+<td align="left">common</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">vernacularName</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">nsx</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">organismID</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">occ_derivation</td>
+<td align="left">occurrenceStatus</td>
+<td align="left">NA</td>
+<td align="left">occurrenceStatus</td>
+<td align="left">abundanceValue</td>
+</tr>
+<tr class="odd">
+<td align="left">quantity</td>
+<td align="left">organismQuantity</td>
+<td align="left">NA</td>
+<td align="left">organismQuantity</td>
+<td align="left">abundanceValue</td>
+</tr>
+<tr class="even">
+<td align="left">survey_nr</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">survey</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">datasetName</td>
+<td align="left">projectID</td>
+</tr>
+<tr class="even">
+<td align="left">ind</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">rel_metres</td>
+<td align="left">coordinateUncertaintyInMeters</td>
+<td align="left">NA</td>
+<td align="left">coordinateUncertaintyInMeters</td>
+<td align="left">coordinateUncertaintyInMetres</td>
+</tr>
+<tr class="even">
+<td align="left">sens</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">lifeform</td>
+<td align="left">NA</td>
+<td align="left">lifeform</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">lifespan</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">cover</td>
+<td align="left">NA</td>
+<td align="left">cover</td>
+<td align="left">NA</td>
+<td align="left">cover</td>
+</tr>
+<tr class="even">
+<td align="left">cover_code</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">height</td>
+<td align="left">NA</td>
+<td align="left">height</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">quad_metres</td>
+<td align="left">NA</td>
+<td align="left">quad_metres</td>
+<td align="left">NA</td>
+<td align="left">quad_metres</td>
+</tr>
+<tr class="odd">
+<td align="left">epbc_status</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">npw_status</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">method</td>
+<td align="left">samplingProtocol</td>
+<td align="left">NA</td>
+<td align="left">samplingProtocol</td>
+<td align="left">abundanceMethod</td>
+</tr>
+<tr class="even">
+<td align="left">obs</td>
+<td align="left">recordedBy</td>
+<td align="left">observer_veg</td>
+<td align="left">recordedBy</td>
+<td align="left">individualName</td>
+</tr>
+<tr class="odd">
+<td align="left">denatured</td>
+<td align="left">informationWithheld</td>
+<td align="left">NA</td>
+<td align="left">generalisationInMetres</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">kingdom</td>
+<td align="left">kingdom</td>
+<td align="left">kingdom</td>
+<td align="left">kingdom</td>
+<td align="left">kingdom</td>
+</tr>
+<tr class="odd">
+<td align="left">desc</td>
+<td align="left">Global biodiversity information facility</td>
+<td align="left">Terrestrial ecosystem network</td>
+<td align="left">Atlas of Living Australia</td>
+<td align="left">Harmonised Australian Vegetation Plot dataset</td>
+</tr>
+<tr class="even">
+<td align="left">data_name_use</td>
+<td align="left">GBIF</td>
+<td align="left">TERN</td>
+<td align="left">ALA</td>
+<td align="left">HAVPlot</td>
+</tr>
+<tr class="odd">
+<td align="left">url</td>
+<td align="left"><a href="https://www.gbif.org/">https://www.gbif.org/</a></td>
+<td align="left"><a href="https://www.tern.org.au/">https://www.tern.org.au/</a></td>
+<td align="left"><a href="https://www.ala.org.au/">https://www.ala.org.au/</a></td>
+<td align="left"><a href="https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860">https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860</a></td>
+</tr>
+<tr class="even">
+<td align="left">order</td>
+<td align="left">12</td>
+<td align="left">4</td>
+<td align="left">11</td>
+<td align="left">3</td>
+</tr>
+</tbody>
+</table>
+<p>Data map of desired columns in the assembled data (col) and names of
+columns in the original data. Where a column name from the original data
+source does not match columns in the original data source, the get_x
+function has usually created a new column to better meet the
+requirements of the final combined data set</p>
+<h3 id="get_x"><code>get_x</code></h3>
+<p><code>get_x</code> functions get data from the data source
+<code>x</code>. Results are always saved to disk (as getting data can be
+slow). When run again, they load from the saved file by default. If
+available, <code>get_x</code> functions use any R packages and functions
+provided by the data source (e.g. TERN provides <code>ausplotsR</code>
+[@R-ausplotsR]). The first arguments to <code>get_x</code> functions are
+always:</p>
+<ul>
+<li><code>aoi</code>: an area of interest, provided as simple feature
+(see <code>sf::sf()</code>)</li>
+<li><code>save_dir</code>: a directory to save the results to. The
+default (<code>NULL</code>) leads to the file
+<code>here::here(&quot;out&quot;, &quot;ds&quot;, &quot;x.rds&quot;)</code> being created and used as
+<code>save_file</code>. <code>ds</code> is for ‘data source’. While the
+saved file is usually <code>x.rds</code>, in some instances it follows
+the format and naming of the download from <code>x</code> (e.g. GBIF
+data comes in a <code>.zip</code> file named by the corresponding
+download key)</li>
+<li><code>get_new</code>: an override to force <code>get_x</code> to
+requery the data source, even if save_file already exists</li>
+<li><code>...</code>: the dots are passed to any underlying ‘native’
+function, such as <code>rgbif::occ_download()</code>,
+<code>galah::galah_call()</code> or
+<code>ausplotsR::get_ausplots()</code></li>
+</ul>
+<p>Only the <code>get_x</code> functions for publicly available data are
+available within envImport.</p>
+<p>Within <code>get_x</code> functions the following steps are
+taken:</p>
+<ul>
+<li>query the data source for data within the area of interest
+<ul>
+<li>possibly including other criteria to limit the results</li>
+</ul></li>
+<li>adjust the results, if required, to better integrate with other data
+sources</li>
+<li>rename the columns to a common standard (via the data_map)
+<ul>
+<li>possibly adding some commonly desired fields at this step:
+<code>occ</code> (is this a presence [<code>1</code>] or absence
+[<code>0</code>] record?), <code>month</code> and <code>year</code></li>
+</ul></li>
+<li>save the results, usually as .parquet</li>
+</ul>
+<p><code>get_x</code> functions can be run from
+<code>get_data</code>.</p>
+<h3 id="combine">Combine</h3>
+<p>No specific functions are provided for combining data. The following
+are possible (assuming ‘files’ is a vector of file names resulting from
+<code>get_x</code>):</p>
+<ul>
+<li><code>purrr::map_dfr(files, \(x) rio::import(x, setclass = &quot;tibble&quot;)</code></li>
+<li><code>arrow::open_dataset(files, unify_schema = TRUE) %&gt;% dplyr::collect()</code></li>
+</ul>
+<p><code>rio::import</code> is possibly more robust to differences in
+schema when importing files (based on observation - needs testing).</p>
+<h1 id="cleaning">Cleaning</h1>
+<p><code>envImport</code> <em><strong>does not clean</strong></em> data.
+Any combined dataset is likely to contain all sorts of duplication and
+other spurious records. For help cleaning data, see, for example:</p>
+<ul>
+<li>The book <a href="https://cleaning-data-r.ala.org.au/">Cleaning
+Biodiversity Data in R</a></li>
+<li>R packages:
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html">CoordinateCleaner</a></li>
+<li><a href="https://dew-landscapes.github.io/envClean/">envClean</a></li>
+</ul></li>
+</ul>
+
+</body>
+</html>
