@@ -32,6 +32,7 @@ Imports:
     R.utils,
     raster,
     rio,
+    rvest,
     sf,
     stats,
     stringr,

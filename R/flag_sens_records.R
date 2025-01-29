@@ -29,15 +29,12 @@ flag_sens_records <- function(recs_df
   if(isTRUE(!is.null(surv_col))) {
 
     # Get sensitive survey numbers
-    sens_survey <- htmltab::htmltab(doc = "https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain"
-                                    , which = 1
-                                    ) %>%
+    sens_survey <- rvest::read_html(x = "https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain") %>%
+      rvest::html_table() %>%
+      `[[`(1) %>%
       tibble::as_tibble() %>%
       dplyr::select(!!rlang::ensym(surv_col) := 1
-                    , sens_surv = 5
-                    ) %>%
-      dplyr::mutate(sens_surv = grepl("Sensitive|sensitive", sens_surv)
-                    , !!rlang::ensym(surv_col) := as.numeric(!!rlang::ensym(surv_col))
+                    , sens = 5
                     )
 
     recs_df <- recs_df %>%
@@ -49,8 +46,9 @@ flag_sens_records <- function(recs_df
 
     # Get sensitive taxa
     sens_taxa <- rio::import("https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls") %>%
-      dplyr::select(!!rlang::ensym(nsx_col) := grep("NSXCODE", names(.), value = TRUE)) %>%
-      dplyr::mutate(sens_taxa = TRUE)
+      dplyr::select(!!rlang::ensym(nsx_col) := grep("NSXCODE", names(.), value = TRUE)
+                    , sens = Clarifier
+                    )
 
     # combine sensitive taxa
     recs_df <- recs_df %>%
