@@ -34,7 +34,7 @@ You can install the development version of envImport from [GitHub](https://githu
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("Acanthiza/envImport")
+devtools::install_github("dew-landscapes/envImport")
 ```
 
 ## Supported data sources
@@ -103,6 +103,6 @@ No specific functions are provided for combining data. The following are possibl
 * The book [Cleaning Biodiversity Data in R](https://cleaning-data-r.ala.org.au/)
 * R packages:
     + [CoordinateCleaner](https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html)
-    + [envClean](https://acanthiza.github.io/envClean/)
+    + [envClean](https://dew-landscapes.github.io/envClean/)
 
 

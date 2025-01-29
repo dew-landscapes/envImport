@@ -53,6 +53,7 @@
                                        "herbarium",
                                        "havplot",
                                        "tern",
+                                       "abbbs",
                                        "alis",
                                        "bcm",
                                        "ptp",
@@ -61,7 +62,7 @@
                                        "galah",
                                        "gbif"
                                        )
-                              ) %>%
+                              ) |>
     dplyr::mutate(value = as.character(dplyr::row_number())
                   , col = "order"
                   , class = "character"
@@ -102,7 +103,7 @@
     "desc", "character", FALSE,
     "data_name_use", "character", FALSE,
     "url", "character", FALSE
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## bdbsa-------
@@ -136,7 +137,7 @@
         "data_name_use", "BDBSA",
         "url", "https://www.environment.sa.gov.au/topics/science/information-and-data/biological-databases-of-south-australia"
         )
-      ) %>%
+      ) |>
     dplyr::left_join(
       tibble::tribble(
         ## egis ---------
@@ -166,7 +167,7 @@
         "data_name_use", "EGIS",
         "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## supertables ---------
@@ -251,7 +252,28 @@
         "data_name_use", "HAVPlot",
         "url", "https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860"
       )
-    ) %>%
+    ) |>
+    dplyr::left_join(
+      tibble::tribble(
+        ## abbbs -------
+        ~col, ~abbbs,
+        "data_name", "abbbs",
+        "epsg", "4326",
+        "site", "BANDING_LOCALITY",
+        "date", "DATE_BANDED",
+        "lat", "LATITUDE",
+        "long", "LONGITUDE",
+        "original_name", "SCIENA",
+        "occ_derivation", "NUMOBSERVED",
+        "common", "COMMON",
+        "obs", "BANDER",
+        "sens", "sens",
+        "kingdom", "kingdom",
+        "desc", "Australian Bird and Bat Banding Scheme",
+        "data_name_use", "ABBBS",
+        "url", "https://www.dcceew.gov.au/science-research/bird-bat-banding"
+        )
+      ) |>
     dplyr::left_join(
       tibble::tribble(
         ## tern ---------
@@ -273,7 +295,7 @@
         "data_name_use", "TERN",
         "url", "https://www.tern.org.au/"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## alis ---------
@@ -300,7 +322,7 @@
         "data_name_use", "ALIS",
         "url", "https://www.pir.sa.gov.au/aghistory/natural_resources/pastoral_land_management"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## nvb ---------
@@ -318,7 +340,7 @@
         "data_name_use", "NVB",
         "url", "https://www.environment.sa.gov.au/topics/native-vegetation"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## bcm ---------
@@ -343,7 +365,7 @@
         "data_name_use", "BCM",
         "url", "https://www.ncssa.asn.au/bushland-health-and-condition/"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## other ---------
@@ -366,7 +388,7 @@
         "desc", "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre",
         "data_name_use", "Other"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## ptp ---------
@@ -392,7 +414,7 @@
         "data_name_use", "PTP",
         "url", "https://treesforlife.org.au/TFLWeb/TFLWeb/What_we_do/Projects/Paddock-Tree-Projects.aspx#:~:text=Mount%20Lofty%20Ranges%20Paddock%20Tree,whose%20numbers%20are%20in%20decline."
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## galah ---------
@@ -418,7 +440,7 @@
         "data_name_use", "ALA",
         "url", "https://www.ala.org.au/"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## gbif ---------
@@ -441,9 +463,9 @@
         "data_name_use", "GBIF",
         "url", "https://www.gbif.org/"
       )
-    ) %>%
-    tidyr::pivot_longer(tidyselect::any_of(data_names$name)) %>%
-    dplyr::bind_rows(data_names) %>%
+    ) |>
+    tidyr::pivot_longer(tidyselect::any_of(data_names$name)) |>
+    dplyr::bind_rows(data_names) |>
     tidyr::pivot_wider()
 
 
@@ -491,7 +513,7 @@
              , "Atlas of Living Australia"
              , "Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre"
              )
-    ) %>%
+    ) |>
     dplyr::mutate(kingdom = "kingdom"
                   , data_name = forcats::fct_reorder(data_name
                                                      , order
@@ -501,5 +523,5 @@
                                                      data_name == "galah" ~ "ALA",
                                                      TRUE ~ toupper(data_name)
                                                      )
-                  ) %>%
+                  ) |>
     dplyr::arrange(order)
