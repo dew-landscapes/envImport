@@ -49,6 +49,8 @@
   # set data names ------
   data_names = tibble::tibble(name = c("bdbsa",
                                        "egis",
+                                       "supertables",
+                                       "herbarium",
                                        "havplot",
                                        "tern",
                                        "alis",
@@ -162,6 +164,66 @@
         "kingdom", "kingdom",
         "desc", "Occurrence datasets from the environmental databases of South Australia (e.g. supertables)",
         "data_name_use", "EGIS",
+        "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
+      )
+    ) %>%
+    dplyr::left_join(
+      tibble::tribble(
+        ## supertables ---------
+        ~col, ~supertables,
+        "data_name", "supertables",
+        "epsg", "7844",
+        "site", "EGISCODE",
+        "date", "SIGHTINGDATE",
+        "lat", "LATITUDE",
+        "long", "LONGITUDE",
+        "original_name", "SPECIES",
+        "common", "COMNAME",
+        "nsx", "NSXCODE",
+        "occ_derivation", "NUMOBSERVED",
+        "quantity", "NUMOBSERVED",
+        "survey_nr", "SURVEYNR",
+        "survey", "SURVEYNAME",
+        "ind", "ISINDIGENOUSFLAG",
+        "rel_metres", "rel_metres",
+        "sens", "DISTRIBNDESC",
+        "epbc_status", "ESACTSTATUSCODE",
+        "npw_status", "NPWACTSTATUSCODE",
+        "method", "METHODDESC",
+        "obs", "OBSERVER",
+        "kingdom", "kingdom",
+        "desc", "Occurrence datasets from the environmental databases of South Australia (e.g. supertables)",
+        "data_name_use", "Supertables",
+        "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
+      )
+    ) %>%
+    dplyr::left_join(
+      tibble::tribble(
+        ## herbarium ---------
+        ~col, ~herbarium,
+        "data_name", "herbarium",
+        "epsg", "7844",
+        "site", "EGISCODE",
+        "date", "SIGHTINGDATE",
+        "lat", "LATITUDE",
+        "long", "LONGITUDE",
+        "original_name", "SPECIES",
+        "common", "COMNAME",
+        "nsx", "NSXCODE",
+        "occ_derivation", "NUMOBSERVED",
+        "quantity", "NUMOBSERVED",
+        "survey_nr", "SURVEYNR",
+        "survey", "SURVEYNAME",
+        "ind", "ISINDIGENOUSFLAG",
+        "rel_metres", "rel_metres",
+        "sens", "DISTRIBNDESC",
+        "epbc_status", "ESACTSTATUSCODE",
+        "npw_status", "NPWACTSTATUSCODE",
+        "method", "METHODDESC",
+        "obs", "OBSERVER",
+        "kingdom", "kingdom",
+        "desc", "Herbarium occurrence dataset from the environmental databases of South Australia",
+        "data_name_use", "Herbarium",
         "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
       )
     ) %>%
