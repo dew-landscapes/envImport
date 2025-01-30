@@ -39,8 +39,8 @@ supported (also see `envImport::data_map`):
 - bdbsa: Biological databases of South Australia
 - egis: Occurrence datasets from the environmental databases of South
   Australia (e.g. supertables)
-- supertables: Occurrence datasets from the environmental databases of
-  South Australia (e.g. supertables)
+- thirdparty: Third party occurrence datasets from the environmental
+  databases of South Australia
 - herbarium: Herbarium occurrence dataset from the environmental
   databases of South Australia
 - havplot: Harmonised Australian Vegetation Plot dataset

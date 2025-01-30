@@ -49,7 +49,7 @@
   # set data names ------
   data_names = tibble::tibble(name = c("bdbsa",
                                        "egis",
-                                       "supertables",
+                                       "thirdparty",
                                        "herbarium",
                                        "havplot",
                                        "tern",
@@ -171,9 +171,9 @@
     ) |>
     dplyr::left_join(
       tibble::tribble(
-        ## supertables ---------
-        ~col, ~supertables,
-        "data_name", "supertables",
+        ## thirdparty ---------
+        ~col, ~thirdparty,
+        "data_name", "thirdparty",
         "epsg", "7844",
         "site", "EGISCODE",
         "date", "SIGHTINGDATE",
@@ -194,8 +194,8 @@
         "method", "METHODDESC",
         "obs", "OBSERVER",
         "kingdom", "kingdom",
-        "desc", "Occurrence datasets from the environmental databases of South Australia (e.g. supertables)",
-        "data_name_use", "Supertables",
+        "desc", "Third party occurrence datasets from the environmental databases of South Australia",
+        "data_name_use", "thirdparty",
         "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
       )
     ) |>
