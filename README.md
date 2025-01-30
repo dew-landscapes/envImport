@@ -33,12 +33,16 @@ devtools::install_github("dew-landscapes/envImport")
 of data. Examples are the Global Biodiversity Infrastructure Facility
 ([GBIF](https://www.gbif.org/)), Atlas of Living Australia
 ([ALA](https://www.ala.org.au/)) or Terrestrial Ecosystems Network
-([TERN](https://www.tern.org.au/)). There are 12 data sources currently
+([TERN](https://www.tern.org.au/)). There are 15 data sources currently
 supported (also see `envImport::data_map`):
 
 - bdbsa: Biological databases of South Australia
 - egis: Occurrence datasets from the environmental databases of South
   Australia (e.g. supertables)
+- supertables: Occurrence datasets from the environmental databases of
+  South Australia (e.g. supertables)
+- herbarium: Herbarium occurrence dataset from the environmental
+  databases of South Australia
 - havplot: Harmonised Australian Vegetation Plot dataset
 - tern: Terrestrial ecosystem network
 - abbbs: Australian Bird and Bat Banding Scheme
@@ -51,6 +55,8 @@ supported (also see `envImport::data_map`):
   Monitoring, SA Seed Conservation Centre
 - galah: Atlas of Living Australia
 - gbif: Global biodiversity information facility
+- verdon: Presence records at 4 ha scale from Simon Verdon’s heath
+  mallee bird work
 
 Four of these sources are publicly available (GBIF, ALA, HAVPlot and
 TERN).
@@ -95,7 +101,7 @@ sources to the desired columns in the assembled data set.
 | desc           | Global biodiversity information facility | Terrestrial ecosystem network | Atlas of Living Australia     | Harmonised Australian Vegetation Plot dataset                                          |
 | data_name_use  | GBIF                                     | TERN                          | ALA                           | HAVPlot                                                                                |
 | url            | <https://www.gbif.org/>                  | <https://www.tern.org.au/>    | <https://www.ala.org.au/>     | <https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860> |
-| order          | 12                                       | 4                             | 11                            | 3                                                                                      |
+| order          | 14                                       | 6                             | 13                            | 5                                                                                      |
 
 Data map of desired columns in the assembled data (col) and names of
 columns in the original data. Where a column name from the original data
