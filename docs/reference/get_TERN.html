@@ -28,7 +28,7 @@ the ausplotsR::get_ausplots function."><!-- mathjax --><script src="https://cdnj
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/Acanthiza/envImport/" class="external-link">
+  <a href="https://github.com/dew-landscapes/envImport/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
 
   </a>
@@ -43,7 +43,7 @@ the ausplotsR::get_ausplots function."><!-- mathjax --><script src="https://cdnj
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get occurrence records from TERN</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envImport/blob/HEAD/R/get_tern.R" class="external-link"><code>R/get_tern.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/dew-landscapes/envImport/blob/HEAD/R/get_tern.R" class="external-link"><code>R/get_tern.R</code></a></small>
     <div class="hidden name"><code>get_tern.Rd</code></div>
     </div>
 
@@ -122,7 +122,7 @@ each unique site.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/Acanthiza/envImport" class="external-link">"envImport"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/dew-landscapes/envImport" class="external-link">"envImport"</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">out_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"envImport"</span><span class="op">)</span>, <span class="st">"examples"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -133,18 +133,9 @@ each unique site.</p></dd>
 <span class="r-in"><span>                       , data_map <span class="op">=</span> <span class="va">data_map</span></span></span>
 <span class="r-in"><span>                       , get_new <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>                       <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be H:/temp/nige/RtmpaWmEAM/temp_libpath5b007bbd3bdf/envImport/examples/tern/tern.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calling the database. Please wait...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 200</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calling the database. Please wait...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 200</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calling the database. Please wait...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 200</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(site_unique)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(growth_form)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(site_unique, standardised_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(date)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(date)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> save_file will be C:/temp/nige/RtmpQRTfMB/temp_libpath58e0614343c/envImport/examples/tern/tern.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Bad Gateway (HTTP 502).</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (nrow(tern_data$veg.PI) &gt; 0) {    select_names &lt;- choose_names(data_map = data_map, this_name = name)    species_col &lt;- if (species_name == "SN") {        "standardised_name"    }    else if (species_name == "HD") {        "herbarium_determination"    }    else if (species_name == "GS") {        "genus_species"    }    all_names &lt;- c(select_names$value, species_col) %&gt;% unique()    temp &lt;- ausplotsR::species_table(tern_data$veg.PI, m_kind = m_kind,         cover_type = cover_type, species_name = species_name,         strip_bryophytes = strip_bryophytes) %&gt;% tibble::as_tibble(rownames = "site_unique") %&gt;%         stats::setNames(gsub("\\.", " ", names(.))) %&gt;% stats::setNames(stringr::str_squish(names(.))) %&gt;%         tidyr::pivot_longer(2:ncol(.), names_to = species_col,             values_to = "cover") %&gt;% dplyr::filter(cover &gt; 0) %&gt;%         dplyr::left_join(tern_data$site.info) %&gt;% dplyr::mutate(cover = cover/100,         visit_start_date = as.POSIXct(visit_start_date, format = "%Y-%m-%d"),         quadX = readr::parse_number(gsub("x.*|", "", plot_dimensions)),         quadY = readr::parse_number(gsub(".*x", "", plot_dimensions)),         quad_metres = quadX * quadY, observer_veg = as.character(observer_veg))    if (make_lifeform) {        luGF &lt;- tibble::tribble(~growth_form, ~lifeform, "Bryophyte",             "MO", "Chenopod", "S", "Epiphyte", "MI", "Fern",             "X", "Forb", "J", "Grass-tree", "S", "Heath-shrub",             "S", "Hummock grass", "H", "Rush", "G", "Sedge",             "Sedge", "Shrub", "S", "Shrub Mallee", "K", "Tree Mallee",             "K", "Tree/Palm", "T", "Tussock grass", "G", "Vine",             "V")        lf &lt;- tern_data$veg.PI %&gt;% dplyr::filter(!is.na(!!rlang::ensym(species_col)),             !grepl("NA|Na", !!rlang::ensym(species_col))) %&gt;%             tibble::as_tibble() %&gt;% dplyr::select(growth_form,             height, tidyselect::any_of(all_names)) %&gt;% dplyr::group_by(site_unique,             !!rlang::ensym(species_col)) %&gt;% dplyr::summarise(growth_form = names(which.max(table(growth_form))),             height = median(height)) %&gt;% dplyr::ungroup() %&gt;%             dplyr::left_join(luGF) %&gt;% dplyr::mutate(lifeform = dplyr::if_else(lifeform ==             "S", dplyr::if_else(height &gt; 2, "S", dplyr::if_else(height &gt;             1.5, "SA", dplyr::if_else(height &gt; 1, "SB", dplyr::if_else(height &gt;             0.5, "SC", "SD")))), lifeform), lifeform = dplyr::if_else(lifeform ==             "T", dplyr::if_else(height &gt; 30, "T", dplyr::if_else(height &gt;             15, "M", dplyr::if_else(height &gt; 5, "LA", "LB"))),             lifeform), lifeform = dplyr::if_else(lifeform ==             "K", dplyr::if_else(height &gt; 3, "KT", "KS"), lifeform),             lifeform = dplyr::if_else(lifeform == "G", dplyr::if_else(height &gt;                 0.5, "GT", "GL"), lifeform), lifeform = dplyr::if_else(lifeform ==                 "Sedge", dplyr::if_else(height &gt; 0.5, "VT", "VL"),                 lifeform)) %&gt;% dplyr::select(tidyselect::any_of(all_names),             lifeform)        temp &lt;- temp %&gt;% dplyr::left_join(lf)    }    temp &lt;- temp %&gt;% dplyr::rename(species = !!rlang::ensym(species_col)) %&gt;%         dplyr::distinct() %&gt;% dplyr::mutate(kingdom = "Plantae")    temp &lt;- remap_data_names(this_name = name, df_to_remap = temp,         data_map = data_map, out_file = save_file, final_select = TRUE,         final_select_col = "bio_all", ...)} else {    message("No results for ", name)    temp &lt;- NULL}:</span> argument is of length zero</span>
 </code></pre></div>
     </div>
   </div>
