@@ -60,7 +60,8 @@
                                        "nvb",
                                        "other",
                                        "galah",
-                                       "gbif"
+                                       "gbif",
+                                       "verdon"
                                        )
                               ) |>
     dplyr::mutate(value = as.character(dplyr::row_number())
@@ -197,7 +198,7 @@
         "data_name_use", "Supertables",
         "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## herbarium ---------
@@ -227,7 +228,7 @@
         "data_name_use", "Herbarium",
         "url", "https://data.sa.gov.au/data/dataset/enviro-data-sa-website"
       )
-    ) %>%
+    ) |>
     dplyr::left_join(
       tibble::tribble(
         ## havplot ---------
@@ -464,6 +465,30 @@
         "url", "https://www.gbif.org/"
       )
     ) |>
+    dplyr::left_join(
+      tibble::tribble(
+        ## verdon-------
+        ~col, ~verdon,
+        "data_name", "verdon",
+        "epsg", "7844",
+        "site", "site_id",
+        "date", "survey_date",
+        "lat", "POINT_Y",
+        "long", "POINT_X",
+        "original_name", "scientific_name",
+        "occ_derivation", "nu_total",
+        "quantity", "nu_total",
+        "survey_nr", "survey_nr",
+        "survey", "survey",
+        "rel_metres", "rel_metres",
+        "method", "method",
+        "obs", "speciesobs1",
+        "kingdom", "kingdom",
+        "desc", "Presence records at 4 ha scale from Simon Verdon's heath mallee bird work",
+        "data_name_use", "Verdon",
+        "url", "https://opal.latrobe.edu.au/articles/dataset/Threatened_Mallee_Birds_in_Heathlands_Project_-_Data_for_N-mixture_models/25417102"
+        )
+      ) |>
     tidyr::pivot_longer(tidyselect::any_of(data_names$name)) |>
     dplyr::bind_rows(data_names) |>
     tidyr::pivot_wider()
