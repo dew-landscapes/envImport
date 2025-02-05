@@ -45,8 +45,11 @@ flag_sens_records <- function(recs_df
   if(isTRUE(!is.null(nsx_col))) {
 
     # Get sensitive taxa
-    sens_taxa <- rio::import("https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls") %>%
+    sens_taxa <- rio::import("https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls"
+                             , setclass = "tibble"
+                             ) %>%
       dplyr::select(!!rlang::ensym(nsx_col) := grep("NSXCODE", names(.), value = TRUE)
+                    , kingdom = Kingdom
                     , sens_taxa = Clarifier
                     )
 
