@@ -101,8 +101,45 @@ get_galah <- function(aoi = NULL
     }
 
     ## aoi------
+
+    # use bounding box for download if > 500 vertices (number allowable by galah)
+    if(!is.null(aoi)) {
+
+      vertices <- aoi |>
+        sf::st_cast("POLYGON") |>
+        purrr::map_int(\(x) sf::st_coordinates(x) |>
+                         nrow()
+        ) |>
+        max()
+
+      if(vertices > 500) {
+
+        aoi1 <- aoi %>%
+          sf::st_bbox() %>%
+          sf::st_as_sfc() %>%
+          sf::st_as_sf() |>
+          sf::st_set_geometry(attr(aoi, "sf_column"))
+
+        warning("aoi has "
+                , vertices
+                , " vertices, which is above the allowable 500 vertices for a galah download."
+                , "aoi has been converted to a bounding box."
+        )
+
+      } else {
+
+        aoi1 <- aoi
+
+      }
+
+    } else {
+
+      vertices <- 0
+
+    }
+
     if(!is.null(aoi)) qry1 <- qry %>% # relabel qry as qry1 to preserve the original qry for potential use with split aoi's later
-      galah::galah_geolocate(aoi)
+      galah::galah_geolocate(aoi1)
 
 
     ## check records--------
@@ -129,7 +166,7 @@ get_galah <- function(aoi = NULL
                          , combos$cells_y
                          , \(x,y)
 
-                         aoi %>%
+                         aoi1 %>%
                            sf::st_make_grid(n = c(x,y)) %>%
                            sf::st_sf() %>%
                            dplyr::mutate(cell = dplyr::row_number()) %>%
@@ -245,6 +282,20 @@ get_galah <- function(aoi = NULL
 
     }
 
+    ## geo range (aoi) filter --------
+    if(!is.null(aoi) & vertices > 500) {
+
+      temp <- envClean::filter_geo_range(temp %>%
+                                           dplyr::filter(!is.na(decimalLongitude)
+                                                         , !is.na(decimalLatitude)
+                                           )
+                                         , use_aoi = aoi
+                                         , x = "decimalLongitude"
+                                         , y = "decimalLatitude"
+                                         , crs_df = 4326
+      )
+
+    }
 
     # bib -------
     if(make_doi) {
