@@ -34,7 +34,7 @@ flag_sens_records <- function(recs_df
       `[[`(1) %>%
       tibble::as_tibble() %>%
       dplyr::select(!!rlang::ensym(surv_col) := 1
-                    , sens = 5
+                    , sens_surv = 5
                     )
 
     recs_df <- recs_df %>%
@@ -45,9 +45,12 @@ flag_sens_records <- function(recs_df
   if(isTRUE(!is.null(nsx_col))) {
 
     # Get sensitive taxa
-    sens_taxa <- rio::import("https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls") %>%
+    sens_taxa <- rio::import("https://data.environment.sa.gov.au/Content/Publications/DEW_SAEnvironmentallySensitiveDataREGISTER.xls"
+                             , setclass = "tibble"
+                             ) %>%
       dplyr::select(!!rlang::ensym(nsx_col) := grep("NSXCODE", names(.), value = TRUE)
-                    , sens = Clarifier
+                    , kingdom = Kingdom
+                    , sens_taxa = Clarifier
                     )
 
     # combine sensitive taxa

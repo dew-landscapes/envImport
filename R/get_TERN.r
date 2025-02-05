@@ -62,7 +62,7 @@
                                            , veg.PI = TRUE
                                            )
 
-      if(nrow(tern_data$veg.PI) > 0) {
+    if(nrow(tern_data$veg.PI) > 0) {
 
         select_names <- choose_names(data_map = data_map
                                      , this_name = name
@@ -231,7 +231,7 @@
                                  , ...
                                  )
 
-      } else {
+    } else {
 
         message("No results for ", name)
 
