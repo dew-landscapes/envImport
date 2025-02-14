@@ -94,7 +94,8 @@ get_obis <- function(aoi = NULL
                              , final_select = TRUE
                              , final_select_col = "bio_all"
                              , ...
-                             )
+                             ) |>
+      dplyr::mutate(rel_metres = as.numeric(rel_metres))
 
   } else {
 
