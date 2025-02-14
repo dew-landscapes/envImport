@@ -59,6 +59,7 @@
                                        "nvb",
                                        "other",
                                        "galah",
+                                       "obis",
                                        "gbif",
                                        "verdon"
                                        )
@@ -438,6 +439,30 @@
         "desc", "Atlas of Living Australia",
         "data_name_use", "ALA",
         "url", "https://www.ala.org.au/"
+      )
+    ) |>
+    dplyr::left_join(
+      tibble::tribble(
+        ## obis ---------
+        ~col, ~obis,
+        "data_name", "obis",
+        "epsg", "4326",
+        "site", "locationID",
+        "date", "eventDate",
+        "lat", "decimalLatitude",
+        "long", "decimalLongitude",
+        "original_name", "scientificName",
+        "common", "vernacularName",
+        "nsx", "organismID",
+        "occ_derivation", "occurrenceStatus",
+        "quantity", "organismQuantity",
+        "survey", "datasetName",
+        "rel_metres", "coordinateUncertaintyInMeters",
+        "obs", "recordedBy",
+        "kingdom", "kingdom",
+        "desc", "Ocean Biodiversity Information System",
+        "data_name_use", "OBIS",
+        "url", "https://obis.org/"
       )
     ) |>
     dplyr::left_join(
