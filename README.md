@@ -33,7 +33,7 @@ devtools::install_github("dew-landscapes/envImport")
 of data. Examples are the Global Biodiversity Infrastructure Facility
 ([GBIF](https://www.gbif.org/)), Atlas of Living Australia
 ([ALA](https://www.ala.org.au/)) or Terrestrial Ecosystems Network
-([TERN](https://www.tern.org.au/)). There are 15 data sources currently
+([TERN](https://www.tern.org.au/)). There are 16 data sources currently
 supported (also see `envImport::data_map`):
 
 - bdbsa: Biological databases of South Australia
@@ -54,12 +54,13 @@ supported (also see `envImport::data_map`):
   Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird
   Monitoring, SA Seed Conservation Centre
 - galah: Atlas of Living Australia
+- obis: Ocean Biodiversity Information System
 - gbif: Global biodiversity information facility
 - verdon: Presence records at 4 ha scale from Simon Verdon’s heath
   mallee bird work
 
-Four of these sources are publicly available (GBIF, ALA, HAVPlot and
-TERN).
+Five of these sources are publicly available (GBIF, ALA, OBIS, HAVPlot
+and TERN).
 
 ## General workflow
 
@@ -85,7 +86,6 @@ sources to the desired columns in the assembled data set.
 | survey         | NA                                       | NA                            | datasetName                   | projectID                                                                              |
 | ind            | NA                                       | NA                            | NA                            | NA                                                                                     |
 | rel_metres     | coordinateUncertaintyInMeters            | NA                            | coordinateUncertaintyInMeters | coordinateUncertaintyInMetres                                                          |
-| sens           | NA                                       | NA                            | NA                            | NA                                                                                     |
 | lifeform       | NA                                       | lifeform                      | NA                            | NA                                                                                     |
 | lifespan       | NA                                       | NA                            | NA                            | NA                                                                                     |
 | cover          | NA                                       | cover                         | NA                            | cover                                                                                  |
@@ -101,7 +101,7 @@ sources to the desired columns in the assembled data set.
 | desc           | Global biodiversity information facility | Terrestrial ecosystem network | Atlas of Living Australia     | Harmonised Australian Vegetation Plot dataset                                          |
 | data_name_use  | GBIF                                     | TERN                          | ALA                           | HAVPlot                                                                                |
 | url            | <https://www.gbif.org/>                  | <https://www.tern.org.au/>    | <https://www.ala.org.au/>     | <https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860> |
-| order          | 14                                       | 6                             | 13                            | 5                                                                                      |
+| order          | 15                                       | 6                             | 13                            | 5                                                                                      |
 
 Data map of desired columns in the assembled data (col) and names of
 columns in the original data. Where a column name from the original data

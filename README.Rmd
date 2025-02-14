@@ -43,7 +43,7 @@ devtools::install_github("dew-landscapes/envImport")
 
 * `r paste0(names(data_map)[4:ncol(data_map)], ": ", data_map[data_map$col == "desc", 4:ncol(data_map)], collapse = "\n* ")`
 
-Four of these sources are publicly available (GBIF, ALA, HAVPlot and TERN). 
+Five of these sources are publicly available (GBIF, ALA, OBIS, HAVPlot and TERN). 
 
 ## General workflow
 

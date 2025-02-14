@@ -5,7 +5,7 @@
 \alias{data_map_old}
 \title{(Old version) Lookup for mapping data source columns to united column}
 \format{
-A data frame with 11 rows and 33
+A data frame with 11 rows and 32
 variables where column names provide the new name for columns in the original
 data sources:
 \describe{
