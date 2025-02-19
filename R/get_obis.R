@@ -19,6 +19,13 @@
 #' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
 #' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
 #' `individualCount == 1` would be filtered.
+#' @param removes Named list. Names need to match column names in the result of
+#' a call to `robis::occurrence()` (i.e. generally
+#' [Darwin core](https://dwc.tdwg.org/) column names). Levels within each name
+#' are matched and, if present, removed. Note that this filtering occurs _after_
+#' download so it does not save on download time and can also be done after a
+#' call to `get_obis()`. It does enable filtering on columns that are not passed
+#' through to the return value as they are not in the `data_map`.
 #' @param ... Passed to `envImport::file_prep()`
 #'
 #' @return Dataframe of occurrences and file saved to `save_dir`.
@@ -31,6 +38,7 @@ get_obis <- function(aoi = NULL
                      , name = "obis"
                      , data_map = NULL
                      , filter_inconsistent = TRUE
+                     , removes = list(basisOfRecord = c("LIVING_SPECIMEN", "FOSSIL_SPECIMEN", "MATERIAL_CITATION"))
                      , ...
                      ) {
 
@@ -56,9 +64,33 @@ get_obis <- function(aoi = NULL
 
     }
 
-    qry <- robis::occurrence(geometry = aoi_wkt)
+    temp <- robis::occurrence(geometry = aoi_wkt)
 
-    temp <- envClean::filter_geo_range(qry %>%
+    # removes ------
+    if(!is.null(removes)) {
+
+      for(i in seq_along(removes)) {
+
+        col <- names(removes)[[i]]
+
+        if(col %in% names(temp)) {
+
+          temp <- temp[which(!temp[[col]] %in% removes[[i]]),]
+
+        } else {
+
+          warning(col
+                  , " is not a column so will not be filtered of values: "
+                  , envFunc::vec_to_sentence(removes[[i]])
+                  )
+
+        }
+
+      }
+
+    }
+
+    temp <- envClean::filter_geo_range(temp %>%
                                          dplyr::filter(!is.na(decimalLongitude)
                                                        , !is.na(decimalLatitude)
                                                        )
