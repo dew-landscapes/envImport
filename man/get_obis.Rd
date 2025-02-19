@@ -11,6 +11,8 @@ get_obis(
   name = "obis",
   data_map = NULL,
   filter_inconsistent = TRUE,
+  removes = list(basisOfRecord = c("LIVING_SPECIMEN", "FOSSIL_SPECIMEN",
+    "MATERIAL_CITATION")),
   ...
 )
 }
@@ -36,6 +38,14 @@ be named \code{obis.parquet}}
 are removed. e.g. a record with \code{occurrenceStatus == "ABSENT"} but
 \code{individualCount == 1} would be filtered.}
 
+\item{removes}{Named list. Names need to match column names in the result of
+a call to \code{robis::occurrence()} (i.e. generally
+\href{https://dwc.tdwg.org/}{Darwin core} column names). Levels within each name
+are matched and, if present, removed. Note that this filtering occurs \emph{after}
+download so it does not save on download time and can also be done after a
+call to \code{get_obis()}. It does enable filtering on columns that are not passed
+through to the return value as they are not in the \code{data_map}.}
+
 \item{...}{Passed to \code{envImport::file_prep()}}
 }
 \value{
@@ -49,7 +59,22 @@ Requires an aoi. i.e. aoi is not optional for this implementation of get_obis
 aoi <- sf::st_read(file.path(system.file(package = "envImport"), "aoi.shp"))
 
 obis_data <- get_obis(aoi
-                      , save_dir = "inst/examples/qry_obis"
+                      , save_dir = tempdir()
                       , data_map = envImport::data_map
+                      , get_new = TRUE
                       )
+
+obis_data |>
+  dplyr::count()
+
+# Removing certain methods
+obis_data <- get_obis(aoi
+                      , save_dir = tempdir()
+                      , data_map = envImport::data_map
+                      , removes = list(basisOfRecord = c("PreservedSpecimen"))
+                      , get_new = TRUE
+                      )
+
+obis_data |>
+  dplyr::count()
 }

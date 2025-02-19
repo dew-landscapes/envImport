@@ -458,6 +458,7 @@
         "quantity", "organismQuantity",
         "survey", "datasetName",
         "rel_metres", "coordinateUncertaintyInMeters",
+        #"method", "basisOfRecord",
         "obs", "recordedBy",
         "kingdom", "kingdom",
         "desc", "Ocean Biodiversity Information System",
