@@ -64,70 +64,80 @@ get_obis <- function(aoi = NULL
 
     }
 
-    temp <- robis::occurrence(geometry = aoi_wkt)
+    if(nrow(temp)) {
 
-    # removes ------
-    if(!is.null(removes)) {
+      temp <- robis::occurrence(geometry = aoi_wkt)
 
-      for(i in seq_along(removes)) {
+      # removes ------
+      if(!is.null(removes)) {
 
-        col <- names(removes)[[i]]
+        for(i in seq_along(removes)) {
 
-        if(col %in% names(temp)) {
+          col <- names(removes)[[i]]
 
-          temp <- temp[which(!temp[[col]] %in% removes[[i]]),]
+          if(col %in% names(temp)) {
 
-        } else {
+            temp <- temp[which(!temp[[col]] %in% removes[[i]]),]
 
-          warning(col
-                  , " is not a column so will not be filtered of values: "
-                  , envFunc::vec_to_sentence(removes[[i]])
-                  )
+          } else {
+
+            warning(col
+                    , " is not a column so will not be filtered of values: "
+                    , envFunc::vec_to_sentence(removes[[i]])
+                    )
+
+          }
 
         }
 
       }
 
-    }
-
-    temp <- envClean::filter_geo_range(temp %>%
-                                         dplyr::filter(!is.na(decimalLongitude)
-                                                       , !is.na(decimalLatitude)
-                                                       )
-                                       , use_aoi = aoi
-                                       , x = "decimalLongitude"
-                                       , y = "decimalLatitude"
-                                       , crs_df = 4326
-                                       )
+      temp <- envClean::filter_geo_range(temp %>%
+                                           dplyr::filter(!is.na(decimalLongitude)
+                                                         , !is.na(decimalLatitude)
+                                                         )
+                                         , use_aoi = aoi
+                                         , x = "decimalLongitude"
+                                         , y = "decimalLatitude"
+                                         , crs_df = 4326
+                                         )
 
 
-    ## filter_inconsistent --------
-    if(filter_inconsistent) {
+      ## filter_inconsistent --------
+      if(filter_inconsistent) {
 
-      temp <- temp |>
-        dplyr::filter(!(occurrenceStatus == "ABSENT" &
-                          !is.na(organismQuantity) &
-                          organismQuantity > 0
+        temp <- temp |>
+          dplyr::filter(!(occurrenceStatus == "ABSENT" &
+                            !is.na(organismQuantity) &
+                            organismQuantity > 0
+                          )
+                        ) |>
+          dplyr::filter(!(occurrenceStatus == "PRESENT" &
+                            !is.na(organismQuantity) &
+                            organismQuantity == 0
+                          )
                         )
-                      ) |>
-        dplyr::filter(!(occurrenceStatus == "PRESENT" &
-                          !is.na(organismQuantity) &
-                          organismQuantity == 0
-                        )
-                      )
+
+      }
+
+      # remap ------
+      temp <- remap_data_names(this_name = name
+                               , df_to_remap = temp
+                               , data_map = data_map
+                               , out_file = save_file
+                               , final_select = TRUE
+                               , final_select_col = "bio_all"
+                               , ...
+                               ) |>
+        dplyr::mutate(rel_metres = as.numeric(rel_metres))
+
+    } else {
+
+      message("No results for ", name)
+
+      temp <- NULL
 
     }
-
-    # remap ------
-    temp <- remap_data_names(this_name = name
-                             , df_to_remap = temp
-                             , data_map = data_map
-                             , out_file = save_file
-                             , final_select = TRUE
-                             , final_select_col = "bio_all"
-                             , ...
-                             ) |>
-      dplyr::mutate(rel_metres = as.numeric(rel_metres))
 
   } else {
 
