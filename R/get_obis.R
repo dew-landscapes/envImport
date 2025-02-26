@@ -64,9 +64,10 @@ get_obis <- function(aoi = NULL
 
     }
 
-    if(nrow(temp)) {
+    # This is bbox around aoi. Filtering to aoi done later
+    temp <- robis::occurrence(geometry = aoi_wkt)
 
-      temp <- robis::occurrence(geometry = aoi_wkt)
+    if(nrow(temp)) {
 
       # removes ------
       if(!is.null(removes)) {
