@@ -530,7 +530,7 @@
         "survey", "survey",
         "method", "method",
         "obs", "Observer",
-        "kingdom", "Animalia",
+        "kingdom", "kingdom",
         "desc", "Baited underwater video survey",
         "data_name_use", "bruvs",
         "url", "https://www.marineparks.sa.gov.au/learn/understanding-effectiveness/monitoring/marine-biodiversity-surveys-habitat-mapping"
