@@ -61,7 +61,8 @@
                                        "galah",
                                        "obis",
                                        "gbif",
-                                       "verdon"
+                                       "verdon",
+                                       "bruvs"
                                        )
                               ) |>
     dplyr::mutate(value = as.character(dplyr::row_number())
@@ -513,6 +514,28 @@
         "url", "https://opal.latrobe.edu.au/articles/dataset/Threatened_Mallee_Birds_in_Heathlands_Project_-_Data_for_N-mixture_models/25417102"
         )
       ) |>
+    dplyr::left_join(
+      tibble::tribble(
+        ## data_name_replace ---------
+        ~col, ~bruvs,
+        "data_name", "bruvs",
+        "epsg", "4326",
+        "site", "Site",
+        "date", "Date",
+        "lat", "Latitude",
+        "long", "Longitude",
+        "original_name", "original_name",
+        "occ_derivation", "Count",
+        "quantity", "Count",
+        "survey", "survey",
+        "method", "method",
+        "obs", "Observer",
+        "kingdom", "Animalia",
+        "desc", "Baited underwater video survey",
+        "data_name_use", "bruvs",
+        "url", "https://www.marineparks.sa.gov.au/learn/understanding-effectiveness/monitoring/marine-biodiversity-surveys-habitat-mapping"
+      )
+    ) |>
     tidyr::pivot_longer(tidyselect::any_of(data_names$name)) |>
     dplyr::bind_rows(data_names) |>
     tidyr::pivot_wider()
