@@ -55,7 +55,9 @@ get_galah <- function(aoi = NULL
                 )
 
   # save file -------
-  save_file <- file_prep(save_dir, name, ...)
+  save_file <- file_prep(save_dir, name
+                         , ...
+                         )
 
   # run the qry ---------
   get_new <- if(!file.exists(save_file)) TRUE else get_new
@@ -90,13 +92,13 @@ get_galah <- function(aoi = NULL
 
       select_names <- choose_names(data_map = data_map
                                    , this_name = name
-      ) %>%
+                                   ) %>%
         dplyr::filter(value %in% galah::show_all("fields")$id)
 
       qry <- qry %>%
         galah::select(recordID # inc recordID here: see https://github.com/AtlasOfLivingAustralia/galah-R/issues/239
                       , select_names$value
-        )
+                      )
 
     }
 
@@ -109,7 +111,7 @@ get_galah <- function(aoi = NULL
         sf::st_cast("POLYGON") |>
         purrr::map_int(\(x) sf::st_coordinates(x) |>
                          nrow()
-        ) |>
+                       ) |>
         max()
 
       if(vertices > 500) {
@@ -138,8 +140,8 @@ get_galah <- function(aoi = NULL
 
     }
 
-    if(!is.null(aoi)) qry1 <- qry %>% # relabel qry as qry1 to preserve the original qry for potential use with split aoi's later
-      galah::galah_geolocate(aoi1)
+    qry1 <- if(!is.null(aoi)) qry |> # relabel qry as qry1 to preserve the original qry for potential use with split aoi's later
+      galah::galah_geolocate(aoi1) else qry
 
 
     ## check records--------
@@ -225,7 +227,7 @@ get_galah <- function(aoi = NULL
 
       ### continue if records < 50M ----
 
-      if(!is.null(aoi)) qry <- list(qry1)
+      qry <- list(qry1)
 
       message(records
               , " records available from galah via "
@@ -242,7 +244,7 @@ get_galah <- function(aoi = NULL
     temp <- qry %>%
       purrr::map(\(x) x %>%
                    galah::atlas_occurrences(mint_doi = make_doi)
-      )
+                 )
 
     # doi string for use below
     if(make_doi) doi <- purrr::map_chr(temp, \(x) attr(x, "doi"))
