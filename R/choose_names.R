@@ -31,20 +31,13 @@
     # Deal with null data_map
     if(is.null(data_map)) {
 
-      data_map <- tibble::tibble(col = names(df)
-                                 , !!rlang::ensym(this_name) := names(df)
-                                 )
-
-      if(!"data_name" %in% names(df)) {
-
-        data_map <- data_map %>%
-          dplyr::mutate(tibble::tibble(name = "data_name", value = this_name))
-
-      }
-
-      data_map <- data_map %>%
-        dplyr::mutate(value = dplyr::if_else(name == "data_name", this_name, value))
-
+      data_map <- tibble::tibble(col = "data_name"
+                                 , !!rlang::ensym(this_name) := this_name
+                                 ) |>
+        dplyr::bind_rows(tibble::tibble(col = names(df)
+                                        , !!rlang::ensym(this_name) := names(df)
+                                        )
+                         )
     }
 
     if(! final_select_col %in% names(data_map)) {
@@ -56,7 +49,7 @@
     # Select cols from old or new data map
     if(!all(c("col", this_name) %in% names(data_map))) {
 
-      select_name <- data_map %>%
+      select_names <- data_map %>%
         dplyr::filter(data_name == this_name) %>%
         dplyr::mutate(dplyr::across(tidyselect::everything(), \(x) as.character(x))) %>%
         dplyr::select(tidyselect::any_of(data_map$col)) %>%
