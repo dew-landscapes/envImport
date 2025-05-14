@@ -328,7 +328,7 @@
                                  , final_select = TRUE
                                  , final_select_col = "bio_all"
                                  ) %>%
-      dplyr::bind_rows(add_names)
+      {if(exists("add_names")) (.) |> dplyr::bind_rows(add_names) else (.)}
 
     rdf <- rdf %>%
       dplyr::select(tidyselect::any_of(select_names$col)) %>%
