@@ -65,7 +65,10 @@ get_obis <- function(aoi = NULL
     }
 
     # This is bbox around aoi. Filtering to aoi done later
-    temp <- robis::occurrence(geometry = aoi_wkt)
+    temp <- robis::occurrence(geometry = aoi_wkt
+                              , absence = "include"
+                              , fields = if(!is.null(data_map)) na.omit(data_map$obis) else NULL
+                              )
 
     if(nrow(temp)) {
 
@@ -144,7 +147,7 @@ get_obis <- function(aoi = NULL
 
     temp <- rio::import(save_file
                         , setclass = "tibble"
-    )
+                        )
 
   }
 
