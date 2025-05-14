@@ -516,7 +516,7 @@
       ) |>
     dplyr::left_join(
       tibble::tribble(
-        ## data_name_replace ---------
+        ## bruvs ---------
         ~col, ~bruvs,
         "data_name", "bruvs",
         "epsg", "4326",
@@ -534,6 +534,32 @@
         "desc", "Baited underwater video survey",
         "data_name_use", "bruvs",
         "url", "https://www.marineparks.sa.gov.au/learn/understanding-effectiveness/monitoring/marine-biodiversity-surveys-habitat-mapping"
+      )
+    ) |>
+    dplyr::left_join(
+      tibble::tribble(
+        ## samdb_vert ---------
+        ~col, ~samdb_vert,
+        "data_name", "samdb_vert",
+        "epsg", "4326",
+        "site", "site",
+        "date", "date",
+        "lat", "lat",
+        "long", "long",
+        "original_name", "original_name",
+        "common", "common",
+        "nsx", "nsx",
+        "occ_derivation", "occ_derivation",
+        "survey_nr", "survey_nr",
+        "ind", "ind",
+        "rel_metres", "rel_metres",
+        "epbc_status", "epbc_status",
+        "npw_status", "npw_status",
+        "method", "method",
+        "obs", "obs",
+        "desc", "Vertebrate records in the South Australian Murray-Darling Basin",
+        "data_name_use", "samdb_vert",
+        "url", "https://www.landscape.sa.gov.au/mr/about-us/our-region"
       )
     ) |>
     tidyr::pivot_longer(tidyselect::any_of(data_names$name)) |>
