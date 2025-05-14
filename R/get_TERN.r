@@ -41,7 +41,9 @@
                        , ...
                        ) {
 
-    save_file <- file_prep(save_dir, name, ...)
+    save_file <- file_prep(save_dir, name
+                           , ...
+                           )
 
     # run query
     get_new <- if(!file.exists(save_file)) TRUE else get_new
@@ -62,13 +64,7 @@
                                            , veg.PI = TRUE
                                            )
 
-    if(nrow(tern_data$veg.PI) > 0) {
-
-        select_names <- choose_names(data_map = data_map
-                                     , this_name = name
-                                     )
-
-        species_col <- if(species_name == "SN") {
+      species_col <- if(species_name == "SN") {
 
           "standardised_name"
 
@@ -82,43 +78,50 @@
 
         }
 
+      temp <- ausplotsR::species_table(tern_data$veg.PI
+                                       , m_kind = m_kind
+                                       , cover_type = cover_type
+                                       , species_name = species_name
+                                       , strip_bryophytes = strip_bryophytes
+                                       ) %>%
+        tibble::as_tibble(rownames = "site_unique") %>%
+        stats::setNames(gsub("\\.", " ", names(.))) %>%
+        stats::setNames(stringr::str_squish(names(.))) %>%
+        tidyr::pivot_longer(2:ncol(.)
+                            , names_to = species_col
+                            , values_to = "cover"
+                            ) %>%
+        dplyr::filter(cover > 0) %>%
+        dplyr::left_join(tern_data$site.info) %>%
+        dplyr::mutate(cover = cover / 100
+                      , visit_start_date = as.POSIXct(visit_start_date
+                                                      , format = "%Y-%m-%d"
+                                                      )
+                      , quadX = readr::parse_number(gsub("x.*|"
+                                                         , ""
+                                                         , plot_dimensions
+                                                         )
+                                                    )
+                      , quadY = readr::parse_number(gsub(".*x"
+                                                         , ""
+                                                         , plot_dimensions
+                                                         )
+                                                    )
+                      , quad_metres = quadX * quadY
+                      , observer_veg = as.character(observer_veg)
+                      )
+
+    if(nrow(tern_data$veg.PI) > 0) {
+
+        select_names <- choose_names(df = temp
+                                     , data_map = data_map
+                                     , this_name = name
+                                     )
+
         all_names <- c(select_names$value
                       , species_col
                       ) %>%
           unique()
-
-        temp <- ausplotsR::species_table(tern_data$veg.PI
-                                         , m_kind = m_kind
-                                         , cover_type = cover_type
-                                         , species_name = species_name
-                                         , strip_bryophytes = strip_bryophytes
-                                         ) %>%
-          tibble::as_tibble(rownames = "site_unique") %>%
-          stats::setNames(gsub("\\.", " ", names(.))) %>%
-          stats::setNames(stringr::str_squish(names(.))) %>%
-          tidyr::pivot_longer(2:ncol(.)
-                              , names_to = species_col
-                              , values_to = "cover"
-                              ) %>%
-          dplyr::filter(cover > 0) %>%
-          dplyr::left_join(tern_data$site.info) %>%
-          dplyr::mutate(cover = cover / 100
-                        , visit_start_date = as.POSIXct(visit_start_date
-                                                  , format = "%Y-%m-%d"
-                                                  )
-                        , quadX = readr::parse_number(gsub("x.*|"
-                                                           , ""
-                                                           , plot_dimensions
-                                                           )
-                                                      )
-                        , quadY = readr::parse_number(gsub(".*x"
-                                                           , ""
-                                                           , plot_dimensions
-                                                           )
-                                                      )
-                        , quad_metres = quadX * quadY
-                        , observer_veg = as.character(observer_veg)
-                        )
 
         if(make_lifeform) {
 
@@ -228,7 +231,7 @@
                                  , out_file = save_file
                                  , final_select = TRUE
                                  , final_select_col = "bio_all"
-                                 , ...
+                                 #, ...
                                  )
 
     } else {
