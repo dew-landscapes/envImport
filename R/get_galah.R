@@ -114,7 +114,7 @@ get_galah <- function(aoi = NULL
                        ) |>
         max()
 
-      if(vertices > 500) {
+      if(vertices > 100) {
 
         aoi1 <- aoi %>%
           sf::st_bbox() %>%
@@ -124,7 +124,7 @@ get_galah <- function(aoi = NULL
 
         warning("aoi has "
                 , vertices
-                , " vertices, which is above the allowable 500 vertices for a galah download."
+                , " vertices, which is possilby too complicated for a galah query. "
                 , "aoi has been converted to a bounding box."
         )
 
