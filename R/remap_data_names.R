@@ -331,8 +331,7 @@
       {if(exists("add_names")) (.) |> dplyr::bind_rows(add_names) else (.)}
 
     rdf <- rdf %>%
-      dplyr::select(tidyselect::any_of(select_names$col)) %>%
-      janitor::remove_empty(which = "cols")
+      dplyr::select(tidyselect::any_of(select_names$col))
 
     if("quantity" %in% names(rdf)) {
 
