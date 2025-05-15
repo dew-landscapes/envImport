@@ -78,40 +78,42 @@
 
         }
 
-      temp <- ausplotsR::species_table(tern_data$veg.PI
-                                       , m_kind = m_kind
-                                       , cover_type = cover_type
-                                       , species_name = species_name
-                                       , strip_bryophytes = strip_bryophytes
-                                       ) %>%
-        tibble::as_tibble(rownames = "site_unique") %>%
-        stats::setNames(gsub("\\.", " ", names(.))) %>%
-        stats::setNames(stringr::str_squish(names(.))) %>%
-        tidyr::pivot_longer(2:ncol(.)
-                            , names_to = species_col
-                            , values_to = "cover"
-                            ) %>%
-        dplyr::filter(cover > 0) %>%
-        dplyr::left_join(tern_data$site.info) %>%
-        dplyr::mutate(cover = cover / 100
-                      , visit_start_date = as.POSIXct(visit_start_date
-                                                      , format = "%Y-%m-%d"
-                                                      )
-                      , quadX = readr::parse_number(gsub("x.*|"
-                                                         , ""
-                                                         , plot_dimensions
-                                                         )
-                                                    )
-                      , quadY = readr::parse_number(gsub(".*x"
-                                                         , ""
-                                                         , plot_dimensions
-                                                         )
-                                                    )
-                      , quad_metres = quadX * quadY
-                      , observer_veg = as.character(observer_veg)
-                      )
+
 
     if(nrow(tern_data$veg.PI) > 0) {
+
+        temp <- ausplotsR::species_table(tern_data$veg.PI
+                                         , m_kind = m_kind
+                                         , cover_type = cover_type
+                                         , species_name = species_name
+                                         , strip_bryophytes = strip_bryophytes
+                                         ) %>%
+          tibble::as_tibble(rownames = "site_unique") %>%
+          stats::setNames(gsub("\\.", " ", names(.))) %>%
+          stats::setNames(stringr::str_squish(names(.))) %>%
+          tidyr::pivot_longer(2:ncol(.)
+                              , names_to = species_col
+                              , values_to = "cover"
+                              ) %>%
+          dplyr::filter(cover > 0) %>%
+          dplyr::left_join(tern_data$site.info) %>%
+          dplyr::mutate(cover = cover / 100
+                        , visit_start_date = as.POSIXct(visit_start_date
+                                                        , format = "%Y-%m-%d"
+                                                        )
+                        , quadX = readr::parse_number(gsub("x.*|"
+                                                           , ""
+                                                           , plot_dimensions
+                                                           )
+                                                      )
+                        , quadY = readr::parse_number(gsub(".*x"
+                                                           , ""
+                                                           , plot_dimensions
+                                                           )
+                                                      )
+                        , quad_metres = quadX * quadY
+                        , observer_veg = as.character(observer_veg)
+                        )
 
         select_names <- choose_names(df = temp
                                      , data_map = data_map
