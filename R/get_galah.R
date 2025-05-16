@@ -309,17 +309,17 @@ get_galah <- function(aoi = NULL
                         , title = "Occurrence download data"
                         , author = utils::person("Atlas Of Living Australia")
                         , publisher = "Atlas Of Living Australia"
-                        , year = base::format(base::Sys.Date(), "%Y")
+                        , year = base::format(base::Sys.Date(), "%d %b %Y")
                         , doi = paste(fs::path(basename(dirname(doi)), basename(doi)), collapse = "; ")
-        ) %>%
+                        ) %>%
           utils::toBibtex()
 
         readr::write_lines(bib
                            , file = fs::path(dirname(save_file)
                                              , paste0(basename(dirname(save_file)), ".bib")
-                           )
+                                             )
                            , append = TRUE
-        )
+                           )
 
       } else {
 

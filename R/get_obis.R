@@ -135,6 +135,25 @@ get_obis <- function(aoi = NULL
                                ) |>
         dplyr::mutate(rel_metres = as.numeric(rel_metres))
 
+      # .bib -------
+      bib <- bibentry(bibtype = "misc"
+                      , key = "obis"
+                      , title = "OBIS Occurrence Data"
+                      , author = utils::person("Ocean Biodiversity Information System (OBIS)")
+                      , publisher = "Intergovernmental Oceanographic Commission of UNESCO"
+                      , year = base::format(base::Sys.Date(), "%d %b %Y")
+                      , doi = "https://doi.org/10.25607/obis.occurrence.b89117cd"
+                      , url = "https://obis.org"
+                      ) |>
+          utils::toBibtex()
+
+      readr::write_lines(bib
+                         , file = fs::path(dirname(save_file)
+                                           , paste0(basename(dirname(save_file)), ".bib")
+                                           )
+                         , append = TRUE
+                         )
+
     } else {
 
       message("No results for ", name)
