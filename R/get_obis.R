@@ -138,10 +138,12 @@ get_obis <- function(aoi = NULL
       # .bib -------
       bib <- bibentry(bibtype = "misc"
                       , key = "obis"
-                      , title = "OBIS Occurrence Data"
-                      , author = utils::person("Ocean Biodiversity Information System (OBIS)")
+                      , title = paste0("Ocean Biodiversity Information System (OBIS) Occurrence Data. Obtained via the robis R package."
+                                       , " Accessed on ", base::format(base::Sys.Date(), "%d %b %Y")
+                                       )
+                      , author = utils::person("OBIS")
                       , publisher = "Intergovernmental Oceanographic Commission of UNESCO"
-                      , year = base::format(base::Sys.Date(), "%d %b %Y")
+                      , year = base::format(base::Sys.Date(), "%Y")
                       , doi = "https://doi.org/10.25607/obis.occurrence.b89117cd"
                       , url = "https://obis.org"
                       ) |>
@@ -149,9 +151,8 @@ get_obis <- function(aoi = NULL
 
       readr::write_lines(bib
                          , file = fs::path(dirname(save_file)
-                                           , paste0(basename(dirname(save_file)), ".bib")
+                                           , paste0(name, ".bib")
                                            )
-                         , append = TRUE
                          )
 
     } else {

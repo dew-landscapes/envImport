@@ -304,22 +304,23 @@ get_galah <- function(aoi = NULL
 
       if(is.character(doi)) {
 
-        bib <- bibentry(bibtype = "MISC"
+        bib <- bibentry(bibtype = "misc"
                         , key = "galah"
-                        , title = "Occurrence download data"
-                        , author = utils::person("Atlas Of Living Australia")
+                        , title = paste0("Atlas of Living Australia (ALA) Occurrence Data. Obtained via the galah R package."
+                                         , " Accessed on ", base::format(base::Sys.Date(), "%d %b %Y")
+                                         )
+                        , author = utils::person("ALA")
                         , publisher = "Atlas Of Living Australia"
-                        , year = base::format(base::Sys.Date(), "%d %b %Y")
+                        , year = base::format(base::Sys.Date(), "%Y")
                         , doi = paste(fs::path(basename(dirname(doi)), basename(doi)), collapse = "; ")
                         ) %>%
           utils::toBibtex()
 
         readr::write_lines(bib
-                           , file = fs::path(dirname(save_file)
-                                             , paste0(basename(dirname(save_file)), ".bib")
-                                             )
-                           , append = TRUE
-                           )
+                         , file = fs::path(dirname(save_file)
+                                           , paste0(name, ".bib")
+                                           )
+                         )
 
       } else {
 

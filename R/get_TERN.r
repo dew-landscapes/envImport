@@ -233,8 +233,29 @@
                                  , out_file = save_file
                                  , final_select = TRUE
                                  , final_select_col = "bio_all"
-                                 #, ...
+                                 , ...
                                  )
+
+        # .bib -------
+        bib <- bibentry(bibtype = "misc"
+                        , key = "tern"
+                        , title = paste0("AusPlots Ecosystem Surveillance Monitoring Dataset. Obtained via the ausplotsR R package."
+                                         , " Accessed on ", base::format(base::Sys.Date(), "%d %b %Y")
+                                         )
+                        , author = utils::person("TERN")
+                        , publisher = "Terrestrial Ecosystem Research Network"
+                        , year = base::format(base::Sys.Date(), "%Y")
+                        , accessed = base::format(base::Sys.Date(), "%d %b %Y")
+                        , doi = "https://doi.org/10.1111/jvs.13046"
+                        , url = "https://www.tern.org.au/"
+                        ) |>
+            utils::toBibtex()
+
+        readr::write_lines(bib
+                         , file = fs::path(dirname(save_file)
+                                           , paste0(name, ".bib")
+                                           )
+                         )
 
     } else {
 
