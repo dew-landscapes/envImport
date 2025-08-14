@@ -33,9 +33,11 @@ devtools::install_github("dew-landscapes/envImport")
 of data. Examples are the Global Biodiversity Infrastructure Facility
 ([GBIF](https://www.gbif.org/)), Atlas of Living Australia
 ([ALA](https://www.ala.org.au/)) or Terrestrial Ecosystems Network
-([TERN](https://www.tern.org.au/)). There are 16 data sources currently
+([TERN](https://www.tern.org.au/)). There are 18 data sources currently
 supported (also see `envImport::data_map`):
 
+- samdb_vert: Vertebrate records in the South Australian Murray-Darling
+  Basin
 - bdbsa: Biological databases of South Australia
 - egis: Occurrence datasets from the environmental databases of South
   Australia (e.g. supertables)
@@ -58,6 +60,7 @@ supported (also see `envImport::data_map`):
 - gbif: Global biodiversity information facility
 - verdon: Presence records at 4 ha scale from Simon Verdon’s heath
   mallee bird work
+- bruvs: Baited underwater video survey
 
 Five of these sources are publicly available (GBIF, ALA, OBIS, HAVPlot
 and TERN).
