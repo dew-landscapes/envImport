@@ -124,7 +124,7 @@ get_galah <- function(aoi = NULL
 
         warning("aoi has "
                 , vertices
-                , " vertices, which is possilby too complicated for a galah query. "
+                , " vertices, which is too many for a galah query. "
                 , "aoi has been converted to a bounding box."
         )
 
