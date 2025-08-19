@@ -214,9 +214,9 @@
         "rel_metres", "coordinateUncertaintyInMeters",
         "obs", "recordedBy",
         "kingdom", "kingdom",
-        "desc", "The Australasian Virtual Herbarium (AVH)",
+        "desc", "Australasian Virtual Herbarium (AVH) data from the State Herbarium of South Australia (AD)",
         "data_name_use", "Herbarium",
-        "url", "https://avh.chah.org.au/"
+        "url", "https://collections.ala.org.au/public/show/co48"
       )
     ) |>
     dplyr::left_join(

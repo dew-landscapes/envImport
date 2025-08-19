@@ -43,8 +43,8 @@ supported (also see `envImport::data_map`):
   Australia (e.g. supertables)
 - thirdparty: Third party occurrence datasets from the environmental
   databases of South Australia
-- herbarium: Herbarium occurrence dataset from the environmental
-  databases of South Australia
+- herbarium: Australasian Virtual Herbarium (AVH) data from the State
+  Herbarium of South Australia (AD)
 - havplot: Harmonised Australian Vegetation Plot dataset
 - tern: Terrestrial ecosystem network
 - abbbs: Australian Bird and Bat Banding Scheme
@@ -87,7 +87,7 @@ sources to the desired columns in the assembled data set.
 | quantity       | organismQuantity                         | NA                            | organismQuantity              | abundanceValue                                                                         |
 | survey_nr      | NA                                       | NA                            | NA                            | NA                                                                                     |
 | survey         | NA                                       | NA                            | datasetName                   | projectID                                                                              |
-| ind            | NA                                       | NA                            | NA                            | NA                                                                                     |
+| ind            | NA                                       | NA                            | establishmentMeans            | NA                                                                                     |
 | rel_metres     | coordinateUncertaintyInMeters            | NA                            | coordinateUncertaintyInMeters | coordinateUncertaintyInMetres                                                          |
 | lifeform       | NA                                       | lifeform                      | NA                            | NA                                                                                     |
 | lifespan       | NA                                       | NA                            | NA                            | NA                                                                                     |
