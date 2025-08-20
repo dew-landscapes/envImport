@@ -13,7 +13,7 @@
 #' `envImport::data_map`
 #' @param out_file Character. Name of file to save. If `NULL`, this will be
 #' `here::here("ds", this_name, "this_name.parquet")`
-#' @param exclude_names Character. column names in namesmap to exclude from the
+#' @param exclude_cols Character. column names in namesmap to exclude from the
 #' combined data
 #' @param add_month,add_year Logical. Add a year and/or month column to returned
 #' data frame (requires a `date` field to be specified by `data_map`)
