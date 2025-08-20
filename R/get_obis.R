@@ -5,7 +5,7 @@
 #' Requires an aoi. i.e. aoi is not optional for this implementation of get_obis
 #'
 #' @param aoi Optional simple feature (sf). Used to limit the occurrences
-#' returned via `obis::occurence()`
+#' returned via `robis::occurence()`
 #' @param save_dir Character. Path to directory into which to save outputs. If
 #' `NULL` results will be saved to `here::here("out", "ds", "obis")`. File will
 #' be named `obis.parquet`
@@ -15,6 +15,12 @@
 #' (or other `data_map`)
 #' @param data_map Dataframe or NULL. Mapping of fields to retrieve. See example
 #' `envImport::data_map`
+#' @param exclude_cols Character. column names in `data_map` to exclude from the
+#' download.
+#' @param start_date The earliest date to download occurrences from.
+#' Used to limit the download in `robis::occurence()`.
+#' @param end_date The latest date to download occurrences to.
+#' Used to limit the download in `robis::occurence()`.
 #' @param filter_inconsistent Logical. If `TRUE`, inconsistencies between the
 #' `occurrenceStatus` column and either `organismQuantity` or `individualCount`
 #' are removed. e.g. a record with `occurrenceStatus == "ABSENT"` but
@@ -37,10 +43,18 @@ get_obis <- function(aoi = NULL
                      , get_new = FALSE
                      , name = "obis"
                      , data_map = NULL
+                     , exclude_cols = c("order"
+                                        , "epsg"
+                                        , "desc"
+                                        , "data_name_use"
+                                        , "url"
+                     )
+                     , start_date = NULL
+                     , end_date = NULL
                      , filter_inconsistent = TRUE
                      , removes = list(basisOfRecord = c("LIVING_SPECIMEN", "FOSSIL_SPECIMEN", "MATERIAL_CITATION"))
                      , ...
-                     ) {
+) {
 
   # save file -------
   save_file <- file_prep(save_dir, name, ...)
@@ -65,10 +79,28 @@ get_obis <- function(aoi = NULL
     }
 
     # This is bbox around aoi. Filtering to aoi done later
+
+
+    if(!is.null(data_map) & !is.null(exclude_cols)) {
+
+      include_cols <- data_map |>
+        dplyr::filter(!col %in% exclude_cols
+                      , !is.na(obis)
+        ) |>
+        dplyr::pull(obis)
+
+    } else {
+
+      include_cols <- NULL
+
+    }
+
     temp <- robis::occurrence(geometry = aoi_wkt
                               , absence = "include"
-                              , fields = if(!is.null(data_map)) na.omit(data_map$obis) else NULL
-                              )
+                              , fields = include_cols
+                              , startdate = start_date
+                              , enddate = end_date
+    )
 
     if(nrow(temp)) {
 
@@ -88,7 +120,7 @@ get_obis <- function(aoi = NULL
             warning(col
                     , " is not a column so will not be filtered of values: "
                     , envFunc::vec_to_sentence(removes[[i]])
-                    )
+            )
 
           }
 
@@ -99,12 +131,12 @@ get_obis <- function(aoi = NULL
       temp <- envClean::filter_geo_range(temp %>%
                                            dplyr::filter(!is.na(decimalLongitude)
                                                          , !is.na(decimalLatitude)
-                                                         )
+                                           )
                                          , use_aoi = aoi
                                          , x = "decimalLongitude"
                                          , y = "decimalLatitude"
                                          , crs_df = 4326
-                                         )
+      )
 
 
       ## filter_inconsistent --------
@@ -114,13 +146,13 @@ get_obis <- function(aoi = NULL
           dplyr::filter(!(occurrenceStatus == "ABSENT" &
                             !is.na(organismQuantity) &
                             organismQuantity > 0
-                          )
-                        ) |>
+          )
+          ) |>
           dplyr::filter(!(occurrenceStatus == "PRESENT" &
                             !is.na(organismQuantity) &
                             organismQuantity == 0
-                          )
-                        )
+          )
+          )
 
       }
 
@@ -132,7 +164,7 @@ get_obis <- function(aoi = NULL
                                , final_select = TRUE
                                , final_select_col = "bio_all"
                                , ...
-                               ) |>
+      ) |>
         dplyr::mutate(rel_metres = as.numeric(rel_metres))
 
       # .bib -------
@@ -140,20 +172,20 @@ get_obis <- function(aoi = NULL
                       , key = "obis"
                       , title = paste0("Ocean Biodiversity Information System (OBIS) Occurrence Data. Obtained via the robis R package."
                                        , " Accessed on ", base::format(base::Sys.Date(), "%d %b %Y")
-                                       )
+                      )
                       , author = utils::person("OBIS")
                       , publisher = "Intergovernmental Oceanographic Commission of UNESCO"
                       , year = base::format(base::Sys.Date(), "%Y")
                       , doi = "https://doi.org/10.25607/obis.occurrence.b89117cd"
                       , url = "https://obis.org"
-                      ) |>
-          utils::toBibtex()
+      ) |>
+        utils::toBibtex()
 
       readr::write_lines(bib
                          , file = fs::path(dirname(save_file)
                                            , paste0(name, ".bib")
-                                           )
                          )
+      )
 
     } else {
 
@@ -167,7 +199,7 @@ get_obis <- function(aoi = NULL
 
     temp <- rio::import(save_file
                         , setclass = "tibble"
-                        )
+    )
 
   }
 
