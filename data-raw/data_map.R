@@ -578,7 +578,7 @@
         "method", "METHODDESC",
         "obs", "observer",
         "kingdom", "kingdom",
-        "desc", "SA Seed Conservation Centre",
+        "desc", "South Australian Seed Conservation Centre",
         "data_name_use", "Other",
         "url", "https://www.botanicgardens.sa.gov.au/science/conservation/south-australian-seed-conservation-centre"
       )
