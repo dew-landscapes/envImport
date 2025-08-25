@@ -5,11 +5,6 @@
 
   library(envReport)
   library(envImport)
-#> 
-#> Attaching package: 'envImport'
-#> The following object is masked _by_ '.GlobalEnv':
-#> 
-#>     data_map
   library(magrittr)
 ```
 
@@ -39,7 +34,7 @@ devtools::install_github("dew-landscapes/envImport")
 of data. Examples are the Global Biodiversity Infrastructure Facility
 ([GBIF](https://www.gbif.org/)), Atlas of Living Australia
 ([ALA](https://www.ala.org.au/)) or Terrestrial Ecosystems Network
-([TERN](https://www.tern.org.au/)). There are 18 data sources currently
+([TERN](https://www.tern.org.au/)). There are 19 data sources currently
 supported (also see `envImport::data_map`):
 
 - bdbsa: Biological databases of South Australia
@@ -67,7 +62,7 @@ supported (also see `envImport::data_map`):
 - bruvs: Baited underwater video survey
 - samdb_vert: Vertebrate records in the South Australian Murray-Darling
   Basin
-- seed: SA Seed Conservation Centre
+- seed: South Australian Seed Conservation Centre
 
 Five of these sources are publicly available (GBIF, ALA, OBIS, HAVPlot
 and TERN).
