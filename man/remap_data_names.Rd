@@ -32,6 +32,9 @@ remap_data_names(
 \item{out_file}{Character. Name of file to save. If \code{NULL}, this will be
 \code{here::here("ds", this_name, "this_name.parquet")}}
 
+\item{exclude_cols}{Character. column names in namesmap to exclude from the
+combined data}
+
 \item{add_month, add_year}{Logical. Add a year and/or month column to returned
 data frame (requires a \code{date} field to be specified by \code{data_map})}
 
@@ -53,9 +56,6 @@ unless \verb{previous == "move}}
 is \code{survey}.}
 
 \item{...}{Not used}
-
-\item{exclude_names}{Character. column names in namesmap to exclude from the
-combined data}
 }
 \value{
 Tibble with selected, renamed, adjusted and aligned columns

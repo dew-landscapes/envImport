@@ -10,6 +10,9 @@ get_obis(
   get_new = FALSE,
   name = "obis",
   data_map = NULL,
+  exclude_cols = c("order", "epsg", "desc", "data_name_use", "url"),
+  start_date = NULL,
+  end_date = NULL,
   filter_inconsistent = TRUE,
   removes = list(basisOfRecord = c("LIVING_SPECIMEN", "FOSSIL_SPECIMEN",
     "MATERIAL_CITATION")),
@@ -18,7 +21,7 @@ get_obis(
 }
 \arguments{
 \item{aoi}{Optional simple feature (sf). Used to limit the occurrences
-returned via \code{obis::occurence()}}
+returned via \code{robis::occurence()}}
 
 \item{save_dir}{Character. Path to directory into which to save outputs. If
 \code{NULL} results will be saved to \code{here::here("out", "ds", "obis")}. File will
@@ -32,6 +35,15 @@ be named \code{obis.parquet}}
 
 \item{data_map}{Dataframe or NULL. Mapping of fields to retrieve. See example
 \code{envImport::data_map}}
+
+\item{exclude_cols}{Character. column names in \code{data_map} to exclude from the
+download.}
+
+\item{start_date}{The earliest date to download occurrences from.
+Used to limit the download in \code{robis::occurence()}.}
+
+\item{end_date}{The latest date to download occurrences to.
+Used to limit the download in \code{robis::occurence()}.}
 
 \item{filter_inconsistent}{Logical. If \code{TRUE}, inconsistencies between the
 \code{occurrenceStatus} column and either \code{organismQuantity} or \code{individualCount}

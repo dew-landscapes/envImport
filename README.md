@@ -5,12 +5,18 @@
 
   library(envReport)
   library(envImport)
+#> 
+#> Attaching package: 'envImport'
+#> The following object is masked _by_ '.GlobalEnv':
+#> 
+#>     data_map
   library(magrittr)
 ```
 
 # envImport
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of envImport is to obtain, and make seamlessly useable,
@@ -36,8 +42,6 @@ of data. Examples are the Global Biodiversity Infrastructure Facility
 ([TERN](https://www.tern.org.au/)). There are 18 data sources currently
 supported (also see `envImport::data_map`):
 
-- samdb_vert: Vertebrate records in the South Australian Murray-Darling
-  Basin
 - bdbsa: Biological databases of South Australia
 - egis: Occurrence datasets from the environmental databases of South
   Australia (e.g. supertables)
@@ -61,6 +65,9 @@ supported (also see `envImport::data_map`):
 - verdon: Presence records at 4 ha scale from Simon Verdon’s heath
   mallee bird work
 - bruvs: Baited underwater video survey
+- samdb_vert: Vertebrate records in the South Australian Murray-Darling
+  Basin
+- seed: SA Seed Conservation Centre
 
 Five of these sources are publicly available (GBIF, ALA, OBIS, HAVPlot
 and TERN).
@@ -72,39 +79,39 @@ and TERN).
 The data_map (see table below) provides a mapping from original data
 sources to the desired columns in the assembled data set.
 
-| col            | gbif                                     | tern                          | galah                         | havplot                                                                                |
-|:---------------|:-----------------------------------------|:------------------------------|:------------------------------|:---------------------------------------------------------------------------------------|
-| data_name      | gbif                                     | tern                          | galah                         | havplot                                                                                |
-| epsg           | 4326                                     | 4326                          | 4326                          | 4326                                                                                   |
-| site           | gbifID                                   | site_unique                   | locationID                    | plotName                                                                               |
-| date           | eventDate                                | visit_start_date              | eventDate                     | obsStartDate                                                                           |
-| lat            | decimalLatitude                          | latitude                      | decimalLatitude               | decimalLatitude                                                                        |
-| long           | decimalLongitude                         | longitude                     | decimalLongitude              | decimalLongitude                                                                       |
-| original_name  | scientificName                           | species                       | scientificName                | scientificName                                                                         |
-| common         | NA                                       | NA                            | vernacularName                | NA                                                                                     |
-| nsx            | NA                                       | NA                            | organismID                    | NA                                                                                     |
-| occ_derivation | occurrenceStatus                         | NA                            | occurrenceStatus              | abundanceValue                                                                         |
-| quantity       | organismQuantity                         | NA                            | organismQuantity              | abundanceValue                                                                         |
-| survey_nr      | NA                                       | NA                            | NA                            | NA                                                                                     |
-| survey         | NA                                       | NA                            | datasetName                   | projectID                                                                              |
-| ind            | NA                                       | NA                            | establishmentMeans            | NA                                                                                     |
-| rel_metres     | coordinateUncertaintyInMeters            | NA                            | coordinateUncertaintyInMeters | coordinateUncertaintyInMetres                                                          |
-| lifeform       | NA                                       | lifeform                      | NA                            | NA                                                                                     |
-| lifespan       | NA                                       | NA                            | NA                            | NA                                                                                     |
-| cover          | NA                                       | cover                         | NA                            | cover                                                                                  |
-| cover_code     | NA                                       | NA                            | NA                            | NA                                                                                     |
-| height         | NA                                       | height                        | NA                            | NA                                                                                     |
-| quad_metres    | NA                                       | quad_metres                   | NA                            | quad_metres                                                                            |
-| epbc_status    | NA                                       | NA                            | NA                            | NA                                                                                     |
-| npw_status     | NA                                       | NA                            | NA                            | NA                                                                                     |
-| method         | samplingProtocol                         | NA                            | samplingProtocol              | abundanceMethod                                                                        |
-| obs            | recordedBy                               | observer_veg                  | recordedBy                    | individualName                                                                         |
-| denatured      | informationWithheld                      | NA                            | generalisationInMetres        | NA                                                                                     |
-| kingdom        | kingdom                                  | kingdom                       | kingdom                       | kingdom                                                                                |
-| desc           | Global biodiversity information facility | Terrestrial ecosystem network | Atlas of Living Australia     | Harmonised Australian Vegetation Plot dataset                                          |
-| data_name_use  | GBIF                                     | TERN                          | ALA                           | HAVPlot                                                                                |
-| url            | <https://www.gbif.org/>                  | <https://www.tern.org.au/>    | <https://www.ala.org.au/>     | <https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860> |
-| order          | 15                                       | 6                             | 13                            | 5                                                                                      |
+| col | gbif | tern | galah | havplot |
+|:---|:---|:---|:---|:---|
+| data_name | gbif | tern | galah | havplot |
+| epsg | 4326 | 4326 | 4326 | 4326 |
+| site | gbifID | site_unique | locationID | plotName |
+| date | eventDate | visit_start_date | eventDate | obsStartDate |
+| lat | decimalLatitude | latitude | decimalLatitude | decimalLatitude |
+| long | decimalLongitude | longitude | decimalLongitude | decimalLongitude |
+| original_name | scientificName | species | scientificName | scientificName |
+| common | NA | NA | vernacularName | NA |
+| nsx | NA | NA | organismID | NA |
+| occ_derivation | occurrenceStatus | NA | occurrenceStatus | abundanceValue |
+| quantity | organismQuantity | NA | organismQuantity | abundanceValue |
+| survey_nr | NA | NA | NA | NA |
+| survey | NA | NA | datasetName | projectID |
+| ind | NA | NA | establishmentMeans | NA |
+| rel_metres | coordinateUncertaintyInMeters | NA | coordinateUncertaintyInMeters | coordinateUncertaintyInMetres |
+| lifeform | NA | lifeform | NA | NA |
+| lifespan | NA | NA | NA | NA |
+| cover | NA | cover | NA | cover |
+| cover_code | NA | NA | NA | NA |
+| height | NA | height | NA | NA |
+| quad_metres | NA | quad_metres | NA | quad_metres |
+| epbc_status | NA | NA | NA | NA |
+| npw_status | NA | NA | NA | NA |
+| method | samplingProtocol | NA | samplingProtocol | abundanceMethod |
+| obs | recordedBy | observer_veg | recordedBy | individualName |
+| denatured | informationWithheld | NA | generalisationInMetres | NA |
+| kingdom | kingdom | kingdom | kingdom | kingdom |
+| desc | Global biodiversity information facility | Terrestrial ecosystem network | Atlas of Living Australia | Harmonised Australian Vegetation Plot dataset |
+| data_name_use | GBIF | TERN | ALA | HAVPlot |
+| url | <https://www.gbif.org/> | <https://www.tern.org.au/> | <https://www.ala.org.au/> | <https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860> |
+| order | 15 | 6 | 13 | 5 |
 
 Data map of desired columns in the assembled data (col) and names of
 columns in the original data. Where a column name from the original data
