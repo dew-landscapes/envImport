@@ -62,7 +62,9 @@
                                        "obis",
                                        "gbif",
                                        "verdon",
-                                       "bruvs"
+                                       "bruvs",
+                                       "samdb_vert",
+                                       "seed"
                                        )
                               ) |>
     dplyr::mutate(value = as.character(dplyr::row_number())
@@ -555,6 +557,30 @@
         "desc", "Vertebrate records in the South Australian Murray-Darling Basin",
         "data_name_use", "samdb_vert",
         "url", "https://www.landscape.sa.gov.au/mr/about-us/our-region"
+      )
+    ) |>
+    dplyr::left_join(
+      tibble::tribble(
+        ## seed ---------
+        ~col, ~seed,
+        "data_name", "seed",
+        "epsg", "4326",
+        "site", "Site",
+        "date", "SIGHTINGDATE",
+        "lat", "LATITUDE",
+        "long", "LONGITUDE",
+        "original_name", "SPECIES",
+        "occ_derivation", "NUMOBSERVED",
+        "quantity", "NUMOBSERVED",
+        "survey_nr", "SURVEYNR",
+        "survey", "SURVEYNAME",
+        "rel_metres", "maxDist",
+        "method", "METHODDESC",
+        "obs", "observer",
+        "kingdom", "kingdom",
+        "desc", "SA Seed Conservation Centre",
+        "data_name_use", "Other",
+        "url", "https://www.botanicgardens.sa.gov.au/science/conservation/south-australian-seed-conservation-centre"
       )
     ) |>
     tidyr::pivot_longer(tidyselect::any_of(data_names$name)) |>
