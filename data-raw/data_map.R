@@ -579,7 +579,7 @@
         "obs", "observer",
         "kingdom", "kingdom",
         "desc", "South Australian Seed Conservation Centre",
-        "data_name_use", "Other",
+        "data_name_use", "Seed centre",
         "url", "https://www.botanicgardens.sa.gov.au/science/conservation/south-australian-seed-conservation-centre"
       )
     ) |>
