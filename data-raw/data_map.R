@@ -259,6 +259,7 @@
         "original_name", "SCIENA",
         "occ_derivation", "NUMOBSERVED",
         "survey_nr", "SURVEYNR",
+        "rel_metres", "DISTANCE",
         "common", "COMMON",
         "obs", "BANDER",
         "kingdom", "kingdom",
