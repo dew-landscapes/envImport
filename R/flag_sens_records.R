@@ -28,14 +28,37 @@ flag_sens_records <- function(recs_df
 
   if(isTRUE(!is.null(surv_col))) {
 
-    # Get sensitive survey numbers
-    sens_survey <- rvest::read_html(x = "https://emap.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain") %>%
-      rvest::html_table() %>%
-      `[[`(1) %>%
-      tibble::as_tibble() %>%
-      dplyr::select(!!rlang::ensym(surv_col) := 1
-                    , sens_surv = 5
-                    )
+    # Get sensitive survey numbers -------
+    # connection
+    con <- DBI::dbConnect(odbc::odbc()
+                          , if(Sys.info()['sysname'] == "Windows") "BDBSA Production" else "BDBSA_Production"
+                          , database = if(Sys.info()['sysname'] == "Windows") "BDBSA Production" else "EARX_PRD"
+                          , uid = Sys.getenv("BDBSA_PRD_user")
+                          , pwd = Sys.getenv("BDBSA_PRD_pwd")
+                          )
+
+    # From LM 2026/05/21
+    # the distribution rules are found in the table SU.SUPERADMIN in field DATADISTRIBUTIONRULECODE.
+    # To link that table to the SURVEYNR you will need to refer to the table SU.SUPERIOD and join the PERIODNR fields.
+    # None of the surveys have multiple PERIODNR so you shouldn’t have to left or right join.
+    admin <- dplyr::tbl(con,"SUPERADMIN")
+    period <- dplyr::tbl(con, "SUPERIOD")
+
+    lu_sens <- tibble::tribble(
+      ~DATADISTRIBUTIONRULECODE, ~sens_surv,
+      "1", "Public Dataset",
+      "2", "Public Dataset",
+      "3", "Sensitive Dataset: Data supplied to approved clients via DEWBioDataRequests@sa.gov.au",
+      "4", "Sensitive Dataset: Written permission required from Information Authority"
+    )
+
+    sens_survey <- period |>
+      dplyr::left_join(admin |>
+                         dplyr::select(PERIODNR, DATADISTRIBUTIONRULECODE)
+                       ) |>
+      dplyr::distinct(SURVEYNR, DATADISTRIBUTIONRULECODE) |>
+      dplyr::collect() |>
+      dplyr::left_join(lu_sens)
 
     recs_df <- recs_df %>%
       dplyr::left_join(sens_survey)
