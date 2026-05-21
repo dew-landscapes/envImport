@@ -29,7 +29,7 @@ flag_sens_records <- function(recs_df
   if(isTRUE(!is.null(surv_col))) {
 
     # Get sensitive survey numbers
-    sens_survey <- rvest::read_html(x = "https://apps.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain") %>%
+    sens_survey <- rvest::read_html(x = "https://emap.environment.sa.gov.au/emap/envmaps-query.do?cmd=su.SurveySummaryMain") %>%
       rvest::html_table() %>%
       `[[`(1) %>%
       tibble::as_tibble() %>%
