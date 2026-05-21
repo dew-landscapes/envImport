@@ -58,7 +58,10 @@ flag_sens_records <- function(recs_df
                        ) |>
       dplyr::distinct(SURVEYNR, DATADISTRIBUTIONRULECODE) |>
       dplyr::collect() |>
-      dplyr::left_join(lu_sens)
+      dplyr::left_join(lu_sens) |>
+      dplyr::select(!!rlang::ensym(surv_col) := "SURVEYNR"
+                    , sens_surv
+                    )
 
     recs_df <- recs_df %>%
       dplyr::left_join(sens_survey)
