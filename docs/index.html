@@ -19,7 +19,7 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -47,7 +47,7 @@
 <li>
   <a href="https://github.com/dew-landscapes/envImport/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -58,7 +58,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -87,25 +87,25 @@
 </h2>
 <p><code>data_name</code> = ‘data source’. Data sources are (usually) obvious sources of data. Examples are the Global Biodiversity Infrastructure Facility (<a href="https://www.gbif.org/" class="external-link">GBIF</a>), Atlas of Living Australia (<a href="https://www.ala.org.au/" class="external-link">ALA</a>) or Terrestrial Ecosystems Network (<a href="https://www.tern.org.au/" class="external-link">TERN</a>). There are 19 data sources currently supported (also see <code><a href="reference/data_map.html">envImport::data_map</a></code>):</p>
 <ul>
-<li>bdbsa: Biological databases of South Australia</li>
-<li>egis: Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</li>
-<li>thirdparty: Third party occurrence datasets from the environmental databases of South Australia</li>
-<li>herbarium: Australasian Virtual Herbarium (AVH) data from the State Herbarium of South Australia (AD)</li>
-<li>havplot: Harmonised Australian Vegetation Plot dataset</li>
-<li>tern: Terrestrial ecosystem network</li>
-<li>abbbs: Australian Bird and Bat Banding Scheme</li>
-<li>alis: Arid lands information system</li>
-<li>bcm: Bushland condition monitoring</li>
-<li>ptp: Paddock tree project</li>
-<li>nvb: DEW Native Vegetation Branch</li>
 <li>other: Other private datasets: SA Bird Atlas (UOA/Birds SA), Birdlife Australia Birdata portal, MLR Extra Bandicoot data, KI Post Fire Bird Monitoring, SA Seed Conservation Centre</li>
-<li>galah: Atlas of Living Australia</li>
-<li>obis: Ocean Biodiversity Information System</li>
-<li>gbif: Global biodiversity information facility</li>
+<li>samdb_vert: Vertebrate records in the South Australian Murray-Darling Basin</li>
 <li>verdon: Presence records at 4 ha scale from Simon Verdon’s heath mallee bird work</li>
 <li>bruvs: Baited underwater video survey</li>
-<li>samdb_vert: Vertebrate records in the South Australian Murray-Darling Basin</li>
+<li>abbbs: Australian Bird and Bat Banding Scheme</li>
 <li>seed: South Australian Seed Conservation Centre</li>
+<li>herbarium: Australasian Virtual Herbarium (AVH) data from the State Herbarium of South Australia (AD)</li>
+<li>bdbsa: Biological databases of South Australia</li>
+<li>thirdparty: Third party occurrence datasets from the environmental databases of South Australia</li>
+<li>egis: Occurrence datasets from the environmental databases of South Australia (e.g. supertables)</li>
+<li>bcm: Bushland condition monitoring</li>
+<li>nvb: DEW Native Vegetation Branch</li>
+<li>ptp: Paddock tree project</li>
+<li>tern: Terrestrial ecosystem network</li>
+<li>alis: Arid lands information system</li>
+<li>havplot: Harmonised Australian Vegetation Plot dataset</li>
+<li>obis: Ocean Biodiversity Information System</li>
+<li>galah: Atlas of Living Australia</li>
+<li>gbif: Global biodiversity information facility</li>
 </ul>
 <p>Five of these sources are publicly available (GBIF, ALA, OBIS, HAVPlot and TERN).</p>
 </div>
@@ -119,13 +119,13 @@
 <p>The data_map (see table below) provides a mapping from original data sources to the desired columns in the assembled data set.</p>
 <table class="table">
 <colgroup>
-<col width="7%">
 <col width="20%">
-<col width="14%">
-<col width="14%">
-<col width="42%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="left">col</th>
 <th align="left">gbif</th>
 <th align="left">tern</th>
@@ -133,236 +133,236 @@
 <th align="left">havplot</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left">data_name</td>
 <td align="left">gbif</td>
 <td align="left">tern</td>
 <td align="left">galah</td>
 <td align="left">havplot</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">epsg</td>
 <td align="left">4326</td>
 <td align="left">4326</td>
 <td align="left">4326</td>
 <td align="left">4326</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">site</td>
 <td align="left">gbifID</td>
 <td align="left">site_unique</td>
 <td align="left">locationID</td>
 <td align="left">plotName</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">date</td>
 <td align="left">eventDate</td>
 <td align="left">visit_start_date</td>
 <td align="left">eventDate</td>
 <td align="left">obsStartDate</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">lat</td>
 <td align="left">decimalLatitude</td>
 <td align="left">latitude</td>
 <td align="left">decimalLatitude</td>
 <td align="left">decimalLatitude</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">long</td>
 <td align="left">decimalLongitude</td>
 <td align="left">longitude</td>
 <td align="left">decimalLongitude</td>
 <td align="left">decimalLongitude</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">original_name</td>
 <td align="left">scientificName</td>
 <td align="left">species</td>
 <td align="left">scientificName</td>
 <td align="left">scientificName</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">common</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">vernacularName</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">nsx</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">organismID</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">occ_derivation</td>
 <td align="left">occurrenceStatus</td>
 <td align="left">NA</td>
 <td align="left">occurrenceStatus</td>
 <td align="left">abundanceValue</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">quantity</td>
 <td align="left">organismQuantity</td>
 <td align="left">NA</td>
 <td align="left">organismQuantity</td>
 <td align="left">abundanceValue</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">survey_nr</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">survey</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">datasetName</td>
 <td align="left">projectID</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">ind</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">establishmentMeans</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">rel_metres</td>
 <td align="left">coordinateUncertaintyInMeters</td>
 <td align="left">NA</td>
 <td align="left">coordinateUncertaintyInMeters</td>
 <td align="left">coordinateUncertaintyInMetres</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">lifeform</td>
 <td align="left">NA</td>
 <td align="left">lifeform</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">lifespan</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">cover</td>
 <td align="left">NA</td>
 <td align="left">cover</td>
 <td align="left">NA</td>
 <td align="left">cover</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">cover_code</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">height</td>
 <td align="left">NA</td>
 <td align="left">height</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">quad_metres</td>
 <td align="left">NA</td>
 <td align="left">quad_metres</td>
 <td align="left">NA</td>
 <td align="left">quad_metres</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">epbc_status</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">npw_status</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">sample_unit</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">in_out</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">method</td>
 <td align="left">samplingProtocol</td>
 <td align="left">NA</td>
 <td align="left">samplingProtocol</td>
 <td align="left">abundanceMethod</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">obs</td>
 <td align="left">recordedBy</td>
 <td align="left">observer_veg</td>
 <td align="left">recordedBy</td>
 <td align="left">individualName</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">denatured</td>
 <td align="left">informationWithheld</td>
 <td align="left">NA</td>
 <td align="left">generalisationInMetres</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">kingdom</td>
 <td align="left">kingdom</td>
 <td align="left">kingdom</td>
 <td align="left">kingdom</td>
 <td align="left">kingdom</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">desc</td>
 <td align="left">Global biodiversity information facility</td>
 <td align="left">Terrestrial ecosystem network</td>
 <td align="left">Atlas of Living Australia</td>
 <td align="left">Harmonised Australian Vegetation Plot dataset</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">data_name_use</td>
 <td align="left">GBIF</td>
 <td align="left">TERN</td>
 <td align="left">ALA</td>
 <td align="left">HAVPlot</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">url</td>
 <td align="left"><a href="https://www.gbif.org/" class="external-link uri">https://www.gbif.org/</a></td>
 <td align="left"><a href="https://www.tern.org.au/" class="external-link uri">https://www.tern.org.au/</a></td>
 <td align="left"><a href="https://www.ala.org.au/" class="external-link uri">https://www.ala.org.au/</a></td>
 <td align="left"><a href="https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860" class="external-link uri">https://researchdata.edu.au/harmonised-australian-vegetation-dataset-havplot/1950860</a></td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">order</td>
-<td align="left">15</td>
-<td align="left">6</td>
-<td align="left">13</td>
-<td align="left">5</td>
+<td align="left">19</td>
+<td align="left">14</td>
+<td align="left">18</td>
+<td align="left">16</td>
 </tr>
 </tbody>
 </table>
@@ -461,8 +461,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Nigel Willoughby <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Joel Allan <br><small class="roles"> Author </small>  </li>
+<li>Nigel Willoughby <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Joel Allan <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
@@ -479,16 +479,16 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
