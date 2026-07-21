@@ -46,33 +46,34 @@
   }
 
 
-  # set data names ------
-  data_names = tibble::tibble(name = c("bdbsa",
-                                       "egis",
-                                       "thirdparty",
-                                       "herbarium",
-                                       "havplot",
-                                       "tern",
-                                       "abbbs",
-                                       "alis",
-                                       "bcm",
-                                       "ptp",
-                                       "nvb",
-                                       "other",
-                                       "galah",
-                                       "obis",
-                                       "gbif",
-                                       "verdon",
-                                       "bruvs",
-                                       "samdb_vert",
-                                       "seed"
-                                       )
-                              ) |>
+  # set data names & order ------
+  # order is used in ranking data sources & keeping those with the most detail for occupancy modelling in P1D cleans
+  data_names = tibble::tibble(name = c("other"
+                                       , "samdb_vert"
+                                       , "verdon"
+                                       , "bruvs"
+                                       , "abbbs"
+                                       , "seed"
+                                       , "herbarium"
+                                       , "bdbsa"
+                                       , "thirdparty"
+                                       , "egis"
+                                       , "bcm"
+                                       , "nvb"
+                                       , "ptp"
+                                       , "tern"
+                                       , "alis"
+                                       , "havplot"
+                                       , "obis"
+                                       , "galah"
+                                       , "gbif"
+  )
+  ) |>
     dplyr::mutate(value = as.character(dplyr::row_number())
                   , col = "order"
                   , class = "character"
                   , bio_all = FALSE
-                  )
+    )
 
   data_map <- tibble::tribble(
     # data_map ---------
